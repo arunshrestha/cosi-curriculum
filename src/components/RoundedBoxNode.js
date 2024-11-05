@@ -11,16 +11,16 @@ function RoundedBoxNode({ data }) {
                 </div>
             </div>
 
-            {/* <Handle
+            <Handle
                 type="target"
-                position={Position.Right}
+                position={Position.Left}
                 className="w-16 !bg-teal-500"
             />
             <Handle
                 type="source"
-                position={Position.Left}
+                position={Position.Right}
                 className="w-16 !bg-teal-500"
-            /> */}
+            />
         </div>
     );
 }
