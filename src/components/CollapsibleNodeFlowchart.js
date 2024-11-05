@@ -3,7 +3,7 @@ import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData'; // Import nodes and edges data
-import RoundedBoxNode from './RoundedBoxNode';
+import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
