@@ -31,7 +31,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build --if-present --no-eslint
+    - run: npm run build --no-eslint
     
     - name: Upload build artifacts
       uses: actions/upload-pages-artifact@v3
