@@ -18,14 +18,14 @@ const CustomEdge = ({
         bold: 'fill-none stroke-black stroke-2'
     };
 
-    const [edgePath, _labelX, _labelY, _offsetX, _offsetY] = getBezierPath({
+    const edgePath = getBezierPath({
         sourceX,
         sourceY,
         sourcePosition,
         targetX,
         targetY,
         targetPosition,
-    });
+    })[0];
 
 
     const edgeBold = data.isGrayscale ? edgeBoldCategory.grayscale : edgeBoldCategory.bold;
