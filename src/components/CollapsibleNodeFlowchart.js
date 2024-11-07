@@ -2,111 +2,106 @@ import React, { useState, useEffect } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
-import { initialNodes, initialEdges } from './data/flowData'; // Import nodes and edges data
+import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
+import CustomEdge from './CustomEdge';
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
+    const [highlightedNodes, setHighlightedNodes] = useState([]);
+    const [highlightedEdges, setHighlightedEdges] = useState([]);
 
     useEffect(() => {
-        // Ensure root nodes are always visible
+        // Ensure all nodes are initially visible in grayscale
         setNodes(prevNodes => {
             const updatedNodes = prevNodes.map(node => ({
                 ...node,
-                isVisible: node.level === 1, // Ensure the root nodes are always visible
-                expanded: false
+                isVisible: true,
+                isGrayscale: true,
             }));
             return updatedNodes;
         });
+
+        setEdges(prevEdges => {
+            const updatedEdges = prevEdges.map(edge => ({
+                ...edge,
+                isGrayscale: true,
+            }));
+            return updatedEdges;
+        });
     }, []);
 
-    const collapseSubtree = (nodeId, nodes) => {
-        let updatedNodes = [...nodes];
-        const stack = [nodeId];
+    useEffect(() => {
+        // Adjust node positions based on levels and parent-child relationships
+        const adjustNodePositions = (nodes) => {
+            const levelSpacing = 300;
+            const siblingSpacing = 100;
+            const adjustedNodes = [...nodes];
 
-        while (stack.length) {
-            const currentNodeId = stack.pop();
-            updatedNodes = updatedNodes.map(n => {
-                if (n.parentId === currentNodeId) {
-                    stack.push(n.id);
-                    return { ...n, isVisible: false, expanded: false };
-                }
-                return n;
-            });
-        }
-
-        return updatedNodes;
-    };
-
-    const toggleNodeExpansion = (nodeId) => {
-        setNodes(prevNodes => {
-            const clickedNode = prevNodes.find(n => n.id === nodeId);
-            let updatedNodes = [...prevNodes];
-
-            if (clickedNode.expanded) {
-                // If the clicked node is already expanded, return all nodes as is
-                return updatedNodes;
-            }
-
-            if (clickedNode.level === 1) {
-                // If level 1 and not expanded, find expanded sibling and collapse subtree
-                const expandedSibling = prevNodes.find(n => n.level === 1 && n.expanded);
-                if (expandedSibling) {
-                    updatedNodes = collapseSubtree(expandedSibling.id, updatedNodes);
-                    updatedNodes = updatedNodes.map(n => {
-                        if (n.id === expandedSibling.id) {
-                            return { ...n, expanded: false };
-                        }
-                        return n;
+            const setPosition = (nodeId, x, y) => {
+                const node = adjustedNodes.find(n => n.id === nodeId);
+                if (node) {
+                    node.position = { x, y };
+                    const childNodes = adjustedNodes.filter(n => n.parentId === nodeId);
+                    childNodes.forEach((childNode, index) => {
+                        setPosition(childNode.id, levelSpacing, index * siblingSpacing);
                     });
                 }
-            } else {
-                // If not level 1 and not expanded, find expanded sibling and collapse subtree
-                const expandedSibling = prevNodes.find(n => n.parentId === clickedNode.parentId && n.expanded);
-                if (expandedSibling) {
-                    updatedNodes = collapseSubtree(expandedSibling.id, updatedNodes);
-                    updatedNodes = updatedNodes.map(n => {
-                        if (n.id === expandedSibling.id) {
-                            return { ...n, expanded: false };
-                        }
-                        return n;
-                    });
-                }
-            }
+            };
 
-            // Expand the clicked node and show its children
-            let yOffset = 0;
-            updatedNodes = updatedNodes.map(n => {
-                if (n.id === nodeId) {
-                    return { ...n, expanded: true };
-                }
-                if (n.parentId === nodeId) {
-                    const parentNode = prevNodes.find(p => p.id === nodeId);
-                    const newPosition = {
-                        x: 300,
-                        y: yOffset
-                    };
-                    yOffset += 100;
-                    return { ...n, isVisible: true, position: newPosition };
-                }
-                return n;
+            const rootNodes = adjustedNodes.filter(n => !n.parentId);
+            rootNodes.forEach((rootNode, index) => {
+                setPosition(rootNode.id, 100, (index + 1) * siblingSpacing);
             });
 
-            return updatedNodes;
-        });
+            return adjustedNodes;
+        };
+
+        setNodes(prevNodes => adjustNodePositions(prevNodes));
+    }, []);
+
+    const highlightPath = (nodeId) => {
+        const pathNodes = [];
+        const pathEdges = [];
+
+        const findPath = (currentNodeId) => {
+            const currentNode = nodes.find(n => n.id === currentNodeId);
+            if (currentNode) {
+                pathNodes.push(currentNode.id);
+                const parentEdge = edges.find(e => e.target === currentNodeId);
+                if (parentEdge) {
+                    pathEdges.push(parentEdge.id);
+                    findPath(parentEdge.source);
+                }
+            }
+        };
+
+        findPath(nodeId);
+
+        setHighlightedNodes(pathNodes);
+        setHighlightedEdges(pathEdges);
     };
 
     const handleNodeClick = (clickedNode) => {
-        toggleNodeExpansion(clickedNode.id);
+        highlightPath(clickedNode.id);
     };
 
-    const filteredNodes = nodes.filter(node => node.isVisible);
-    const filteredEdges = edges.filter(edge => filteredNodes.some(node => node.id === edge.source) && filteredNodes.some(node => node.id === edge.target));
-
     return (
-        <div style={{ height: 800 }}>
-            <ReactFlow nodes={filteredNodes} edges={filteredEdges} onNodeClick={(event, node) => handleNodeClick(node)} nodeTypes={{ custom: RoundedBoxNode }} >
+        <div className="h-screen">
+            <ReactFlow
+                nodes={nodes.map(node => ({
+                    ...node,
+                    data: { ...node.data, isGrayscale: !highlightedNodes.includes(node.id) }
+                }))}
+                edges={edges.map(edge => ({
+                    ...edge,
+                    data: { ...edge.data, isGrayscale: !highlightedEdges.includes(edge.id) }
+                }))}
+                onNodeClick={(event, node) => handleNodeClick(node)}
+                nodeTypes={{ custom: RoundedBoxNode }}
+                edgeTypes={{ custom: CustomEdge }}
+            >
                 <MiniMap />
                 <Controls />
                 <Background />
