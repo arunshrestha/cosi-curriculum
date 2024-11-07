@@ -8,14 +8,14 @@ function RoundedBoxNode({ data }) {
             'ML': 'bg-[#77d19d]',
             'Core': 'bg-[#fc747b]',
             'CL': 'bg-[#e8abe1]',
-            'default': 'bg-[#fc747b]'
+            'default': 'bg-[#77d0f6]'
         },
         grayscale: {
             'Data Systems': 'bg-[#dadada]',
             'ML': 'bg-[#b0b0b0]',
             'Core': 'bg-[#9d9d9d]',
             'CL': 'bg-[#c3c3c3]',
-            'default': 'bg-[#9d9d9d]'
+            'default': 'bg-[#b9b9b9]'
         }
     };
 

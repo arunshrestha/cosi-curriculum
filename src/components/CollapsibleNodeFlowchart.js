@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
-import { initialNodes, initialEdges } from './data/flowData'; // Import nodes and edges data
+import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import CustomEdge from './CustomEdge';
 
