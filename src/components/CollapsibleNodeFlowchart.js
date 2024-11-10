@@ -36,38 +36,43 @@ const CollapsibleNodeFlowchart = () => {
     useEffect(() => {
         // Adjust node positions using dagre for vertical layout
         const adjustNodePositions = (nodes, edges) => {
-            const g = new dagre.graphlib.Graph();
-            g.setGraph({
-                rankdir: 'TB', // Top to Bottom layout
-                edgesep: 200, // Edge separation
-                nodesep: 400, // Node separation
-                ranksep: 150, // Vertical separation between nodes
-                ranker: 'network-simplex', // Use network-simplex ranking algorithm
-            });
-            g.setDefaultEdgeLabel(() => ({}));
+            try {
+                const g = new dagre.graphlib.Graph();
+                g.setGraph({
+                    rankdir: 'TB', // Top to Bottom layout
+                    edgesep: 200, // Edge separation
+                    nodesep: 400, // Node separation
+                    ranksep: 150, // Vertical separation between nodes
+                    ranker: 'network-simplex', // Use network-simplex ranking algorithm
+                });
+                g.setDefaultEdgeLabel(() => ({}));
 
-            nodes.forEach(node => {
-                g.setNode(node.id, { width: 48, height: 24 });
-            });
+                nodes.forEach(node => {
+                    g.setNode(node.id, { width: 200, height: 100 });
+                });
 
-            edges.forEach(edge => {
-                g.setEdge(edge.source, edge.target);
-            });
+                edges.forEach(edge => {
+                    g.setEdge(edge.source, edge.target);
+                });
 
-            dagre.layout(g);
+                dagre.layout(g);
 
-            const adjustedNodes = nodes.map(node => {
-                const nodeWithPosition = g.node(node.id);
-                return {
-                    ...node,
-                    position: {
-                        x: nodeWithPosition.x - nodeWithPosition.width / 2,
-                        y: nodeWithPosition.y - nodeWithPosition.height / 2,
-                    },
-                };
-            });
+                const adjustedNodes = nodes.map(node => {
+                    const nodeWithPosition = g.node(node.id);
+                    return {
+                        ...node,
+                        position: {
+                            x: nodeWithPosition.x - nodeWithPosition.width / 2,
+                            y: nodeWithPosition.y - nodeWithPosition.height / 2,
+                        },
+                    };
+                });
 
-            return adjustedNodes;
+                return adjustedNodes;
+            } catch (error) {
+                console.error('Error adjusting node positions:', error);
+                return nodes;
+            }
         };
 
         setNodes(prevNodes => adjustNodePositions(prevNodes, edges));
