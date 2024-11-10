@@ -32,12 +32,12 @@ function RoundedBoxNode({ data }) {
 
             <Handle
                 type="target"
-                position={Position.Left}
+                position={Position.Top}
                 className="opacity-0" // Hide the handle
             />
             <Handle
                 type="source"
-                position={Position.Right}
+                position={Position.Bottom}
                 className="opacity-0" // Hide the handle
             />
         </div>

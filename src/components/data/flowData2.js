@@ -238,11 +238,6 @@ export const initialEdges = [
     { id: 'e3-21', type: 'custom', source: '3', target: '21', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
     { id: 'e3-22', type: 'custom', source: '3', target: '22', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
     { id: 'e3-23', type: 'custom', source: '3', target: '23', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
-    { id: 'e3-24', type: 'custom', source: '3', target: '24', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
-    { id: 'e3-25', type: 'custom', source: '3', target: '25', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
-    { id: 'e3-26', type: 'custom', source: '3', target: '26', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
-    { id: 'e3-27', type: 'custom', source: '3', target: '27', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
-    { id: 'e3-28', type: 'custom', source: '3', target: '28', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
 
     { id: 'e6-21', type: 'custom', source: '6', target: '21', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },
     { id: 'e6-22', type: 'custom', source: '6', target: '22', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#333' }, style: { stroke: '#333' } },

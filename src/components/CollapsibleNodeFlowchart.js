@@ -5,6 +5,7 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import CustomEdge from './CustomEdge';
+import dagre from '@dagrejs/dagre';
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
@@ -33,54 +34,65 @@ const CollapsibleNodeFlowchart = () => {
     }, []);
 
     useEffect(() => {
-        // Adjust node positions based on levels and parent-child relationships
-        const adjustNodePositions = (nodes) => {
-            const levelSpacing = 300;
-            const siblingSpacing = 100;
-            const adjustedNodes = [...nodes];
+        // Adjust node positions using dagre for vertical layout
+        const adjustNodePositions = (nodes, edges) => {
+            const g = new dagre.graphlib.Graph();
+            g.setGraph({
+                rankdir: 'TB', // Top to Bottom layout
+                edgesep: 200, // Edge separation
+                nodesep: 400, // Node separation
+                ranksep: 150, // Vertical separation between nodes
+                ranker: 'network-simplex', // Use network-simplex ranking algorithm
+            });
+            g.setDefaultEdgeLabel(() => ({}));
 
-            const setPosition = (nodeId, x, y) => {
-                const node = adjustedNodes.find(n => n.id === nodeId);
-                if (node) {
-                    node.position = { x, y };
-                    const childNodes = adjustedNodes.filter(n => n.parentId === nodeId);
-                    childNodes.forEach((childNode, index) => {
-                        setPosition(childNode.id, levelSpacing, index * siblingSpacing);
-                    });
-                }
-            };
+            nodes.forEach(node => {
+                g.setNode(node.id, { width: 48, height: 24 });
+            });
 
-            const rootNodes = adjustedNodes.filter(n => !n.parentId);
-            rootNodes.forEach((rootNode, index) => {
-                setPosition(rootNode.id, 100, (index + 1) * siblingSpacing);
+            edges.forEach(edge => {
+                g.setEdge(edge.source, edge.target);
+            });
+
+            dagre.layout(g);
+
+            const adjustedNodes = nodes.map(node => {
+                const nodeWithPosition = g.node(node.id);
+                return {
+                    ...node,
+                    position: {
+                        x: nodeWithPosition.x - nodeWithPosition.width / 2,
+                        y: nodeWithPosition.y - nodeWithPosition.height / 2,
+                    },
+                };
             });
 
             return adjustedNodes;
         };
 
-        setNodes(prevNodes => adjustNodePositions(prevNodes));
-    }, []);
+        setNodes(prevNodes => adjustNodePositions(prevNodes, edges));
+    }, [edges]);
 
     const highlightPath = (nodeId) => {
-        const pathNodes = [];
-        const pathEdges = [];
+        const pathNodes = new Set();
+        const pathEdges = new Set();
 
-        const findPath = (currentNodeId) => {
+        const findPaths = (currentNodeId) => {
             const currentNode = nodes.find(n => n.id === currentNodeId);
             if (currentNode) {
-                pathNodes.push(currentNode.id);
-                const parentEdge = edges.find(e => e.target === currentNodeId);
-                if (parentEdge) {
-                    pathEdges.push(parentEdge.id);
-                    findPath(parentEdge.source);
-                }
+                pathNodes.add(currentNode.id);
+                const parentEdges = edges.filter(e => e.target === currentNodeId);
+                parentEdges.forEach(parentEdge => {
+                    pathEdges.add(parentEdge.id);
+                    findPaths(parentEdge.source);
+                });
             }
         };
 
-        findPath(nodeId);
+        findPaths(nodeId);
 
-        setHighlightedNodes(pathNodes);
-        setHighlightedEdges(pathEdges);
+        setHighlightedNodes(Array.from(pathNodes));
+        setHighlightedEdges(Array.from(pathEdges));
     };
 
     const handleNodeClick = (clickedNode) => {
