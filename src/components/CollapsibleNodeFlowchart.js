@@ -5,6 +5,9 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import CustomEdge from './CustomEdge';
+import ELK from 'elkjs/lib/elk.bundled.js';
+
+const elk = new ELK();
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
@@ -13,74 +16,87 @@ const CollapsibleNodeFlowchart = () => {
     const [highlightedEdges, setHighlightedEdges] = useState([]);
 
     useEffect(() => {
-        // Ensure all nodes are initially visible in grayscale
-        setNodes(prevNodes => {
-            const updatedNodes = prevNodes.map(node => ({
-                ...node,
-                isVisible: true,
-                isGrayscale: true,
-            }));
-            return updatedNodes;
-        });
-
-        setEdges(prevEdges => {
-            const updatedEdges = prevEdges.map(edge => ({
-                ...edge,
-                isGrayscale: true,
-            }));
-            return updatedEdges;
-        });
-    }, []);
-
-    useEffect(() => {
-        // Adjust node positions based on levels and parent-child relationships
-        const adjustNodePositions = (nodes) => {
-            const levelSpacing = 300;
-            const siblingSpacing = 100;
-            const adjustedNodes = [...nodes];
-
-            const setPosition = (nodeId, x, y) => {
-                const node = adjustedNodes.find(n => n.id === nodeId);
-                if (node) {
-                    node.position = { x, y };
-                    const childNodes = adjustedNodes.filter(n => n.parentId === nodeId);
-                    childNodes.forEach((childNode, index) => {
-                        setPosition(childNode.id, levelSpacing, index * siblingSpacing);
-                    });
-                }
+        const layoutGraph = async () => {
+            const elkGraph = {
+                id: 'root',
+                children: nodes.map((node) => ({
+                    id: node.id,
+                    width: 200, // Example width, adjust as needed
+                    height: 100, // Example height, adjust as needed
+                })),
+                edges: edges.map((edge) => ({
+                    id: edge.id,
+                    sources: [edge.source],
+                    targets: [edge.target],
+                })),
             };
 
-            const rootNodes = adjustedNodes.filter(n => !n.parentId);
-            rootNodes.forEach((rootNode, index) => {
-                setPosition(rootNode.id, 100, (index + 1) * siblingSpacing);
-            });
+            try {
+                const layout = await elk.layout(elkGraph, {
+                    layoutOptions: {
+                        'elk.algorithm': 'layered',
+                        'elk.direction': 'DOWN', // Flow direction; use 'RIGHT' for horizontal flow
+                        'elk.layered.spacing.nodeNodeBetweenLayers': 10, // Vertical spacing between nodes (adjust as needed)
+                        'elk.spacing.nodeNode': 10, // Horizontal spacing between nodes (adjust as needed)
+                        'elk.edgeRouting': 'ORTHOGONAL', // Optional: makes edges more structured
+                        'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Helps with complex graphs
+                        'elk.layered.mergeEdges': true, // Merge edges where possible for cleaner display
+                    },
+                });
 
-            return adjustedNodes;
-        };
+                // Check if layout and its children are defined
+                if (layout && layout.children) {
+                    // Map the ELK layout back to react-flow nodes and edges
+                    const layoutedNodes = nodes.map((node) => {
+                        const layoutNode = layout.children.find((n) => n.id === node.id);
+                        if (layoutNode) {
+                            return {
+                                ...node,
+                                position: {
+                                    x: layoutNode.x,
+                                    y: layoutNode.y,
+                                },
+                                // Set to false for react-flow to handle positions from ELK
+                                positionAbsolute: false,
+                            };
+                        }
+                        return node;
+                    });
 
-        setNodes(prevNodes => adjustNodePositions(prevNodes));
-    }, []);
-
-    const highlightPath = (nodeId) => {
-        const pathNodes = [];
-        const pathEdges = [];
-
-        const findPath = (currentNodeId) => {
-            const currentNode = nodes.find(n => n.id === currentNodeId);
-            if (currentNode) {
-                pathNodes.push(currentNode.id);
-                const parentEdge = edges.find(e => e.target === currentNodeId);
-                if (parentEdge) {
-                    pathEdges.push(parentEdge.id);
-                    findPath(parentEdge.source);
+                    setNodes(layoutedNodes);
+                } else {
+                    console.error('ELK layout error: Layout or its children are undefined');
                 }
+
+                setEdges(edges); // No changes needed for edges
+            } catch (error) {
+                console.error('ELK layout error:', error);
             }
         };
 
-        findPath(nodeId);
+        layoutGraph();
+    }, [nodes, edges]);
 
-        setHighlightedNodes(pathNodes);
-        setHighlightedEdges(pathEdges);
+    const highlightPath = (nodeId) => {
+        const pathNodes = new Set();
+        const pathEdges = new Set();
+
+        const findPaths = (currentNodeId) => {
+            const currentNode = nodes.find(n => n.id === currentNodeId);
+            if (currentNode) {
+                pathNodes.add(currentNode.id);
+                const parentEdges = edges.filter(e => e.target === currentNodeId);
+                parentEdges.forEach(parentEdge => {
+                    pathEdges.add(parentEdge.id);
+                    findPaths(parentEdge.source);
+                });
+            }
+        };
+
+        findPaths(nodeId);
+
+        setHighlightedNodes(Array.from(pathNodes));
+        setHighlightedEdges(Array.from(pathEdges));
     };
 
     const handleNodeClick = (clickedNode) => {
