@@ -5,7 +5,9 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import CustomEdge from './CustomEdge';
-import dagre from '@dagrejs/dagre';
+import ELK from 'elkjs/lib/elk.bundled.js';
+
+const elk = new ELK();
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
@@ -14,69 +16,66 @@ const CollapsibleNodeFlowchart = () => {
     const [highlightedEdges, setHighlightedEdges] = useState([]);
 
     useEffect(() => {
-        // Ensure all nodes are initially visible in grayscale
-        setNodes(prevNodes => {
-            const updatedNodes = prevNodes.map(node => ({
-                ...node,
-                isVisible: true,
-                isGrayscale: true,
-            }));
-            return updatedNodes;
-        });
+        const layoutGraph = async () => {
+            const elkGraph = {
+                id: 'root',
+                children: nodes.map((node) => ({
+                    id: node.id,
+                    width: 200, // Example width, adjust as needed
+                    height: 100, // Example height, adjust as needed
+                })),
+                edges: edges.map((edge) => ({
+                    id: edge.id,
+                    sources: [edge.source],
+                    targets: [edge.target],
+                })),
+            };
 
-        setEdges(prevEdges => {
-            const updatedEdges = prevEdges.map(edge => ({
-                ...edge,
-                isGrayscale: true,
-            }));
-            return updatedEdges;
-        });
-    }, []);
-
-    useEffect(() => {
-        // Adjust node positions using dagre for vertical layout
-        const adjustNodePositions = (nodes, edges) => {
             try {
-                const g = new dagre.graphlib.Graph();
-                g.setGraph({
-                    rankdir: 'TB', // Top to Bottom layout
-                    edgesep: 200, // Edge separation
-                    nodesep: 400, // Node separation
-                    ranksep: 150, // Vertical separation between nodes
-                    ranker: 'network-simplex', // Use network-simplex ranking algorithm
-                });
-                g.setDefaultEdgeLabel(() => ({}));
-
-                nodes.forEach(node => {
-                    g.setNode(node.id, { width: 200, height: 100 });
+                const layout = await elk.layout(elkGraph, {
+                    layoutOptions: {
+                        'elk.algorithm': 'layered',
+                        'elk.direction': 'DOWN', // Flow direction; use 'RIGHT' for horizontal flow
+                        'elk.layered.spacing.nodeNodeBetweenLayers': 10, // Vertical spacing between nodes (adjust as needed)
+                        'elk.spacing.nodeNode': 10, // Horizontal spacing between nodes (adjust as needed)
+                        'elk.edgeRouting': 'ORTHOGONAL', // Optional: makes edges more structured
+                        'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Helps with complex graphs
+                        'elk.layered.mergeEdges': true, // Merge edges where possible for cleaner display
+                    },
                 });
 
-                edges.forEach(edge => {
-                    g.setEdge(edge.source, edge.target);
-                });
+                // Check if layout and its children are defined
+                if (layout && layout.children) {
+                    // Map the ELK layout back to react-flow nodes and edges
+                    const layoutedNodes = nodes.map((node) => {
+                        const layoutNode = layout.children.find((n) => n.id === node.id);
+                        if (layoutNode) {
+                            return {
+                                ...node,
+                                position: {
+                                    x: layoutNode.x,
+                                    y: layoutNode.y,
+                                },
+                                // Set to false for react-flow to handle positions from ELK
+                                positionAbsolute: false,
+                            };
+                        }
+                        return node;
+                    });
 
-                dagre.layout(g);
+                    setNodes(layoutedNodes);
+                } else {
+                    console.error('ELK layout error: Layout or its children are undefined');
+                }
 
-                const adjustedNodes = nodes.map(node => {
-                    const nodeWithPosition = g.node(node.id);
-                    return {
-                        ...node,
-                        position: {
-                            x: nodeWithPosition.x - nodeWithPosition.width / 2,
-                            y: nodeWithPosition.y - nodeWithPosition.height / 2,
-                        },
-                    };
-                });
-
-                return adjustedNodes;
+                setEdges(edges); // No changes needed for edges
             } catch (error) {
-                console.error('Error adjusting node positions:', error);
-                return nodes;
+                console.error('ELK layout error:', error);
             }
         };
 
-        setNodes(prevNodes => adjustNodePositions(prevNodes, edges));
-    }, [edges]);
+        layoutGraph();
+    }, [nodes, edges]);
 
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
