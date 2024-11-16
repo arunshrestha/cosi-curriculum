@@ -6,6 +6,7 @@ import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes a
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import CustomEdge from './CustomEdge';
 import ELK from 'elkjs/lib/elk.bundled.js';
+import FilterControls from './FilterControls'; // Import FilterControls component
 
 const elk = new ELK();
 
@@ -14,6 +15,7 @@ const CollapsibleNodeFlowchart = () => {
     const [edges, setEdges] = useState(initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
+    const [filter, setFilter] = useState('Both'); // State to manage the selected filter
 
     useEffect(() => {
         const layoutGraph = async () => {
@@ -103,14 +105,31 @@ const CollapsibleNodeFlowchart = () => {
         highlightPath(clickedNode.id);
     };
 
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+    };
+
+    const filteredNodes = nodes.filter(node => {
+        if (filter === 'Both') return true;
+        return node.data.courseProgram === filter || node.data.courseProgram === 'Both';
+    });
+
+    const filteredEdges = edges.filter(edge => {
+        if (filter === 'Both') return true;
+        const sourceNode = nodes.find(node => node.id === edge.source);
+        const targetNode = nodes.find(node => node.id === edge.target);
+        return sourceNode && targetNode && (sourceNode.data.courseProgram === filter || sourceNode.data.courseProgram === 'Both') && (targetNode.data.courseProgram === filter || targetNode.data.courseProgram === 'Both');
+    });
+
     return (
         <div className="h-screen">
+            <FilterControls filter={filter} onFilterChange={handleFilterChange} />
             <ReactFlow
-                nodes={nodes.map(node => ({
+                nodes={filteredNodes.map(node => ({
                     ...node,
                     data: { ...node.data, isGrayscale: !highlightedNodes.includes(node.id) }
                 }))}
-                edges={edges.map(edge => ({
+                edges={filteredEdges.map(edge => ({
                     ...edge,
                     data: { ...edge.data, isGrayscale: !highlightedEdges.includes(edge.id) }
                 }))}
