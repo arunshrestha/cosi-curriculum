@@ -9,7 +9,7 @@ import FilterControls from './FilterControls'; // Import FilterControls componen
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
+    const [edges] = useState(initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [filter, setFilter] = useState('Both'); // State to manage the selected filter
@@ -44,7 +44,6 @@ const CollapsibleNodeFlowchart = () => {
             });
 
             setNodes(positionedNodes);
-            setEdges(edges);
         } catch (e) {
             console.log(e)
         }
