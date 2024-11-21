@@ -4,7 +4,6 @@ import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
-import CustomEdge from './CustomEdge';
 import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
 import FilterControls from './FilterControls'; // Import FilterControls component
 
@@ -50,7 +49,7 @@ const CollapsibleNodeFlowchart = () => {
             console.log(e)
         }
 
-    }, [initialNodes]);
+    }, []);
 
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
