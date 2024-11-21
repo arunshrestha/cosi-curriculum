@@ -5,10 +5,8 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import CustomEdge from './CustomEdge';
-import ELK from 'elkjs/lib/elk.bundled.js';
+import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
 import FilterControls from './FilterControls'; // Import FilterControls component
-
-const elk = new ELK();
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
@@ -17,67 +15,42 @@ const CollapsibleNodeFlowchart = () => {
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [filter, setFilter] = useState('Both'); // State to manage the selected filter
 
+    // Variables to control node positioning
+    const xSpacing = 200; // Horizontal spacing between nodes
+    const ySpacing = 200 // Vertical spacing between levels
+
     useEffect(() => {
-        const layoutGraph = async () => {
-            const elkGraph = {
-                id: 'root',
-                children: nodes.map((node) => ({
-                    id: node.id,
-                    width: 200, // Example width, adjust as needed
-                    height: 100, // Example height, adjust as needed
-                })),
-                edges: edges.map((edge) => ({
-                    id: edge.id,
-                    sources: [edge.source],
-                    targets: [edge.target],
-                })),
-            };
-
-            try {
-                const layout = await elk.layout(elkGraph, {
-                    layoutOptions: {
-                        'elk.algorithm': 'layered',
-                        'elk.direction': 'DOWN', // Flow direction; use 'RIGHT' for horizontal flow
-                        'elk.layered.spacing.nodeNodeBetweenLayers': 10, // Vertical spacing between nodes (adjust as needed)
-                        'elk.spacing.nodeNode': 10, // Horizontal spacing between nodes (adjust as needed)
-                        'elk.edgeRouting': 'ORTHOGONAL', // Optional: makes edges more structured
-                        'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Helps with complex graphs
-                        'elk.layered.mergeEdges': true, // Merge edges where possible for cleaner display
-                    },
-                });
-
-                // Check if layout and its children are defined
-                if (layout && layout.children) {
-                    // Map the ELK layout back to react-flow nodes and edges
-                    const layoutedNodes = nodes.map((node) => {
-                        const layoutNode = layout.children.find((n) => n.id === node.id);
-                        if (layoutNode) {
-                            return {
-                                ...node,
-                                position: {
-                                    x: layoutNode.x,
-                                    y: layoutNode.y,
-                                },
-                                // Set to false for react-flow to handle positions from ELK
-                                positionAbsolute: false,
-                            };
-                        }
-                        return node;
-                    });
-
-                    setNodes(layoutedNodes);
-                } else {
-                    console.error('ELK layout error: Layout or its children are undefined');
+        try {
+            // Group nodes by their level
+            const nodesByLevel = nodes.reduce((acc, node) => {
+                if (!acc[node.level]) {
+                    acc[node.level] = [];
                 }
+                acc[node.level].push(node);
+                return acc;
+            }, {});
 
-                setEdges(edges); // No changes needed for edges
-            } catch (error) {
-                console.error('ELK layout error:', error);
-            }
-        };
+            // Manually set positions of nodes based on their level and index within the level
+            const positionedNodes = nodes.map((node) => {
+                const levelNodes = nodesByLevel[node.level];
+                const index = levelNodes.indexOf(node);
+                return {
+                    ...node,
+                    position: {
+                        x: index * xSpacing,
+                        y: node.level * ySpacing,
+                    },
+                    positionAbsolute: true, // Set to true to use the provided positions
+                };
+            });
 
-        layoutGraph();
-    }, [nodes, edges]);
+            setNodes(positionedNodes);
+            setEdges(edges);
+        } catch (e) {
+            console.log(e)
+        }
+
+    }, [initialNodes]);
 
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
@@ -135,7 +108,7 @@ const CollapsibleNodeFlowchart = () => {
                 }))}
                 onNodeClick={(event, node) => handleNodeClick(node)}
                 nodeTypes={{ custom: RoundedBoxNode }}
-                edgeTypes={{ custom: CustomEdge }}
+                edgeTypes={{ custom: StraightLineEdge }}
             >
                 <MiniMap />
                 <Controls />
