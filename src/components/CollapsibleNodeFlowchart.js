@@ -20,35 +20,34 @@ const CollapsibleNodeFlowchart = () => {
 
     useEffect(() => {
         try {
-            // Group nodes by their level
-            const nodesByLevel = nodes.reduce((acc, node) => {
-                if (!acc[node.level]) {
-                    acc[node.level] = [];
-                }
-                acc[node.level].push(node);
-                return acc;
-            }, {});
+            setNodes(prevNodes => {
+                // Group nodes by their level
+                const nodesByLevel = prevNodes.reduce((acc, node) => {
+                    if (!acc[node.level]) {
+                        acc[node.level] = [];
+                    }
+                    acc[node.level].push(node);
+                    return acc;
+                }, {});
 
-            // Manually set positions of nodes based on their level and index within the level
-            const positionedNodes = nodes.map((node) => {
-                const levelNodes = nodesByLevel[node.level];
-                const index = levelNodes.indexOf(node);
-                return {
-                    ...node,
-                    position: {
-                        x: index * xSpacing,
-                        y: node.level * ySpacing,
-                    },
-                    positionAbsolute: true, // Set to true to use the provided positions
-                };
+                // Manually set positions of nodes based on their level and index within the level
+                return prevNodes.map((node) => {
+                    const levelNodes = nodesByLevel[node.level];
+                    const index = levelNodes.indexOf(node);
+                    return {
+                        ...node,
+                        position: {
+                            x: index * xSpacing,
+                            y: node.level * ySpacing,
+                        },
+                        positionAbsolute: true, // Set to true to use the provided positions
+                    };
+                });
             });
-
-            setNodes(positionedNodes);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
-
-    }, []);
+    }, []); // Empty dependency array to run the effect only once
 
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
