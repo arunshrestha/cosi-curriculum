@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import PreRequisitesView from './components/PreRequisitesView';
 import NextClassesView from './components/NextClassesView';
-import CollapsibleNodeFlowchart from './components/CollapsibleNodeFlowchart';
+//import CollapsibleNodeFlowchart from './components/CollapsibleNodeFlowchart';
 
 const App = () => {
   const [view, setView] = useState('pre-requisites');
