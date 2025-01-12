@@ -30,14 +30,19 @@ const CollapsibleNodeFlowchart = () => {
                     return acc;
                 }, {});
 
+                // Find the maximum number of nodes in any level
+                const maxNodesInLevel = Math.max(...Object.values(nodesByLevel).map(levelNodes => levelNodes.length));
+
                 // Manually set positions of nodes based on their level and index within the level
                 return prevNodes.map((node) => {
                     const levelNodes = nodesByLevel[node.level];
                     const index = levelNodes.indexOf(node);
+                    const totalWidth = (maxNodesInLevel - 1) * xSpacing;
+                    const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
                     return {
                         ...node,
                         position: {
-                            x: index * xSpacing,
+                            x: index * xSpacing + xOffset,
                             y: node.level * ySpacing,
                         },
                         positionAbsolute: true, // Set to true to use the provided positions
