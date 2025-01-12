@@ -2,6 +2,15 @@ import { MarkerType } from '@xyflow/react';
 
 export const initialNodes = [
     {
+        id: '4',
+        type: 'custom',
+        data: { courseNum: 'COSI 29A', courseTitle: 'Discrete Mathematics', courseCategory: 'Core', courseProgram: 'COSI' },
+        position: { x: 0, y: 0 },
+        level: 1,
+        isVisible: true,
+        isGrayscale: true,
+    },
+    {
         id: '1',
         type: 'custom',
         data: { courseNum: 'COSI 10A', courseTitle: 'Problem Solving in Python', courseCategory: 'default', courseProgram: 'Both' },
@@ -19,7 +28,6 @@ export const initialNodes = [
         isVisible: true,
         isGrayscale: true,
     },
-
     {
         id: '3',
         type: 'custom',
@@ -29,15 +37,7 @@ export const initialNodes = [
         isVisible: true,
         isGrayscale: true,
     },
-    {
-        id: '4',
-        type: 'custom',
-        data: { courseNum: 'COSI 29A', courseTitle: 'Discrete Mathematics', courseCategory: 'Core', courseProgram: 'COSI' },
-        position: { x: 0, y: 0 },
-        level: 3,
-        isVisible: true,
-        isGrayscale: true,
-    },
+
     {
         id: '5',
         type: 'custom',
