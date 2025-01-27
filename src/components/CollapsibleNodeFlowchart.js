@@ -4,6 +4,8 @@ import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
+import Popup from './RoundedBoxNode/Popup';
+
 import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
 import FilterControls from './FilterControls'; // Import FilterControls component
 
@@ -13,6 +15,8 @@ const CollapsibleNodeFlowchart = () => {
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [filter, setFilter] = useState('Both'); // State to manage the selected filter
+    const [popupData, setPopupData] = useState(null);
+    const [popupVisible, setPopupVisible] = useState(false);
 
     // Variables to control node positioning
     const xSpacing = 200; // Horizontal spacing between nodes
@@ -84,6 +88,11 @@ const CollapsibleNodeFlowchart = () => {
         setFilter(event.target.value);
     };
 
+    const handleMoreInfoClick = (node) => {
+        setPopupData(node); //set selected course data
+        setPopupVisible(true); //show the popup
+    };
+
     const filteredNodes = nodes.filter(node => {
         if (filter === 'Both') return true;
         return node.data.courseProgram === filter || node.data.courseProgram === 'Both';
@@ -116,6 +125,11 @@ const CollapsibleNodeFlowchart = () => {
                 <Controls />
                 <Background />
             </ReactFlow>
+            <Popup
+                visible={popupVisible}
+                onClose={() => setPopupVisible(false)}
+                data={popupData}
+            />
         </div>
     );
 };
