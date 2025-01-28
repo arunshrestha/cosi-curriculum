@@ -7,9 +7,7 @@ export const initialNodes = [
     data: {
       courseNum: 'COSI 10A',
       courseTitle: 'Problem Solving in Python',
-      coursePre: 'COSI 10A',
-      courseDesc: 'Introduction to computer science and programming.',
-      courseCategory: 'default',
+      zcourseCategory: 'default',
     },
     position: { x: 100, y: 100 },
     sourcePosition: 'right',
