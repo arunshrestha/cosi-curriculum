@@ -6,6 +6,7 @@ import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes a
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
 import FilterControls from './FilterControls'; // Import FilterControls component
+import Popup from './RoundedBoxNode/Popup'; // Correct path based on file structure
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
@@ -13,6 +14,8 @@ const CollapsibleNodeFlowchart = () => {
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [filter, setFilter] = useState('Both'); // State to manage the selected filter
+    const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
+    const [popupData, setPopupData] = useState(null); // State to store the data for the popup
 
     // Variables to control node positioning
     const xSpacing = 200; // Horizontal spacing between nodes
@@ -80,42 +83,76 @@ const CollapsibleNodeFlowchart = () => {
         highlightPath(clickedNode.id);
     };
 
+    const handleMoreInfoClick = (nodeData) => {
+        setPopupData(nodeData);
+        setPopupVisible(true);
+    };
+
+    const handleClosePopup = () => {
+        setPopupVisible(false);
+        setPopupData(null);
+    };
+
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
 
-    const filteredNodes = nodes.filter(node => {
+    const filteredNodes = nodes.filter((node) => {
         if (filter === 'Both') return true;
-        return node.data.courseProgram === filter || node.data.courseProgram === 'Both';
+        return (
+            node.data.courseProgram === filter || node.data.courseProgram === 'Both'
+        );
     });
 
-    const filteredEdges = edges.filter(edge => {
+    const filteredEdges = edges.filter((edge) => {
         if (filter === 'Both') return true;
-        const sourceNode = nodes.find(node => node.id === edge.source);
-        const targetNode = nodes.find(node => node.id === edge.target);
-        return sourceNode && targetNode && (sourceNode.data.courseProgram === filter || sourceNode.data.courseProgram === 'Both') && (targetNode.data.courseProgram === filter || targetNode.data.courseProgram === 'Both');
+        const sourceNode = nodes.find((node) => node.id === edge.source);
+        const targetNode = nodes.find((node) => node.id === edge.target);
+        return (
+            sourceNode &&
+            targetNode &&
+            (sourceNode.data.courseProgram === filter ||
+                sourceNode.data.courseProgram === 'Both') &&
+            (targetNode.data.courseProgram === filter ||
+                targetNode.data.courseProgram === 'Both')
+        );
     });
 
     return (
         <div className="h-screen">
             <FilterControls filter={filter} onFilterChange={handleFilterChange} />
             <ReactFlow
-                nodes={filteredNodes.map(node => ({
+                nodes={filteredNodes.map((node) => ({
                     ...node,
-                    data: { ...node.data, isGrayscale: !highlightedNodes.includes(node.id) }
+                    data: {
+                        ...node.data,
+                        isGrayscale: !highlightedNodes.includes(node.id),
+                    },
                 }))}
-                edges={filteredEdges.map(edge => ({
+                edges={filteredEdges.map((edge) => ({
                     ...edge,
-                    data: { ...edge.data, isGrayscale: !highlightedEdges.includes(edge.id) }
+                    data: {
+                        ...edge.data,
+                        isGrayscale: !highlightedEdges.includes(edge.id),
+                    },
                 }))}
                 onNodeClick={(event, node) => handleNodeClick(node)}
-                nodeTypes={{ custom: RoundedBoxNode }}
+                nodeTypes={{
+                    custom: (props) => (
+                        <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />
+                    ),
+                }}
                 edgeTypes={{ custom: StraightLineEdge }}
             >
                 <MiniMap />
                 <Controls />
                 <Background />
             </ReactFlow>
+            <Popup
+                visible={PopupVisible}
+                onClose={handleClosePopup}
+                data={popupData}
+            />
         </div>
     );
 };
