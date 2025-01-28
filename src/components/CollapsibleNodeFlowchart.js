@@ -4,8 +4,6 @@ import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
-import Popup from './RoundedBoxNode/Popup';
-
 import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
 import FilterControls from './FilterControls'; // Import FilterControls component
 import Popup from './RoundedBoxNode/Popup'; // Correct path based on file structure
@@ -16,8 +14,8 @@ const CollapsibleNodeFlowchart = () => {
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [filter, setFilter] = useState('Both'); // State to manage the selected filter
-    const [popupData, setPopupData] = useState(null);
-    const [popupVisible, setPopupVisible] = useState(false);
+    const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
+    const [popupData, setPopupData] = useState(null); // State to store the data for the popup
 
     // Variables to control node positioning
     const xSpacing = 200; // Horizontal spacing between nodes

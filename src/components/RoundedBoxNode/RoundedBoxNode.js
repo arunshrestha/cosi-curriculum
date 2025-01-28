@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import roundInfoButton from '../../assets/round-info-button.png';
 
-function RoundedBoxNode({ data }) {
+function RoundedBoxNode({ data, onMoreInfoClick }) {
   const bgCategoryColors = {
     normal: {
       'Data Systems': 'bg-[#fdd985]',
@@ -25,7 +25,9 @@ function RoundedBoxNode({ data }) {
     : bgCategoryColors.normal[data.courseCategory] || bgCategoryColors.normal['default'];
 
   return (
-    <div className={`w-48 h-24 p-4 shadow-md rounded-md border-2 border-stone-400 flex flex-col justify-center items-center ${bgColorClass}`}>
+    <div
+      className={`w-48 h-24 p-4 shadow-md rounded-md border-2 border-stone-400 flex flex-col justify-center items-center ${bgColorClass}`}
+    >
       <div className="text-center">
         <div className="text-lg font-bold">{data.courseNum}</div>
         <div className="text-black break-words">{data.courseTitle}</div>
