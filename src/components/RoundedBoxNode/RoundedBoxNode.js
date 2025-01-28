@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
+import roundInfoButton from '../../assets/round-info-button.png';
 
 function RoundedBoxNode({ data }) {
   const bgCategoryColors = {
@@ -29,14 +30,18 @@ function RoundedBoxNode({ data }) {
         <div className="text-lg font-bold">{data.courseNum}</div>
         <div className="text-black break-words">{data.courseTitle}</div>
       </div>
-
       {/* More Info Button which triggers popup*/}
       <button
         onClick={() => onMoreInfoClick(data)}
-        className="mt-2 text-sm text-blue-500 underline"
+        className="absolute bottom-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
       >
-        More Info
+        <img
+          src={roundInfoButton} // Use the imported image
+          alt="More Info"
+          className="w-6 h-6" // Adjust size as needed (8 x 8 = 2rem x 2rem)
+        />
       </button>
+
       <Handle
         type="target"
         position={Position.Top}
@@ -49,7 +54,6 @@ function RoundedBoxNode({ data }) {
       />
     </div>
   );
-
 }
 
 export default memo(RoundedBoxNode);
