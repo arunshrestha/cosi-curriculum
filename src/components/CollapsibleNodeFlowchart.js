@@ -143,7 +143,6 @@ const CollapsibleNodeFlowchart = () => {
                     data: {
                         ...edge.data,
                         isGrayscale: !highlightedEdges.includes(edge.id),
-                        //fraction: edge.data.fraction, // Use the fraction from the edge data
                     },
                 }))}
                 onNodeClick={(event, node) => handleNodeClick(node)}
