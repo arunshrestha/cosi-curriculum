@@ -24,6 +24,9 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
     ? bgCategoryColors.grayscale[data.courseCategory] || bgCategoryColors.grayscale['default']
     : bgCategoryColors.normal[data.courseCategory] || bgCategoryColors.normal['default'];
 
+  const sourceHandlePosition = data.sourceHandlePosition || Position.Bottom;
+  const targetHandlePosition = data.targetHandlePosition || Position.Top;
+
   return (
     <div
       className={`w-48 h-24 p-4 shadow-md rounded-md border-2 border-stone-400 flex flex-col justify-center items-center ${bgColorClass}`}
@@ -46,12 +49,12 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
 
       <Handle
         type="target"
-        position={Position.Top}
+        position={targetHandlePosition}
         className="opacity-0" // Hide the handle
       />
       <Handle
         type="source"
-        position={Position.Bottom}
+        position={sourceHandlePosition}
         className="opacity-0" // Hide the handle
       />
     </div>

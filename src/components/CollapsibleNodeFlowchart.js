@@ -72,8 +72,11 @@ const CollapsibleNodeFlowchart = () => {
             if (currentNode) {
                 pathNodes.add(currentNode.id);
                 const parentEdges = edges.filter(e => e.target === currentNodeId);
-                parentEdges.forEach(parentEdge => {
+                parentEdges.forEach((parentEdge, index) => {
                     pathEdges.add(parentEdge.id);
+                    // Calculate the position as a fraction of the way across the node
+                    const fraction = (index + 1) / (parentEdges.length + 1);
+                    parentEdge.data = { ...parentEdge.data, fraction }; // Pass fraction to edge data
                     findPaths(parentEdge.source);
                 });
             }
@@ -140,6 +143,7 @@ const CollapsibleNodeFlowchart = () => {
                     data: {
                         ...edge.data,
                         isGrayscale: !highlightedEdges.includes(edge.id),
+                        //fraction: edge.data.fraction, // Use the fraction from the edge data
                     },
                 }))}
                 onNodeClick={(event, node) => handleNodeClick(node)}

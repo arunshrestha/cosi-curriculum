@@ -1,4 +1,5 @@
 import { MarkerType } from '@xyflow/react';
+import { Position } from '@xyflow/react';
 
 export const initialNodes = [
   {
@@ -9,6 +10,8 @@ export const initialNodes = [
       courseTitle: 'Discrete Mathematics',
       courseCategory: 'Core',
       courseProgram: 'COSI',
+      sourceHandlePosition: Position.Left, // Add source handle position
+      targetHandlePosition: Position.Left, // Add source handle position
     },
     position: { x: 0, y: 0 },
     level: 1,
@@ -652,6 +655,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -668,6 +672,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-6',
@@ -683,6 +688,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-7',
@@ -698,6 +704,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-8',
@@ -713,6 +720,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-9',
@@ -728,6 +736,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-10',
@@ -743,6 +752,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-11',
@@ -758,6 +768,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-12',
@@ -773,6 +784,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-13',
@@ -788,6 +800,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e3-14',
@@ -803,6 +816,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -819,6 +833,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e4-16',
@@ -834,6 +849,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e4-17',
@@ -849,6 +865,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e4-18',
@@ -864,6 +881,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e4-19',
@@ -879,6 +897,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -895,6 +914,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-17',
@@ -910,6 +930,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-18',
@@ -925,6 +946,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-19',
@@ -940,6 +962,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-20',
@@ -955,6 +978,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-21',
@@ -970,6 +994,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-22',
@@ -985,6 +1010,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-23',
@@ -1000,6 +1026,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-24',
@@ -1015,6 +1042,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-25',
@@ -1030,6 +1058,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-26',
@@ -1045,6 +1074,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-27',
@@ -1060,6 +1090,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-28',
@@ -1075,6 +1106,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-29',
@@ -1090,6 +1122,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e5-30',
@@ -1105,6 +1138,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1121,6 +1155,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e8-24',
@@ -1136,6 +1171,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e8-25',
@@ -1151,6 +1187,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1167,6 +1204,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e14-32',
@@ -1182,6 +1220,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e14-33',
@@ -1197,6 +1236,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1213,6 +1253,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1229,6 +1270,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1245,6 +1287,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e21-37',
@@ -1260,6 +1303,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e21-38',
@@ -1275,6 +1319,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1291,6 +1336,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e24-40',
@@ -1306,6 +1352,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1322,6 +1369,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e31-42',
@@ -1337,6 +1385,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e31-43',
@@ -1352,6 +1401,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
   {
     id: 'e31-44',
@@ -1367,6 +1417,7 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 
   {
@@ -1383,5 +1434,6 @@ export const initialEdges = [
     style: { stroke: '#333' },
     isVisible: true,
     isGrayscale: true,
+    fraction: 0.5,
   },
 ];
