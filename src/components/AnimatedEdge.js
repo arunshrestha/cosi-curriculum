@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
+import './AnimatedEdge.css'; // Import the CSS file
 
-const StraightLineEdge = ({
+const AnimatedEdge = ({
     id,
     sourceX,
     sourceY,
@@ -14,7 +15,7 @@ const StraightLineEdge = ({
     const edgePath = `M${sourceX},${sourceY} L${sourceX},${(sourceY + targetY) / 2} L${targetX},${(sourceY + targetY) / 2} L${targetX},${targetY}`;
 
     const edgeBoldCategory = {
-        grayscale: 'fill-none stroke-gray-400 stroke-0',
+        grayscale: 'fill-none stroke-0',
         bold: 'fill-none stroke-black stroke-2'
     };
     const edgeBold = data.isGrayscale ? edgeBoldCategory.grayscale : edgeBoldCategory.bold;
@@ -24,7 +25,7 @@ const StraightLineEdge = ({
             <path
                 id={id}
                 style={style}
-                className={`${edgeBold}`}
+                className={`${edgeBold} animated-edge`}
                 d={edgePath}
                 markerEnd={markerEnd}
             />
@@ -32,4 +33,4 @@ const StraightLineEdge = ({
     );
 };
 
-export default memo(StraightLineEdge);
+export default memo(AnimatedEdge);
