@@ -1,5 +1,5 @@
 import { MarkerType } from '@xyflow/react';
-import { Position } from '@xyflow/react';
+//import { Position } from '@xyflow/react';
 
 export const initialNodes = [
   {
@@ -10,8 +10,8 @@ export const initialNodes = [
       courseTitle: 'Discrete Mathematics',
       courseCategory: 'Core',
       courseProgram: 'COSI',
-      sourceHandlePosition: Position.Left, // Add source handle position
-      targetHandlePosition: Position.Left, // Add source handle position
+      // sourceHandlePosition: Position.Left, // Add source handle position
+      // targetHandlePosition: Position.Left, // Add source handle position
     },
     position: { x: 0, y: 0 },
     level: 1,

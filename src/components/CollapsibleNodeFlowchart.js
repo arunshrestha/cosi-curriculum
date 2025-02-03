@@ -10,7 +10,7 @@ import Popup from './RoundedBoxNode/Popup'; // Correct path based on file struct
 
 const CollapsibleNodeFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);
-    const [edges] = useState(initialEdges);
+    const [edges, setEdges] = useState(initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [filter, setFilter] = useState('Both'); // State to manage the selected filter
@@ -58,10 +58,24 @@ const CollapsibleNodeFlowchart = () => {
             });
 
             setNodes(positionedNodes);
+            calculateDefaultEdgePositions(filteredNodes, initialEdges);
         } catch (e) {
             console.log(e);
         }
     }, [filter]); // Add filter as a dependency to recalculate positions when the filter changes
+
+    const calculateDefaultEdgePositions = (nodes, edges) => {
+        const updatedEdges = edges.map(edge => {
+            const parentEdges = edges.filter(e => e.target === edge.target);
+            const index = parentEdges.findIndex(e => e.id === edge.id);
+            const fraction = (index + 1) / (parentEdges.length + 1);
+            return {
+                ...edge,
+                data: { ...edge.data, fraction }
+            };
+        });
+        setEdges(updatedEdges);
+    };
 
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
@@ -72,11 +86,8 @@ const CollapsibleNodeFlowchart = () => {
             if (currentNode) {
                 pathNodes.add(currentNode.id);
                 const parentEdges = edges.filter(e => e.target === currentNodeId);
-                parentEdges.forEach((parentEdge, index) => {
+                parentEdges.forEach((parentEdge) => {
                     pathEdges.add(parentEdge.id);
-                    // Calculate the position as a fraction of the way across the node
-                    const fraction = (index + 1) / (parentEdges.length + 1);
-                    parentEdge.data = { ...parentEdge.data, fraction }; // Pass fraction to edge data
                     findPaths(parentEdge.source);
                 });
             }
