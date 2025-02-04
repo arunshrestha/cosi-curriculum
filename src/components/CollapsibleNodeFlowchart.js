@@ -59,6 +59,11 @@ const CollapsibleNodeFlowchart = () => {
 
             setNodes(positionedNodes);
             calculateDefaultEdgePositions(filteredNodes, initialEdges);
+
+            // Reset highlighted nodes and edges
+            setHighlightedNodes(filteredNodes.map(node => node.id));
+            setHighlightedEdges(initialEdges.map(edge => edge.id));
+
         } catch (e) {
             console.log(e);
         }

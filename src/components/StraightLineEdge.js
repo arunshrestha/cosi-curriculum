@@ -18,21 +18,23 @@ const StraightLineEdge = ({
     const adjustedTargetX = targetX + (fraction - 0.5) * 200; // Adjust targetX based on fraction and width pixel value of node
 
     // Conditionally define the edgePath based on the id of the edge
+    const adjustmentY = 20;
     let edgePath;
     if (pushUpEdgeIds.has(id)) {
         // Example of a different path for a specific set of edge ids
-        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 20} L${adjustedTargetX},${((sourceY + targetY) / 2) - 20} ${adjustedTargetX},${targetY}`;
+        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - adjustmentY} L${adjustedTargetX},${((sourceY + targetY) / 2) - adjustmentY} ${adjustedTargetX},${targetY}`;
     } else if (pushDownEdgeIds.has(id)) {
         // Default path
-        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) + 20} L${adjustedTargetX},${((sourceY + targetY) / 2) + 20} ${adjustedTargetX},${targetY}`;
+        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) + adjustmentY} L${adjustedTargetX},${((sourceY + targetY) / 2) + adjustmentY} ${adjustedTargetX},${targetY}`;
     } else {
         edgePath = `M${sourceX},${sourceY} L${sourceX},${(sourceY + targetY) / 2} L${adjustedTargetX},${(sourceY + targetY) / 2} L${adjustedTargetX},${targetY}`;
     }
 
     const edgeBoldCategory = {
-        grayscale: 'fill-none stroke-gray-100 stroke-1',
-        bold: 'fill-none stroke-black stroke-2'
+        grayscale: 'fill-none stroke-gray-50 stroke-1 mix-blend-lighten', // Use a light gray with a thin, solid line
+        bold: 'fill-none stroke-black stroke-[2.5px]' // Use a solid black with a thicker stroke
     };
+
     const edgeBold = data.isGrayscale ? edgeBoldCategory.grayscale : edgeBoldCategory.bold;
 
     return (
