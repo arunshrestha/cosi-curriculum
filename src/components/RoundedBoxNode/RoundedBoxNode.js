@@ -6,23 +6,25 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
   const bgCategoryColors = {
     normal: {
       'Data Systems': 'bg-[#fdd985]',
-      'ML': 'bg-[#77d19d]',
-      'Core': 'bg-[#fc747b]',
-      'CL': 'bg-[#e8abe1]',
-      'default': 'bg-[#77d0f6]'
+      ML: 'bg-[#77d19d]',
+      Core: 'bg-[#fc747b]',
+      CL: 'bg-[#e8abe1]',
+      default: 'bg-[#77d0f6]',
     },
     grayscale: {
       'Data Systems': 'bg-[#dadada]',
-      'ML': 'bg-[#b0b0b0]',
-      'Core': 'bg-[#9d9d9d]',
-      'CL': 'bg-[#c3c3c3]',
-      'default': 'bg-[#b9b9b9]'
-    }
+      ML: 'bg-[#b0b0b0]',
+      Core: 'bg-[#9d9d9d]',
+      CL: 'bg-[#c3c3c3]',
+      default: 'bg-[#b9b9b9]',
+    },
   };
 
   const bgColorClass = data.isGrayscale
-    ? bgCategoryColors.grayscale[data.courseCategory] || bgCategoryColors.grayscale['default']
-    : bgCategoryColors.normal[data.courseCategory] || bgCategoryColors.normal['default'];
+    ? bgCategoryColors.grayscale[data.courseCategory] ||
+      bgCategoryColors.grayscale['default']
+    : bgCategoryColors.normal[data.courseCategory] ||
+      bgCategoryColors.normal['default'];
 
   const sourceHandlePosition = data.sourceHandlePosition || Position.Bottom;
   const targetHandlePosition = data.targetHandlePosition || Position.Top;
@@ -38,7 +40,7 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
       {/* More Info Button which triggers popup*/}
       <button
         onClick={() => onMoreInfoClick(data)}
-        className="absolute bottom-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
+        className="absolute top-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
       >
         <img
           src={roundInfoButton} // Use the imported image
