@@ -115,7 +115,7 @@ export const initialNodes = [
     id: '8',
     type: 'custom',
     data: {
-      courseNum: 'COSI 104a',
+      courseNum: 'COSI 104A',
       courseTitle: 'Intro to ML',
       courseCategory: 'ML',
       courseProgram: 'COSI',
