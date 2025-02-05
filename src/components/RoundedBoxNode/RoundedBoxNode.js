@@ -38,7 +38,7 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
       {/* More Info Button which triggers popup*/}
       <button
         onClick={() => onMoreInfoClick(data)}
-        className="absolute bottom-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
+        className="absolute top-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
       >
         <img
           src={roundInfoButton} // Use the imported image
