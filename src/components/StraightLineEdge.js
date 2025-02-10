@@ -18,7 +18,11 @@ const StraightLineEdge = ({
     const adjustedTargetX = targetX + (fraction - 0.5) * 200; // Adjust targetX based on fraction and width pixel value of node
 
     // Conditionally define the edgePath based on the id of the edge
-    const adjustmentY = 20;
+    // Calculate the adjustment based on the distance between source and target
+    const distanceY = Math.abs(targetY - sourceY);
+    const adjustmentY = distanceY * 0.1; // Adjust this multiplier as needed
+    // // Calculate the adjustment based on the viewport height
+    // const adjustmentY = window.innerHeight * 0.02; // 2% of the viewport height
     let edgePath;
     if (pushUpEdgeIds.has(id)) {
         // Example of a different path for a specific set of edge ids
