@@ -149,7 +149,7 @@ const CollapsibleNodeFlowchart = () => {
     });
 
     return (
-        <div className="h-screen">
+        <div className="flex flex-col h-screen">
             <FilterControls filter={filter} onFilterChange={handleFilterChange} />
             <ReactFlow
                 nodes={filteredNodes.map((node) => ({
