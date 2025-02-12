@@ -5,7 +5,7 @@ const PreRequisitesView = () => {
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Prerequisite View</h1>
-      <CollapsibleNodeFlowchart />
+      <CollapsibleNodeFlowchart key="preReqFlow" />
     </div>
   );
 };
