@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
@@ -17,12 +17,37 @@ const CollapsibleNodeFlowchart = () => {
     const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
     const [popupData, setPopupData] = useState(null); // State to store the data for the popup
 
-    // Variables to control node positioning
-    const xSpacing = 200; // Horizontal spacing between nodes
-    const ySpacing = 200 // Vertical spacing between levels
+    // Store a reference to the flow instance so we can manually set viewport later.
+    const [rfInstance, setRfInstance] = useState(null);
+
+    // Called once when React Flow is ready
+    const onInit = useCallback((instance) => {
+        setRfInstance(instance);
+    }, []);
+
+    useEffect(() => {
+        if (!rfInstance) return;
+
+        const offsets = {
+            Both: { x: -200, y: -100, zoom: 0.5 },
+            COSI: { x: -100, y: -100, zoom: 0.5 },
+            CL: { x: 550, y: -80, zoom: 0.5 },
+        };
+
+        // Only if the new filter has an offset set
+        if (offsets[filter]) {
+            rfInstance.setViewport(offsets[filter]);
+        }
+    }, [filter, rfInstance]);
 
     useEffect(() => {
         try {
+            // Decide the spacing based on screen width
+            const screenWidth = window.innerWidth;
+            // If screen width < 768px, make xSpacing smaller
+            const xSpacing = screenWidth < 768 ? 130 : 200; 
+            const ySpacing = 200; 
+
             // Filter nodes based on the selected filter
             const filteredNodes = initialNodes.filter(node => {
                 if (filter === 'Both') return true;
@@ -39,9 +64,11 @@ const CollapsibleNodeFlowchart = () => {
             }, {});
 
             // Find the maximum number of nodes in any level
-            const maxNodesInLevel = Math.max(...Object.values(nodesByLevel).map(levelNodes => levelNodes.length));
+            const maxNodesInLevel = Math.max(
+                ...Object.values(nodesByLevel).map(levelNodes => levelNodes.length)
+            );
 
-            // Manually set positions of nodes based on their level and index within the level
+            // Manually set positions of nodes
             const positionedNodes = filteredNodes.map((node) => {
                 const levelNodes = nodesByLevel[node.level];
                 const index = levelNodes.indexOf(node);
@@ -52,13 +79,14 @@ const CollapsibleNodeFlowchart = () => {
 
                 const totalWidth = (maxNodesInLevel - 1) * xSpacing;
                 const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
+
                 return {
                     ...node,
                     position: {
                         x: index * xSpacing + xOffset,
                         y: node.level * ySpacing,
                     },
-                    positionAbsolute: true, // Set to true to use the provided positions
+                    positionAbsolute: true,
                 };
             });
 
@@ -68,11 +96,10 @@ const CollapsibleNodeFlowchart = () => {
             // Reset highlighted nodes and edges
             setHighlightedNodes(filteredNodes.map(node => node.id));
             setHighlightedEdges(initialEdges.map(edge => edge.id));
-
         } catch (e) {
             console.log(e);
         }
-    }, [filter]); // Add filter as a dependency to recalculate positions when the filter changes
+    }, [filter]);
 
     const calculateDefaultEdgePositions = (nodes, edges) => {
         const updatedEdges = edges.map(edge => {
@@ -127,10 +154,12 @@ const CollapsibleNodeFlowchart = () => {
         setFilter(event.target.value);
     };
 
+    // Filter again for rendering nodes/edges
     const filteredNodes = nodes.filter((node) => {
         if (filter === 'Both') return true;
         return (
-            node.data.courseProgram === filter || node.data.courseProgram === 'Both'
+            node.data.courseProgram === filter || 
+            node.data.courseProgram === 'Both'
         );
     });
 
@@ -141,17 +170,19 @@ const CollapsibleNodeFlowchart = () => {
         return (
             sourceNode &&
             targetNode &&
-            (sourceNode.data.courseProgram === filter ||
-                sourceNode.data.courseProgram === 'Both') &&
-            (targetNode.data.courseProgram === filter ||
-                targetNode.data.courseProgram === 'Both')
+            (sourceNode.data.courseProgram === filter || sourceNode.data.courseProgram === 'Both') &&
+            (targetNode.data.courseProgram === filter || targetNode.data.courseProgram === 'Both')
         );
     });
 
     return (
         <div className="flex flex-col h-screen">
             <FilterControls filter={filter} onFilterChange={handleFilterChange} />
+
             <ReactFlow
+                onInit={onInit}
+                panOnScroll={true} 
+                defaultViewport={{ x: -200, y: -100, zoom: 0.5 }}
                 nodes={filteredNodes.map((node) => ({
                     ...node,
                     data: {
@@ -178,6 +209,7 @@ const CollapsibleNodeFlowchart = () => {
                 <Controls />
                 <Background />
             </ReactFlow>
+
             <Popup
                 visible={PopupVisible}
                 onClose={handleClosePopup}
