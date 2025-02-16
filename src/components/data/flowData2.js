@@ -2,6 +2,23 @@ import { MarkerType } from '@xyflow/react';
 //import { Position } from '@xyflow/react';
 
 export const initialNodes = [
+  // {
+  //   id: '4',
+  //   type: 'custom',
+  //   data: {
+  //     courseNum: 'COSI 29A',
+  //     courseTitle: 'Discrete Mathematics',
+  //     courseCategory: 'Core',
+  //     courseProgram: 'COSI',
+  //     courseDesc: `\nCovers topics in discrete mathematics with applications within computer science. Some of the topics to be covered include graphs and matrices; principles of logic and induction; number theory; counting, summation, and recurrence relations; discrete probability. Usually offered every year.`,
+  //     // sourceHandlePosition: Position.Left, // Add source handle position
+  //     // targetHandlePosition: Position.Left, // Add source handle position
+  //   },
+  //   position: { x: 0, y: 0 },
+  //   level: 1,
+  //   isVisible: true,
+  //   isGrayscale: true,
+  // },
   {
     id: '4',
     type: 'custom',
@@ -9,13 +26,11 @@ export const initialNodes = [
       courseNum: 'COSI 29A',
       courseTitle: 'Discrete Mathematics',
       courseCategory: 'Core',
-      courseProgram: 'COSI',
+      courseProgram: 'Both',
       courseDesc: `\nCovers topics in discrete mathematics with applications within computer science. Some of the topics to be covered include graphs and matrices; principles of logic and induction; number theory; counting, summation, and recurrence relations; discrete probability. Usually offered every year.`,
-      // sourceHandlePosition: Position.Left, // Add source handle position
-      // targetHandlePosition: Position.Left, // Add source handle position
     },
     position: { x: 0, y: 0 },
-    level: 1,
+    level: 3,
     isVisible: true,
     isGrayscale: true,
   },
@@ -65,7 +80,6 @@ export const initialNodes = [
     isVisible: true,
     isGrayscale: true,
   },
-
   {
     id: '5',
     type: 'custom',
@@ -115,11 +129,7 @@ export const initialNodes = [
     id: '8',
     type: 'custom',
     data: {
-<<<<<<< HEAD
-      courseNum: 'COSI 104a',
-=======
       courseNum: 'COSI 104A',
->>>>>>> main
       courseTitle: 'Intro to ML',
       courseCategory: 'ML',
       courseProgram: 'COSI',
@@ -191,6 +201,21 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
+    id: '8',
+    type: 'custom',
+    data: {
+      courseNum: 'COSI 104A',
+      courseTitle: 'Intro to ML',
+      courseCategory: 'ML',
+      courseProgram: 'COSI',
+      courseDesc: `\nMachine learning is essential to gaining insights into large-scale data and making decisions in a wide spectrum of real world applications. This course will provide you a basic understanding of machine learning techniques (e.g., linear regression, logistic regression, decision trees, neural networks, clustering, state machines and Markov decision processes, etc.), how to evaluate their performance, and demonstrating how these models can be used to solve real-world problems. In addition, this course will give you hands-on experience utilizing these machine learning models. Usually offered every year.`,
+    },
+    position: { x: 0, y: 0 },
+    level: 3,
+    isVisible: true,
+    isGrayscale: true,
+  },
+  {
     id: '13',
     type: 'custom',
     data: {
@@ -216,7 +241,7 @@ export const initialNodes = [
       courseDesc: `\nA study of the computational treatment of core semantic phenomena in language. After a review of first-order logic and the lambda calculus, the course focuses on three core topics: interrogative structures, including semantics of questions, question-answering systems, dialogue, entailment, commonsense knowledge; meaning update and revision; and computational lexical semantics. Usually offered every second year.`,
     },
     position: { x: 0, y: 0 },
-    level: 3,
+    level: 5,
     isVisible: true,
     isGrayscale: true,
   },
@@ -242,7 +267,7 @@ export const initialNodes = [
       courseNum: 'COSI 121B',
       courseTitle: 'Structures and Interpration',
       courseCategory: 'Core',
-      courseProgram: 'COSI',
+      courseProgram: 'Both',
       courseDesc: `\nAn introduction to idioms of programming methodology, and to how programming languages work. Principles of functional programming, data structures and data abstraction; state, imperative and object-oriented programming; lazy data structures; how an interpreter works; metalinguistic abstraction and programming language design; syntax analysis, lexical addressing, continuations and explicit control; continuation-passing style, metacircular and register-machine compilers. Usually offered every year.`,
     },
     position: { x: 0, y: 0 },
@@ -311,6 +336,21 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
+    id: '22',
+    type: 'custom',
+    data: {
+      courseNum: 'COSI 143B',
+      courseTitle: 'Data Management for Data Science',
+      courseCategory: 'Data Systems',
+      courseProgram: 'COSI',
+      courseDesc: `\nThis experiential class will study techniques and systems for ingesting, processing, analyzing, and visualizing large data sets. The end goal of the class is to familiarize students with the data management tools and concepts that can support the full-stack of data science pipelines. Usually offered every second year.`,
+    },
+    position: { x: 0, y: 0 },
+    level: 4,
+    isVisible: true,
+    isGrayscale: true,
+  },
+  {
     id: '21',
     type: 'custom',
     data: {
@@ -326,14 +366,14 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
-    id: '22',
+    id: '26',
     type: 'custom',
     data: {
-      courseNum: 'COSI 143B',
-      courseTitle: 'Data Management for Data Science',
-      courseCategory: 'Data Systems',
+      courseNum: 'COSI 101A',
+      courseTitle: 'AI',
+      courseCategory: 'ML',
       courseProgram: 'COSI',
-      courseDesc: `\nThis experiential class will study techniques and systems for ingesting, processing, analyzing, and visualizing large data sets. The end goal of the class is to familiarize students with the data management tools and concepts that can support the full-stack of data science pipelines. Usually offered every second year.`,
+      courseDesc: `\nSurvey course in artificial intelligence. Introduction to Lisp and heuristic programming techniques. Topics include problem solving, planning natural language processing, knowledge representation, and computer vision. Usually offered every year.`,
     },
     position: { x: 0, y: 0 },
     level: 4,
@@ -379,21 +419,6 @@ export const initialNodes = [
       courseCategory: 'ML',
       courseProgram: 'COSI',
       courseDesc: `\nFocuses on unsupervised learning and introduces the basic concepts of cluster analysis, feature selection, outlier detection for large-scale and big data analysis. Some advanced unsupervised topics, such as ranking, auto-encoder, generative adversarial network, and self-supervised learning will be introduced as well. Usually offered every second year.`,
-    },
-    position: { x: 0, y: 0 },
-    level: 4,
-    isVisible: true,
-    isGrayscale: true,
-  },
-  {
-    id: '26',
-    type: 'custom',
-    data: {
-      courseNum: 'COSI 101A',
-      courseTitle: 'AI',
-      courseCategory: 'ML',
-      courseProgram: 'COSI',
-      courseDesc: `\nSurvey course in artificial intelligence. Introduction to Lisp and heuristic programming techniques. Topics include problem solving, planning natural language processing, knowledge representation, and computer vision. Usually offered every year.`,
     },
     position: { x: 0, y: 0 },
     level: 4,
@@ -454,51 +479,6 @@ export const initialNodes = [
       courseCategory: 'default',
       courseProgram: 'COSI',
       courseDesc: `\nContent will vary from year to year. May be repeated for credit. Prerequisites may vary with the topic area; check with instructor for details. Usually offered every third year.`,
-    },
-    position: { x: 0, y: 0 },
-    level: 4,
-    isVisible: true,
-    isGrayscale: true,
-  },
-  {
-    id: '31',
-    type: 'custom',
-    data: {
-      courseNum: 'COSI 115B',
-      courseTitle: 'Fundamentals of NLP II',
-      courseCategory: 'CL',
-      courseProgram: 'CL',
-      courseDesc: `\nProvides a fundamental understanding of the problems in natural language understanding by computers, and the theory and practice of current computational linguistic systems. Of interest to students of artificial intelligence, algorithms, and the computational processes of comprehension and understanding. Usually offered every year.`,
-    },
-    position: { x: 0, y: 0 },
-    level: 4,
-    isVisible: true,
-    isGrayscale: true,
-  },
-  {
-    id: '32',
-    type: 'custom',
-    data: {
-      courseNum: 'COSI 132A',
-      courseTitle: 'Informataion Retrieval',
-      courseCategory: 'CL',
-      courseProgram: 'CL',
-      courseDesc: `\nExplores the theory and practice of textual information retrieval, including text indexing; Boolean, vector space and probabilistic retrieval models; evaluation; interfaces; linguistic issues; web search; QA and text classification. Students will implement algorithms and design and build a search-based application. Usually offered every year.`,
-    },
-    position: { x: 0, y: 0 },
-    level: 4,
-    isVisible: true,
-    isGrayscale: true,
-  },
-  {
-    id: '33',
-    type: 'custom',
-    data: {
-      courseNum: 'COSI 136A',
-      courseTitle: 'Speech Recognition',
-      courseCategory: 'CL',
-      courseProgram: 'CL',
-      courseDesc: `\nExplores speech recognizer core components and their underlying algorithms, surveying real applications. Covers phonetics, HMMs, finite state grammars, statistical language models, and industry standards for implementing applications, like VXML. Students build and analyze simple applications using a variety of toolkits. Usually offered every year.`,
     },
     position: { x: 0, y: 0 },
     level: 4,
@@ -611,6 +591,51 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
+    id: '31',
+    type: 'custom',
+    data: {
+      courseNum: 'COSI 115B',
+      courseTitle: 'Fundamentals of NLP II',
+      courseCategory: 'CL',
+      courseProgram: 'CL',
+      courseDesc: `\nProvides a fundamental understanding of the problems in natural language understanding by computers, and the theory and practice of current computational linguistic systems. Of interest to students of artificial intelligence, algorithms, and the computational processes of comprehension and understanding. Usually offered every year.`,
+    },
+    position: { x: 0, y: 0 },
+    level: 5,
+    isVisible: true,
+    isGrayscale: true,
+  },
+  {
+    id: '32',
+    type: 'custom',
+    data: {
+      courseNum: 'COSI 132A',
+      courseTitle: 'Informataion Retrieval',
+      courseCategory: 'CL',
+      courseProgram: 'CL',
+      courseDesc: `\nExplores the theory and practice of textual information retrieval, including text indexing; Boolean, vector space and probabilistic retrieval models; evaluation; interfaces; linguistic issues; web search; QA and text classification. Students will implement algorithms and design and build a search-based application. Usually offered every year.`,
+    },
+    position: { x: 0, y: 0 },
+    level: 5,
+    isVisible: true,
+    isGrayscale: true,
+  },
+  {
+    id: '33',
+    type: 'custom',
+    data: {
+      courseNum: 'COSI 136A',
+      courseTitle: 'Speech Recognition',
+      courseCategory: 'CL',
+      courseProgram: 'CL',
+      courseDesc: `\nExplores speech recognizer core components and their underlying algorithms, surveying real applications. Covers phonetics, HMMs, finite state grammars, statistical language models, and industry standards for implementing applications, like VXML. Students build and analyze simple applications using a variety of toolkits. Usually offered every year.`,
+    },
+    position: { x: 0, y: 0 },
+    level: 5,
+    isVisible: true,
+    isGrayscale: true,
+  },
+  {
     id: '41',
     type: 'custom',
     data: {
@@ -620,7 +645,7 @@ export const initialNodes = [
       courseProgram: 'CL',
     },
     position: { x: 0, y: 0 },
-    level: 5,
+    level: 6,
     isVisible: true,
     isGrayscale: true,
   },
@@ -634,7 +659,7 @@ export const initialNodes = [
       courseProgram: 'CL',
     },
     position: { x: 0, y: 0 },
-    level: 5,
+    level: 6,
     isVisible: true,
     isGrayscale: true,
   },
@@ -648,7 +673,7 @@ export const initialNodes = [
       courseProgram: 'CL',
     },
     position: { x: 0, y: 0 },
-    level: 5,
+    level: 6,
     isVisible: true,
     isGrayscale: true,
   },
@@ -662,7 +687,7 @@ export const initialNodes = [
       courseProgram: 'CL',
     },
     position: { x: 0, y: 0 },
-    level: 5,
+    level: 6,
     isVisible: true,
     isGrayscale: true,
   },
@@ -677,7 +702,7 @@ export const initialNodes = [
       courseDesc: `\nTeaches the basics of good oral communication and presentation, such as structuring a presentation, body language, eye contact, pace and appropriateness for the audience. It will cover, with practice, a range of speaking engagements majors might meet in academia and industry including: presentation of a research paper, software architecture proposal, business elevator pitch, research funding proposal, and so on. Students will present a project already created for a 100-level COSI elective. They will give the presentation in class, receive feedback based on the practices taught and then have a chance to give the presentation a second time. Usually offered every semester.`,
     },
     position: { x: 0, y: 0 },
-    level: 6,
+    level: 7,
     isVisible: true,
     isGrayscale: true,
   },
@@ -846,9 +871,9 @@ export const initialEdges = [
     fraction: 0.5,
   },
   {
-    id: 'e3-14',
+    id: 'e16-14',
     type: 'custom',
-    source: '3',
+    source: '16',
     target: '14',
     markerEnd: {
       type: MarkerType.ArrowClosed,
@@ -1234,9 +1259,9 @@ export const initialEdges = [
   },
 
   {
-    id: 'e14-31',
+    id: 'e13-31',
     type: 'custom',
-    source: '14',
+    source: '13',
     target: '31',
     markerEnd: {
       type: MarkerType.ArrowClosed,
@@ -1250,9 +1275,9 @@ export const initialEdges = [
     fraction: 0.5,
   },
   {
-    id: 'e14-32',
+    id: 'e13-32',
     type: 'custom',
-    source: '14',
+    source: '13',
     target: '32',
     markerEnd: {
       type: MarkerType.ArrowClosed,
@@ -1266,9 +1291,9 @@ export const initialEdges = [
     fraction: 0.5,
   },
   {
-    id: 'e14-33',
+    id: 'e13-33',
     type: 'custom',
-    source: '14',
+    source: '13',
     target: '33',
     markerEnd: {
       type: MarkerType.ArrowClosed,

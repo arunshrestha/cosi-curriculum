@@ -9,15 +9,23 @@ import NextClassesView from './components/NextClassesView';
 const App = () => {
   const [view, setView] = useState('pre-requisites');
 
-  const handleToggleView = (view) => {
-    setView(view);
+  const handleToggleView = (viewName) => {
+    setView(viewName);
   };
 
   return (
     <div>
       <Header />
       <NavBar onToggleView={handleToggleView} />
-      {view === 'pre-requisites' ? <PreRequisitesView /> : <NextClassesView />}
+
+      <div style={{ display: view === 'pre-requisites' ? 'block' : 'none' }}>
+        <PreRequisitesView />
+      </div>
+
+      <div style={{ display: view === 'next-classes' ? 'block' : 'none' }}>
+        <NextClassesView />
+      </div>
+
       <Footer />
     </div>
   );
