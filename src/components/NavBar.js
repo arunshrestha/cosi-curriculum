@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FilterControls from './FilterControls';
 
 const NavBar = ({
@@ -10,7 +10,7 @@ const NavBar = ({
   onNextClassesFilterChange,
 }) => {
   return (
-    <nav className="bg-gray-800 p-3 flex items-center space-x-4"> 
+    <nav className="bg-gray-800 p-3 flex items-center space-x-4">
       <ul className="flex space-x-4">
         <li
           onClick={() => onToggleView('pre-requisites')}
