@@ -2,7 +2,7 @@ import React from 'react';
 
 const FilterControls = ({ filter, onFilterChange }) => {
     return (
-        <div className="p-4 flex space-x-4">
+        <div className="flex items-center space-x-4">
             <label className="flex items-center space-x-2">
                 <input
                     type="radio"
@@ -11,8 +11,9 @@ const FilterControls = ({ filter, onFilterChange }) => {
                     onChange={onFilterChange}
                     className="form-radio text-blue-600"
                 />
-                <span>Both</span>
+                <span className="text-white">Both</span>
             </label>
+            
             <label className="flex items-center space-x-2">
                 <input
                     type="radio"
@@ -21,8 +22,9 @@ const FilterControls = ({ filter, onFilterChange }) => {
                     onChange={onFilterChange}
                     className="form-radio text-blue-600"
                 />
-                <span>COSI</span>
+                <span className="text-white">COSI</span>
             </label>
+            
             <label className="flex items-center space-x-2">
                 <input
                     type="radio"
@@ -31,7 +33,7 @@ const FilterControls = ({ filter, onFilterChange }) => {
                     onChange={onFilterChange}
                     className="form-radio text-blue-600"
                 />
-                <span>CL</span>
+                <span className="text-white">CL</span>
             </label>
         </div>
     );
