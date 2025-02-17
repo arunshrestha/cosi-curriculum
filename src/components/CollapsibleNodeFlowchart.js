@@ -5,19 +5,16 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowData2'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
-import FilterControls from './FilterControls'; // Import FilterControls component
-import Popup from './RoundedBoxNode/Popup'; // Correct path based on file structure
+import Popup from './RoundedBoxNode/Popup';
 
-const CollapsibleNodeFlowchart = () => {
+const CollapsibleNodeFlowchart = ({ filter }) => {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
-    const [filter, setFilter] = useState('Both'); // State to manage the selected filter
     const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
     const [popupData, setPopupData] = useState(null); // State to store the data for the popup
 
-    // Store a reference to the flow instance so we can manually set viewport later.
     const [rfInstance, setRfInstance] = useState(null);
 
     // Called once when React Flow is ready
@@ -29,12 +26,11 @@ const CollapsibleNodeFlowchart = () => {
         if (!rfInstance) return;
 
         const offsets = {
-            Both: { x: -200, y: -100, zoom: 0.5 },
-            COSI: { x: -100, y: -100, zoom: 0.5 },
+            Both: { x: -200, y: -80, zoom: 0.5 },
+            COSI: { x: -100, y: -80, zoom: 0.5 },
             CL: { x: 550, y: -80, zoom: 0.5 },
         };
 
-        // Only if the new filter has an offset set
         if (offsets[filter]) {
             rfInstance.setViewport(offsets[filter]);
         }
@@ -42,33 +38,32 @@ const CollapsibleNodeFlowchart = () => {
 
     useEffect(() => {
         try {
-            // Decide the spacing based on screen width
             const screenWidth = window.innerWidth;
-            // If screen width < 768px, make xSpacing smaller
-            const xSpacing = screenWidth < 768 ? 130 : 200; 
-            const ySpacing = 200; 
+            const xSpacing = screenWidth < 768 ? 130 : 200;
+            const ySpacing = 200;
 
-            // Filter nodes based on the selected filter
-            const filteredNodes = initialNodes.filter(node => {
+            // Filter nodes
+            const filteredNodes = initialNodes.filter((node) => {
                 if (filter === 'Both') return true;
-                return node.data.courseProgram === filter || node.data.courseProgram === 'Both';
+                return (
+                    node.data.courseProgram === filter ||
+                    node.data.courseProgram === 'Both'
+                );
             });
 
-            // Group nodes by their level
+            // Group nodes by level
             const nodesByLevel = filteredNodes.reduce((acc, node) => {
-                if (!acc[node.level]) {
-                    acc[node.level] = [];
-                }
+                if (!acc[node.level]) acc[node.level] = [];
                 acc[node.level].push(node);
                 return acc;
             }, {});
 
             // Find the maximum number of nodes in any level
             const maxNodesInLevel = Math.max(
-                ...Object.values(nodesByLevel).map(levelNodes => levelNodes.length)
+                ...Object.values(nodesByLevel).map((levelNodes) => levelNodes.length)
             );
 
-            // Manually set positions of nodes
+            // Manually set positions
             const positionedNodes = filteredNodes.map((node) => {
                 const levelNodes = nodesByLevel[node.level];
                 const index = levelNodes.indexOf(node);
@@ -93,22 +88,22 @@ const CollapsibleNodeFlowchart = () => {
             setNodes(positionedNodes);
             calculateDefaultEdgePositions(filteredNodes, initialEdges);
 
-            // Reset highlighted nodes and edges
-            setHighlightedNodes(filteredNodes.map(node => node.id));
-            setHighlightedEdges(initialEdges.map(edge => edge.id));
+            // Reset highlighted sets
+            setHighlightedNodes(filteredNodes.map((n) => n.id));
+            setHighlightedEdges(initialEdges.map((e) => e.id));
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     }, [filter]);
 
-    const calculateDefaultEdgePositions = (nodes, edges) => {
-        const updatedEdges = edges.map(edge => {
-            const parentEdges = edges.filter(e => e.target === edge.target);
-            const index = parentEdges.findIndex(e => e.id === edge.id);
+    const calculateDefaultEdgePositions = (filteredNodes, edges) => {
+        const updatedEdges = edges.map((edge) => {
+            const parentEdges = edges.filter((e) => e.target === edge.target);
+            const index = parentEdges.findIndex((e) => e.id === edge.id);
             const fraction = (index + 1) / (parentEdges.length + 1);
             return {
                 ...edge,
-                data: { ...edge.data, fraction }
+                data: { ...edge.data, fraction },
             };
         });
         setEdges(updatedEdges);
@@ -119,10 +114,10 @@ const CollapsibleNodeFlowchart = () => {
         const pathEdges = new Set();
 
         const findPaths = (currentNodeId) => {
-            const currentNode = nodes.find(n => n.id === currentNodeId);
+            const currentNode = nodes.find((n) => n.id === currentNodeId);
             if (currentNode) {
                 pathNodes.add(currentNode.id);
-                const parentEdges = edges.filter(e => e.target === currentNodeId);
+                const parentEdges = edges.filter((e) => e.target === currentNodeId);
                 parentEdges.forEach((parentEdge) => {
                     pathEdges.add(parentEdge.id);
                     findPaths(parentEdge.source);
@@ -131,13 +126,12 @@ const CollapsibleNodeFlowchart = () => {
         };
 
         findPaths(nodeId);
-
         setHighlightedNodes(Array.from(pathNodes));
         setHighlightedEdges(Array.from(pathEdges));
     };
 
-    const handleNodeClick = (clickedNode) => {
-        highlightPath(clickedNode.id);
+    const handleNodeClick = (event, node) => {
+        highlightPath(node.id);
     };
 
     const handleMoreInfoClick = (nodeData) => {
@@ -150,54 +144,27 @@ const CollapsibleNodeFlowchart = () => {
         setPopupData(null);
     };
 
-    const handleFilterChange = (event) => {
-        setFilter(event.target.value);
-    };
-
-    // Filter again for rendering nodes/edges
-    const filteredNodes = nodes.filter((node) => {
-        if (filter === 'Both') return true;
-        return (
-            node.data.courseProgram === filter || 
-            node.data.courseProgram === 'Both'
-        );
-    });
-
-    const filteredEdges = edges.filter((edge) => {
-        if (filter === 'Both') return true;
-        const sourceNode = nodes.find((node) => node.id === edge.source);
-        const targetNode = nodes.find((node) => node.id === edge.target);
-        return (
-            sourceNode &&
-            targetNode &&
-            (sourceNode.data.courseProgram === filter || sourceNode.data.courseProgram === 'Both') &&
-            (targetNode.data.courseProgram === filter || targetNode.data.courseProgram === 'Both')
-        );
-    });
-
     return (
-        <div className="flex flex-col h-screen">
-            <FilterControls filter={filter} onFilterChange={handleFilterChange} />
-
+        <div className="h-screen">
             <ReactFlow
                 onInit={onInit}
-                panOnScroll={true} 
+                panOnScroll
                 defaultViewport={{ x: -200, y: -100, zoom: 0.5 }}
-                nodes={filteredNodes.map((node) => ({
+                nodes={nodes.map((node) => ({
                     ...node,
                     data: {
                         ...node.data,
                         isGrayscale: !highlightedNodes.includes(node.id),
                     },
                 }))}
-                edges={filteredEdges.map((edge) => ({
+                edges={edges.map((edge) => ({
                     ...edge,
                     data: {
                         ...edge.data,
                         isGrayscale: !highlightedEdges.includes(edge.id),
                     },
                 }))}
-                onNodeClick={(event, node) => handleNodeClick(node)}
+                onNodeClick={handleNodeClick}
                 nodeTypes={{
                     custom: (props) => (
                         <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />

@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
+import FilterControls from './FilterControls';
 
-const NavBar = ({ onToggleView }) => {
-    const [activeView, setActiveView] = useState('pre-requisites');
-
-    const handleClick = (view) => {
-        setActiveView(view);
-        onToggleView(view);
-    };
-
-    return (
-        <nav className="bg-gray-800 p-4">
-            <ul className="flex space-x-4">
-                <li
-                    onClick={() => handleClick('pre-requisites')}
-                    className={`cursor-pointer text-white ${activeView === 'pre-requisites' ? 'font-bold underline' : 'hover:underline'}`}
-                >
-                    Pre-Requisites
-                </li>
-                <li
-                    onClick={() => handleClick('next-classes')}
-                    className={`cursor-pointer text-white ${activeView === 'next-classes' ? 'font-bold underline' : 'hover:underline'}`}
-                >
-                    Next Classes
-                </li>
-            </ul>
-        </nav>
-    );
+const NavBar = ({
+  onToggleView,
+  currentView,
+  preReqFilter,
+  nextClassesFilter,
+  onPreReqFilterChange,
+  onNextClassesFilterChange,
+}) => {
+  return (
+    <nav className="bg-gray-800 p-3 flex items-center space-x-4">
+      <ul className="flex space-x-4">
+        <li
+          onClick={() => onToggleView('pre-requisites')}
+          className={`cursor-pointer text-white ${currentView === 'pre-requisites' ? 'font-bold underline' : 'hover:underline'}`}
+        >
+          Pre-Requisites
+        </li>
+        <li
+          onClick={() => onToggleView('next-classes')}
+          className={`cursor-pointer text-white ${currentView === 'next-classes' ? 'font-bold underline' : 'hover:underline'}`}
+        >
+          Next Classes
+        </li>
+      </ul>
+      {currentView === 'pre-requisites' && (
+        <FilterControls filter={preReqFilter} onFilterChange={onPreReqFilterChange} />
+      )}
+      {currentView === 'next-classes' && (
+        <FilterControls filter={nextClassesFilter} onFilterChange={onNextClassesFilterChange} />
+      )}
+    </nav>
+  );
 };
 
 export default NavBar;
