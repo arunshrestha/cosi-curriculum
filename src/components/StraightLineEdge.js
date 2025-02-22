@@ -32,7 +32,7 @@ const StraightLineEdge = ({
     } else if (pushDownEdgeIds.has(id)) {
         edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) + adjustmentY} L${adjustedTargetX},${((sourceY + targetY) / 2) + adjustmentY} ${adjustedTargetX},${targetY}`;
     } else if (aroundRightEdgeIds.has(id)) {
-        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 110} L${sourceX + 800},${((sourceY + targetY) / 2) - 110} L${sourceX + 800},${((sourceY + targetY) / 2) + 100} L${targetX},${((sourceY + targetY) / 2) + 100} L${targetX},${targetY}`;
+        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 110} L${sourceX + 450},${((sourceY + targetY) / 2) - 110} L${sourceX + 450},${((sourceY + targetY) / 2) + 100} L${targetX},${((sourceY + targetY) / 2) + 100} L${targetX},${targetY}`;
     } else if (aroundLeftEdgeIds.has(id)) {
         edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 130} L${sourceX - 1000},${((sourceY + targetY) / 2) - 130} L${sourceX - 1000},${((sourceY + targetY) / 2) + 190} L${targetX},${((sourceY + targetY) / 2) + 190} L${targetX},${targetY}`;
     } else {
