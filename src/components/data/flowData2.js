@@ -1,5 +1,5 @@
 import { MarkerType } from '@xyflow/react';
-//import { Position } from '@xyflow/react';
+import { Position } from '@xyflow/react';
 
 export const initialNodes = [
   // {
@@ -670,6 +670,8 @@ export const initialNodes = [
       courseTitle: 'Advanced ML for NLP Systems',
       courseCategory: 'CL',
       courseProgram: 'CL',
+      sourceHandlePosition: Position.Right, // Add source handle position
+      // targetHandlePosition: Position.Left, // Add source handle position
     },
     position: { x: 0, y: 0 },
     level: 6,
@@ -685,9 +687,11 @@ export const initialNodes = [
       courseCategory: 'CL',
       courseProgram: 'CL',
       courseDesc: `\nTeaches the basics of good oral communication and presentation, such as structuring a presentation, body language, eye contact, pace and appropriateness for the audience. It will cover, with practice, a range of speaking engagements majors might meet in academia and industry including: presentation of a research paper, software architecture proposal, business elevator pitch, research funding proposal, and so on. Students will present a project already created for a 100-level COSI elective. They will give the presentation in class, receive feedback based on the practices taught and then have a chance to give the presentation a second time. Usually offered every semester.`,
+      // sourceHandlePosition: Position.Left, // Add source handle position
+      targetHandlePosition: Position.Left, // Add source handle position
     },
     position: { x: 0, y: 0 },
-    level: 7,
+    level: 6,
     isVisible: true,
     isGrayscale: true,
   },
