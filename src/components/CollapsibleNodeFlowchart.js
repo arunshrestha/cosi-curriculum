@@ -69,8 +69,8 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                 const index = levelNodes.indexOf(node);
 
                 // Specific condition for two particular nodes; replace xSpacing with customSpacing when returning x position
-                // const customSpacingNodes = ['27'];
-                // const customSpacing = customSpacingNodes.includes(node.id) ? xSpacing * 1.5 : xSpacing;
+                const customSpacingNodes = ['3', '45'];
+                const customSpacing = customSpacingNodes.includes(node.id) ? xSpacing * 1.5 : xSpacing;
 
                 const totalWidth = (maxNodesInLevel - 1) * xSpacing;
                 const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
@@ -78,7 +78,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                 return {
                     ...node,
                     position: {
-                        x: index * xSpacing + xOffset,
+                        x: index * customSpacing + xOffset,
                         y: node.level * ySpacing,
                     },
                     positionAbsolute: true,
