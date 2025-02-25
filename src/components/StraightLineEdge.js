@@ -34,7 +34,7 @@ const StraightLineEdge = ({
     } else if (aroundRightEdgeIds.has(id)) {
         edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 110} L${sourceX + 450},${((sourceY + targetY) / 2) - 110} L${sourceX + 450},${((sourceY + targetY) / 2) + 100} L${adjustedTargetX},${((sourceY + targetY) / 2) + 100} L${adjustedTargetX},${targetY}`;
     } else if (aroundLeftEdgeIds.has(id)) {
-        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 130} L${sourceX - 1000},${((sourceY + targetY) / 2) - 130} L${sourceX - 1000},${((sourceY + targetY) / 2) + 190} L${adjustedTargetX},${((sourceY + targetY) / 2) + 190} L${adjustedTargetX},${targetY}`;
+        edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 110} L${sourceX - 1000},${((sourceY + targetY) / 2) - 110} L${sourceX - 1000},${((sourceY + targetY) / 2) + 90} L${adjustedTargetX},${((sourceY + targetY) / 2) + 90} L${adjustedTargetX},${targetY}`;
     } else {
         // Default path
         edgePath = `M${sourceX},${sourceY} L${sourceX},${(sourceY + targetY) / 2} L${adjustedTargetX},${(sourceY + targetY) / 2} L${adjustedTargetX},${targetY}`;
