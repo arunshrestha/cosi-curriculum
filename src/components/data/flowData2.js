@@ -2,23 +2,6 @@ import { MarkerType } from '@xyflow/react';
 import { Position } from '@xyflow/react';
 
 export const initialNodes = [
-  // {
-  //   id: '4',
-  //   type: 'custom',
-  //   data: {
-  //     courseNum: 'COSI 29A',
-  //     courseTitle: 'Discrete Mathematics',
-  //     courseCategory: 'Core',
-  //     courseProgram: 'COSI',
-  //     courseDesc: `\nCovers topics in discrete mathematics with applications within computer science. Some of the topics to be covered include graphs and matrices; principles of logic and induction; number theory; counting, summation, and recurrence relations; discrete probability. Usually offered every year.`,
-  //     // sourceHandlePosition: Position.Left, // Add source handle position
-  //     // targetHandlePosition: Position.Left, // Add source handle position
-  //   },
-  //   position: { x: 0, y: 0 },
-  //   level: 1,
-  //   isVisible: true,
-  //   isGrayscale: true,
-  // },
   {
     id: '4',
     type: 'custom',
@@ -35,7 +18,7 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
-    id: '2',
+    id: '102',
     type: 'custom',
     data: {
       courseNum: 'COSI 102A',
@@ -50,7 +33,7 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
-    id: '1',
+    id: '10',
     type: 'custom',
     data: {
       courseNum: 'COSI 10A',
@@ -158,7 +141,7 @@ export const initialNodes = [
     isGrayscale: true,
   },
   {
-    id: '10',
+    id: '125',
     type: 'custom',
     data: {
       courseNum: 'COSI 125A',
@@ -427,21 +410,6 @@ export const initialNodes = [
     isVisible: true,
     isGrayscale: true,
   },
-  // {
-  //   id: '28',
-  //   type: 'custom',
-  //   data: {
-  //     courseNum: 'COSI 105B',
-  //     courseTitle: 'Software Engineering for Scalability',
-  //     courseCategory: 'default',
-  //     courseProgram: 'COSI',
-  //     courseDesc: `\nCovers some of the "big ideas" that come in to play when building large, complex, and highly scaled software systems. We will look at both research and practice scaling architecture and software design. How do you design and architect large scale web based systems? What are the classic algorithms and patterns used to achieve massive scale? We will look at caching, database partitioning, queueing, messaging and more. And we apply this learning working in teams of students to design and implement their own version of the Twitter backend from the ground up, and then stress test and measure it's scalability using real world tools and technologies. Usually offered every year.`,
-  //   },
-  //   position: { x: 0, y: 0 },
-  //   level: 3,
-  //   isVisible: true,
-  //   isGrayscale: true,
-  // },
   {
     id: '29',
     type: 'custom',
