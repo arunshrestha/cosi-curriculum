@@ -21,24 +21,6 @@ export const initialNodes = [
     isGrayscale: true
   },
   {
-    id: "10",
-    type: "custom",
-    data: {
-      courseNum: "COSI 10A",
-      courseTitle: "Problem Solving in Python",
-      courseDesc: "\nOpen only to students with no previous programming background. Students may not take COSI 10a if they have received a satisfactory grade in COSI 12b or COSI 21a. May not be taken for credit by students who took COSI 11a in prior years. Does not meet the requirements for the major or minor in Computer Science.\n\nIntroduces computer programming and related computer science principles. Through programming, students will develop fundamental skills such as abstract reasoning and problem solving. Students will master programming techniques using the Python programming language and will develop good program design methodology resulting in correct, robust, and maintainable programs. Usually offered every semester.",
-      courseCategory: "default",
-      courseProgram: "Both"
-    },
-    position: {
-      x: 0,
-      y: 0
-    },
-    level: 1,
-    isVisible: true,
-    isGrayscale: true
-  },
-  {
     id: "102",
     type: "custom",
     data: {
@@ -57,6 +39,25 @@ export const initialNodes = [
     isGrayscale: true
   },
   {
+    id: "10",
+    type: "custom",
+    data: {
+      courseNum: "COSI 10A",
+      courseTitle: "Problem Solving in Python",
+      courseDesc: "\nOpen only to students with no previous programming background. Students may not take COSI 10a if they have received a satisfactory grade in COSI 12b or COSI 21a. May not be taken for credit by students who took COSI 11a in prior years. Does not meet the requirements for the major or minor in Computer Science.\n\nIntroduces computer programming and related computer science principles. Through programming, students will develop fundamental skills such as abstract reasoning and problem solving. Students will master programming techniques using the Python programming language and will develop good program design methodology resulting in correct, robust, and maintainable programs. Usually offered every semester.",
+      courseCategory: "default",
+      courseProgram: "Both",
+      sourceHandlePosition: "right"
+    },
+    position: {
+      x: 0,
+      y: 0
+    },
+    level: 1,
+    isVisible: true,
+    isGrayscale: true
+  },
+  {
     id: "12",
     type: "custom",
     data: {
@@ -65,13 +66,14 @@ export const initialNodes = [
       coursePre: "COSI 10A",
       courseCategory: "Core",
       courseProgram: "Both",
-      courseDesc: "\nStudies advanced programming concepts and techniques utilizing the Java programming language. The course covers software engineering concepts, object-oriented design, design patterns and professional best practices. This is a required foundation course that will prepare you for more advanced courses, new programming languages, and frameworks. Usually offered every year."
+      courseDesc: "\nStudies advanced programming concepts and techniques utilizing the Java programming language. The course covers software engineering concepts, object-oriented design, design patterns and professional best practices. This is a required foundation course that will prepare you for more advanced courses, new programming languages, and frameworks. Usually offered every year.",
+      targetHandlePosition: "left"
     },
     position: {
       x: 0,
       y: 0
     },
-    level: 2,
+    level: 1,
     isVisible: true,
     isGrayscale: true
   },
@@ -89,7 +91,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -107,7 +109,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -125,7 +127,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -143,7 +145,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -161,7 +163,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -179,7 +181,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -197,7 +199,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -215,7 +217,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -233,7 +235,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -251,7 +253,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 3,
+    level: 2,
     isVisible: true,
     isGrayscale: true
   },
@@ -269,7 +271,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -287,7 +289,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -305,7 +307,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -323,7 +325,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -341,7 +343,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -359,7 +361,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -377,7 +379,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -395,7 +397,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -413,7 +415,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -431,7 +433,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -449,7 +451,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -467,7 +469,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -485,7 +487,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -503,7 +505,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 4,
+    level: 3,
     isVisible: true,
     isGrayscale: true
   },
@@ -521,7 +523,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -539,7 +541,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -557,7 +559,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -575,7 +577,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -593,7 +595,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -611,7 +613,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -629,7 +631,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -647,7 +649,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -665,7 +667,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -683,7 +685,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 5,
+    level: 4,
     isVisible: true,
     isGrayscale: true
   },
@@ -700,7 +702,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 6,
+    level: 5,
     isVisible: true,
     isGrayscale: true
   },
@@ -717,7 +719,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 6,
+    level: 5,
     isVisible: true,
     isGrayscale: true
   },
@@ -734,7 +736,7 @@ export const initialNodes = [
       x: 0,
       y: 0
     },
-    level: 6,
+    level: 5,
     isVisible: true,
     isGrayscale: true
   },
@@ -745,13 +747,14 @@ export const initialNodes = [
       courseNum: "COSI 231A",
       courseTitle: "Advanced ML for NLP Systems",
       courseCategory: "CL",
-      courseProgram: "CL"
+      courseProgram: "CL",
+      sourceHandlePosition: "right"
     },
     position: {
       x: 0,
       y: 0
     },
-    level: 6,
+    level: 5,
     isVisible: true,
     isGrayscale: true
   },
@@ -763,13 +766,14 @@ export const initialNodes = [
       courseTitle: "Information Extraction",
       courseCategory: "CL",
       courseProgram: "CL",
-      courseDesc: "\nTeaches the basics of good oral communication and presentation, such as structuring a presentation, body language, eye contact, pace and appropriateness for the audience. It will cover, with practice, a range of speaking engagements majors might meet in academia and industry including: presentation of a research paper, software architecture proposal, business elevator pitch, research funding proposal, and so on. Students will present a project already created for a 100-level COSI elective. They will give the presentation in class, receive feedback based on the practices taught and then have a chance to give the presentation a second time. Usually offered every semester."
+      courseDesc: "\nTeaches the basics of good oral communication and presentation, such as structuring a presentation, body language, eye contact, pace and appropriateness for the audience. It will cover, with practice, a range of speaking engagements majors might meet in academia and industry including: presentation of a research paper, software architecture proposal, business elevator pitch, research funding proposal, and so on. Students will present a project already created for a 100-level COSI elective. They will give the presentation in class, receive feedback based on the practices taught and then have a chance to give the presentation a second time. Usually offered every semester.",
+      targetHandlePosition: "left"
     },
     position: {
       x: 0,
       y: 0
     },
-    level: 7,
+    level: 5,
     isVisible: true,
     isGrayscale: true
   }
@@ -782,7 +786,7 @@ export const initialEdges = [
     source: "10",
     target: "12",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -800,7 +804,7 @@ export const initialEdges = [
     source: "12",
     target: "21",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -818,7 +822,7 @@ export const initialEdges = [
     source: "12",
     target: "103",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -836,7 +840,7 @@ export const initialEdges = [
     source: "12",
     target: "107",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -854,7 +858,7 @@ export const initialEdges = [
     source: "12",
     target: "104",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -872,7 +876,7 @@ export const initialEdges = [
     source: "12",
     target: "116",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -890,7 +894,7 @@ export const initialEdges = [
     source: "12",
     target: "125",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -908,7 +912,7 @@ export const initialEdges = [
     source: "12",
     target: "152",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -926,7 +930,7 @@ export const initialEdges = [
     source: "12",
     target: "153",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -944,7 +948,7 @@ export const initialEdges = [
     source: "12",
     target: "114",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -962,7 +966,7 @@ export const initialEdges = [
     source: "121",
     target: "135",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -980,7 +984,7 @@ export const initialEdges = [
     source: "29",
     target: "130",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -998,7 +1002,7 @@ export const initialEdges = [
     source: "29",
     target: "121",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1016,7 +1020,7 @@ export const initialEdges = [
     source: "29",
     target: "150",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1034,7 +1038,7 @@ export const initialEdges = [
     source: "29",
     target: "127",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1052,7 +1056,7 @@ export const initialEdges = [
     source: "29",
     target: "180",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1070,7 +1074,7 @@ export const initialEdges = [
     source: "21",
     target: "121",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1088,7 +1092,7 @@ export const initialEdges = [
     source: "21",
     target: "150",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1106,7 +1110,7 @@ export const initialEdges = [
     source: "21",
     target: "127",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1124,7 +1128,7 @@ export const initialEdges = [
     source: "21",
     target: "180",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1142,7 +1146,7 @@ export const initialEdges = [
     source: "21",
     target: "128",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1160,7 +1164,7 @@ export const initialEdges = [
     source: "21",
     target: "131",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1178,7 +1182,7 @@ export const initialEdges = [
     source: "21",
     target: "143",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1196,7 +1200,7 @@ export const initialEdges = [
     source: "21",
     target: "123",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1214,7 +1218,7 @@ export const initialEdges = [
     source: "21",
     target: "165",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1232,7 +1236,7 @@ export const initialEdges = [
     source: "21",
     target: "126",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1250,7 +1254,7 @@ export const initialEdges = [
     source: "21",
     target: "101",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1268,7 +1272,7 @@ export const initialEdges = [
     source: "21",
     target: "166",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1286,7 +1290,7 @@ export const initialEdges = [
     source: "21",
     target: "105",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1304,7 +1308,7 @@ export const initialEdges = [
     source: "21",
     target: "119",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1322,7 +1326,7 @@ export const initialEdges = [
     source: "21",
     target: "120",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1340,7 +1344,7 @@ export const initialEdges = [
     source: "104",
     target: "123",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1358,7 +1362,7 @@ export const initialEdges = [
     source: "104",
     target: "165",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1376,7 +1380,7 @@ export const initialEdges = [
     source: "104",
     target: "126",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1394,7 +1398,7 @@ export const initialEdges = [
     source: "114",
     target: "115",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1412,7 +1416,7 @@ export const initialEdges = [
     source: "114",
     target: "132",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1430,7 +1434,7 @@ export const initialEdges = [
     source: "114",
     target: "136",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1448,7 +1452,7 @@ export const initialEdges = [
     source: "121",
     target: "190",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1466,7 +1470,7 @@ export const initialEdges = [
     source: "127",
     target: "167",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1484,7 +1488,7 @@ export const initialEdges = [
     source: "131",
     target: "142",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1502,7 +1506,7 @@ export const initialEdges = [
     source: "131",
     target: "146",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1520,7 +1524,7 @@ export const initialEdges = [
     source: "131",
     target: "147",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1538,7 +1542,7 @@ export const initialEdges = [
     source: "165",
     target: "159",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1556,7 +1560,7 @@ export const initialEdges = [
     source: "165",
     target: "149",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1574,7 +1578,7 @@ export const initialEdges = [
     source: "115",
     target: "230",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1592,7 +1596,7 @@ export const initialEdges = [
     source: "115",
     target: "231",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1610,7 +1614,7 @@ export const initialEdges = [
     source: "115",
     target: "216",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1628,7 +1632,7 @@ export const initialEdges = [
     source: "115",
     target: "217",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
@@ -1646,7 +1650,7 @@ export const initialEdges = [
     source: "231",
     target: "232",
     markerEnd: {
-      type: "arrowclosed",
+      type: MarkerType.ArrowClosed,
       width: 20,
       height: 20,
       color: "#333"
