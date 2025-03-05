@@ -10,6 +10,15 @@ import Papa from 'papaparse';
 import courseData from './courseData.csv';
 
 const CollapsibleNodeFlowchart = ({ filter }) => {
+    const screenWidth = window.innerWidth;
+    const isSmallScreen = screenWidth < 768;
+    const offsets = {
+        Both: isSmallScreen ? { x: -400, y: 30, zoom: 0.45 } : { x: 30, y: -40, zoom: 0.5 },
+        COSI: isSmallScreen ? { x: -400, y: 30, zoom: 0.45 } : { x: 40, y: -20, zoom: 0.5 },
+        CL: isSmallScreen ? { x: 20, y: 20, zoom: 0.45 } : { x: 400, y: -30, zoom: 0.5 },
+    };
+
+    const [zoomLevel, setZoomLevel] = useState(0.5);
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
@@ -17,12 +26,12 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
     const [popupData, setPopupData] = useState(null); // State to store the data for the popup
     const [courseDataParsed, setCourseDataParsed] = useState({});
-
     const [rfInstance, setRfInstance] = useState(null);
 
     // Called once when React Flow is ready
     const onInit = useCallback((instance) => {
         setRfInstance(instance);
+        instance.fitView({ padding: 0.2 });
     }, []);
 
     useEffect(() => {
@@ -41,34 +50,20 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                     },
                 });
             })
-            .catch((error) => console.error('Error loading CSV:', error));
+            .catch((error) => console.error(error));
     }, []);
 
     useEffect(() => {
         if (!rfInstance) return;
-    
-        const screenWidth = window.innerWidth;
-        const isSmallScreen = screenWidth < 768;
-    
-        const offsets = {
-            Both: isSmallScreen ? { x: -400, y: -50, zoom: 0.45 } : { x: 30, y: -40, zoom: 0.5 },
-            COSI: isSmallScreen ? { x: -400, y: -30, zoom: 0.45 } : { x: 40, y: -20, zoom: 0.5 },
-            CL: isSmallScreen ? { x: 200, y: -50, zoom: 0.45 } : { x: 400, y: -30, zoom: 0.45 },
-        };
-    
         if (offsets[filter]) {
             rfInstance.setViewport(offsets[filter]);
         }
     }, [filter, rfInstance]);
-    
 
     useEffect(() => {
         try {
-            const screenWidth = window.innerWidth;
             const xSpacing = 200;
             const ySpacing = 200;
-
-            // Filter nodes
             const filteredNodes = initialNodes.filter((node) => {
                 if (filter === 'Both') return true;
                 return (
@@ -76,33 +71,23 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                     node.data.courseProgram === 'Both'
                 );
             });
-
-            // Group nodes by level
             const nodesByLevel = filteredNodes.reduce((acc, node) => {
                 if (!acc[node.level]) acc[node.level] = [];
                 acc[node.level].push(node);
                 return acc;
             }, {});
-
-            // Find the maximum number of nodes in any level
             const maxNodesInLevel = Math.max(
                 ...Object.values(nodesByLevel).map((levelNodes) => levelNodes.length)
             );
-
-            // Manually set positions
             const positionedNodes = filteredNodes.map((node) => {
                 const levelNodes = nodesByLevel[node.level];
                 const index = levelNodes.indexOf(node);
-
-                // Specific condition for two particular nodes; replace xSpacing with customSpacing when returning x position
                 const customSpacingNodes = ['12', '232'];
                 const customSpacing = customSpacingNodes.includes(node.id)
                     ? xSpacing * 1.5
                     : xSpacing;
-
                 const totalWidth = (maxNodesInLevel - 1) * xSpacing;
                 const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
-
                 return {
                     ...node,
                     position: {
@@ -112,11 +97,8 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                     positionAbsolute: true,
                 };
             });
-
             setNodes(positionedNodes);
             calculateDefaultEdgePositions(filteredNodes, initialEdges);
-
-            // Reset highlighted sets
             setHighlightedNodes(filteredNodes.map((n) => n.id));
             setHighlightedEdges(initialEdges.map((e) => e.id));
         } catch (e) {
@@ -140,7 +122,6 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
         const pathEdges = new Set();
-
         const findPaths = (currentNodeId) => {
             const currentNode = nodes.find((n) => n.id === currentNodeId);
             if (currentNode) {
@@ -152,7 +133,6 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                 });
             }
         };
-
         findPaths(nodeId);
         setHighlightedNodes(Array.from(pathNodes));
         setHighlightedEdges(Array.from(pathEdges));
@@ -177,15 +157,72 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         setPopupData(null);
     };
 
+    // Function to Zoom In
+    const zoomIn = () => {
+        if (rfInstance && zoomLevel < 1.5) {
+            const newZoom = zoomLevel + 0.1;
+            setZoomLevel(newZoom);
+            rfInstance.setViewport({ x: 0, y: 0, zoom: newZoom });
+        }
+    };
+
+    // Function to Zoom Out
+    const zoomOut = () => {
+        if (rfInstance && zoomLevel > 0.5) {
+            let newZoom = zoomLevel - 0.1;
+            if (newZoom <= 0.5) {
+                const defaultOffset = offsets[filter];
+                setZoomLevel(defaultOffset.zoom);
+                rfInstance.setViewport(defaultOffset);
+            } else {
+                setZoomLevel(newZoom);
+                rfInstance.setViewport({ x: 0, y: 0, zoom: newZoom });
+            }
+        }
+    };
+
+    // // Function to Move Left
+    // const moveLeft = () => {
+    //     if (rfInstance) {
+    //         const { x, y, zoom } = rfInstance.toObject();
+    //         rfInstance.setViewport({ x: x + 50, y, zoom });
+    //     }
+    // };
+
+    // // Function to Move Right
+    // const moveRight = () => {
+    //     if (rfInstance) {
+    //         const { x, y, zoom } = rfInstance.toObject();
+    //         rfInstance.setViewport({ x: x - 50, y, zoom });
+    //     }
+    // };
+
     return (
-        <div className="h-screen">
+        <div className="h-screen relative">
+            <div className="absolute top-4 left-4 z-10 bg-white p-1 shadow-md rounded flex space-x-1">
+                <button onClick={zoomIn} className="bg-blue-500 text-white rounded px-2">
+                    +
+                </button>
+                <button onClick={zoomOut} className="bg-blue-500 text-white rounded px-2">
+                    -
+                </button>
+                {/* <button onClick={moveLeft} className="bg-blue-500 text-white rounded px-2">
+                    &lt;
+                </button>
+                <button onClick={moveRight} className="bg-blue-500 text-white rounded px-2">
+                    &gt;
+                </button> */}
+            </div>
+
             <ReactFlow
                 onInit={onInit}
-                zoomOnScroll={false} 
-                zoomOnPinch={false} 
-                zoomOnDoubleClick={false} 
-                panOnScroll
-
+                zoomOnScroll={false}
+                zoomOnPinch={false}
+                zoomOnDoubleClick={false}
+                panOnScroll={false}
+                panOnDrag={false}
+                minZoom={0.5}
+                maxZoom={1.5}
                 nodes={nodes.map((node) => ({
                     ...node,
                     data: {
@@ -207,18 +244,16 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                         <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />
                     ),
                 }}
-                edgeTypes={{ custom: (props) => <StraightLineEdge {...props} filter={filter} /> }}
+                edgeTypes={{
+                    custom: (props) => <StraightLineEdge {...props} filter={filter} />,
+                }}
             >
                 <MiniMap />
                 <Controls />
                 <Background />
             </ReactFlow>
 
-            <Popup
-                visible={PopupVisible}
-                onClose={handleClosePopup}
-                data={popupData}
-            />
+            <Popup visible={PopupVisible} onClose={handleClosePopup} data={popupData} />
         </div>
     );
 };
