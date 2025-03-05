@@ -31,7 +31,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     // Called once when React Flow is ready
     const onInit = useCallback((instance) => {
         setRfInstance(instance);
-        instance.fitView({ padding: 0.2 });
+        // instance.fitView({ padding: 0.2 });
     }, []);
 
     useEffect(() => {
