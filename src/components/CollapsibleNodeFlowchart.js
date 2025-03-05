@@ -46,22 +46,26 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
 
     useEffect(() => {
         if (!rfInstance) return;
-
+    
+        const screenWidth = window.innerWidth;
+        const isSmallScreen = screenWidth < 768;
+    
         const offsets = {
-            Both: { x: -200, y: -80, zoom: 0.5 },
-            COSI: { x: -100, y: -80, zoom: 0.5 },
-            CL: { x: 550, y: -80, zoom: 0.5 },
+            Both: isSmallScreen ? { x: -400, y: -50, zoom: 0.45 } : { x: 30, y: -40, zoom: 0.5 },
+            COSI: isSmallScreen ? { x: -400, y: -30, zoom: 0.45 } : { x: 40, y: -20, zoom: 0.5 },
+            CL: isSmallScreen ? { x: 200, y: -50, zoom: 0.45 } : { x: 400, y: -30, zoom: 0.45 },
         };
-
+    
         if (offsets[filter]) {
             rfInstance.setViewport(offsets[filter]);
         }
     }, [filter, rfInstance]);
+    
 
     useEffect(() => {
         try {
             const screenWidth = window.innerWidth;
-            const xSpacing = screenWidth < 768 ? 130 : 200;
+            const xSpacing = 200;
             const ySpacing = 200;
 
             // Filter nodes
@@ -177,8 +181,11 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         <div className="h-screen">
             <ReactFlow
                 onInit={onInit}
+                zoomOnScroll={false} 
+                zoomOnPinch={false} 
+                zoomOnDoubleClick={false} 
                 panOnScroll
-                defaultViewport={{ x: -200, y: -100, zoom: 0.5 }}
+
                 nodes={nodes.map((node) => ({
                     ...node,
                     data: {
