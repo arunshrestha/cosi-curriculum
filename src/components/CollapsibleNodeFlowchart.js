@@ -217,7 +217,11 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
             <ReactFlow
                 onInit={onInit}
                 zoomOnScroll={false}
-                defaultViewport={offsets[filter] || offsets.Both}
+                defaultViewport={
+                    isSmallScreen
+                      ? { x: -400, y: 30, zoom: 0.45 }
+                      : { x: 30, y: -40, zoom: 0.5 }
+                  }
                 zoomOnPinch={false}
                 zoomOnDoubleClick={false}
                 panOnScroll={false}
