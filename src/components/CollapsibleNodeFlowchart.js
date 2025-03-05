@@ -28,6 +28,8 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     const [courseDataParsed, setCourseDataParsed] = useState({});
     const [rfInstance, setRfInstance] = useState(null);
 
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
+
     // Called once when React Flow is ready
     const onInit = useCallback((instance) => {
         setRfInstance(instance);
@@ -55,10 +57,17 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
 
     useEffect(() => {
         if (!rfInstance) return;
+
+        if (isFirstLoad) {
+            setIsFirstLoad(false);
+            return;
+        }
+
         if (offsets[filter]) {
+            // Any future time filter changes (after the first render), setViewport(offsets[filter]) will run.
             rfInstance.setViewport(offsets[filter]);
         }
-    }, [filter, rfInstance, offsets]);
+    }, [filter, rfInstance, offsets, isFirstLoad]);
 
     useEffect(() => {
         try {
