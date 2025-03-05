@@ -16,12 +16,19 @@ export default function Popup({ visible, onClose, data }) {
     >
       <div className="bg-white p-4 rounded w-[800px] max-w-2xl shadow-lg">
         <h2 className="font-bold mb-4">
-          {data.courseNum} - {data.courseTitle}
+          {data.courseNum} - {data.courseTitle || 'No Title'}
         </h2>
         {/* Conditionally render prerequisite */}
         {data.coursePre && (
           <p>
-            <strong>Prerequisite:</strong> {data.coursePre}
+            <strong>Prerequisite:</strong> {data['coursePre']}
+          </p>
+        )}
+
+        {/* Conditionally render instructors */}
+        {data.instructor && (
+          <p>
+            <strong>Instructors:</strong> {data.instructor}
           </p>
         )}
         <p>
