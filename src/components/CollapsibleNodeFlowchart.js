@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
@@ -12,11 +12,11 @@ import courseData from './courseData.csv';
 const CollapsibleNodeFlowchart = ({ filter }) => {
     const screenWidth = window.innerWidth;
     const isSmallScreen = screenWidth < 768;
-    const offsets = {
+    const offsets = useMemo(() => ({
         Both: isSmallScreen ? { x: -400, y: 30, zoom: 0.45 } : { x: 30, y: -40, zoom: 0.5 },
         COSI: isSmallScreen ? { x: -400, y: 30, zoom: 0.45 } : { x: 40, y: -20, zoom: 0.5 },
         CL: isSmallScreen ? { x: 20, y: 20, zoom: 0.45 } : { x: 400, y: -30, zoom: 0.5 },
-    };
+    }), [isSmallScreen]);
 
     const [zoomLevel, setZoomLevel] = useState(0.5);
     const [nodes, setNodes] = useState(initialNodes);
@@ -58,7 +58,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         if (offsets[filter]) {
             rfInstance.setViewport(offsets[filter]);
         }
-    }, [filter, rfInstance]);
+    }, [filter, rfInstance, offsets]);
 
     useEffect(() => {
         try {
