@@ -5,6 +5,7 @@ const pushUpEdgeIds = new Set(['e29-130', 'e104-123', 'e104-165', 'e104-126', 'e
 const pushDownEdgeIds = new Set(['e12-21', 'e12-103', 'e12-107', 'e12-104', 'e12-116', 'e12-125', 'e12-152', 'e12-153', 'e12-114', 'e12-135', 'e21-121', 'e21-150', 'e21-127', 'e21-180', 'e21-128', 'e21-131', 'e21-143', 'e21-123', 'e21-165', 'e21-126', 'e21-101', 'e21-166', 'e21-105', 'e21-119', 'e21-120', 'e121-135', 'e121-190']);
 const aroundRightEdgeIds = new Set(['e114-115', 'e114-132', 'e114-136']);
 const aroundLeftEdgeIds = new Set(['e29-121', 'e29-150', 'e29-127', 'e29-180']);
+const aroundRightCLEdgeIds = new Set(['e114-115', 'e114-132', 'e114-136']);
 
 const StraightLineEdge = ({
     id,
@@ -14,6 +15,7 @@ const StraightLineEdge = ({
     targetY,
     style = {},
     markerEnd,
+    filter,
     data = {} // Default to an empty object if data is undefined
 }) => {
     // Apply the fraction to the targetX position
@@ -27,7 +29,18 @@ const StraightLineEdge = ({
     // // Calculate the adjustment based on the viewport height
     // const adjustmentY = window.innerHeight * 0.02; // 2% of the viewport height
     let edgePath;
-    if (pushUpEdgeIds.has(id)) {
+    if (filter === 'CL') {
+        if (id === 'e29-121') {
+            edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) + 90} L${adjustedTargetX},${((sourceY + targetY) / 2) + 90} L${adjustedTargetX},${targetY}`;
+        } else if (id === 'e121-135') {
+            edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - adjustmentY} L${adjustedTargetX},${((sourceY + targetY) / 2) - adjustmentY} ${adjustedTargetX},${targetY}`;
+        } else if (aroundRightCLEdgeIds.has(id)) {
+            edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - 110} L${sourceX + 450},${((sourceY + targetY) / 2) - 110} L${sourceX + 450},${((sourceY + targetY) / 2) + 100} L${adjustedTargetX},${((sourceY + targetY) / 2) + 100} L${adjustedTargetX},${targetY}`;
+        } else {
+            // Default path
+            edgePath = `M${sourceX},${sourceY} L${sourceX},${(sourceY + targetY) / 2} L${adjustedTargetX},${(sourceY + targetY) / 2} L${adjustedTargetX},${targetY}`;
+        }
+    } else if (pushUpEdgeIds.has(id)) {
         // Example of a different path for a specific set of edge ids
         edgePath = `M${sourceX},${sourceY} L${sourceX},${((sourceY + targetY) / 2) - adjustmentY} L${adjustedTargetX},${((sourceY + targetY) / 2) - adjustmentY} ${adjustedTargetX},${targetY}`;
     } else if (pushDownEdgeIds.has(id)) {

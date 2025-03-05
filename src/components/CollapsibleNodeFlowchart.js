@@ -200,7 +200,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                         <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />
                     ),
                 }}
-                edgeTypes={{ custom: StraightLineEdge }}
+                edgeTypes={{ custom: (props) => <StraightLineEdge {...props} filter={filter} /> }}
             >
                 <MiniMap />
                 <Controls />
