@@ -55,8 +55,8 @@ const StraightLineEdge = ({
     }
 
     const edgeBoldCategory = {
-        grayscale: 'fill-none stroke-gray-50 stroke-1 mix-blend-lighten', // Use a light gray with a thin, solid line
-        bold: 'fill-none stroke-black stroke-[2.5px]' // Use a solid black with a thicker stroke
+        grayscale: 'fill-none stroke-gray-50 stroke-[1px] mix-blend-lighten', // Use a light gray with a thin, solid line
+        bold: 'fill-none stroke-black stroke-[3.2px]' // Use a solid black with a thicker stroke
     };
 
     const edgeBold = data.isGrayscale ? edgeBoldCategory.grayscale : edgeBoldCategory.bold;
