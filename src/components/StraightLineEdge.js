@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 // Add all special edge IDs here
-const pushUpEdgeIds = new Set(['e29-130', 'e104-123', 'e104-165', 'e104-126', 'e135-115', 'e135-132', 'e135-136', 'e127-167']);
+const pushUpEdgeIds = new Set(['e29-130', 'e104-123', 'e104-165', 'e104-126', 'e135-115', 'e135-132', 'e135-136', 'e127-167', 'e165-149', 'e165-159']);
 const pushDownEdgeIds = new Set(['e12-21', 'e12-103', 'e12-107', 'e12-104', 'e12-116', 'e12-125', 'e12-152', 'e12-153', 'e12-114', 'e12-135', 'e21-121', 'e21-150', 'e21-127', 'e21-180', 'e21-128', 'e21-131', 'e21-143', 'e21-123', 'e21-165', 'e21-126', 'e21-101', 'e21-166', 'e21-105', 'e21-119', 'e21-120', 'e121-135', 'e121-190']);
 const aroundRightEdgeIds = new Set(['e114-115', 'e114-132', 'e114-136']);
 const aroundLeftEdgeIds = new Set(['e29-121', 'e29-150', 'e29-127', 'e29-180']);

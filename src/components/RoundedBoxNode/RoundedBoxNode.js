@@ -11,12 +11,20 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
       'CL': 'bg-[#e8abe1]',
       'default': 'bg-[#77d0f6]'
     },
+    // grayscale: {
+    //   'Data Systems': 'bg-[#dadada]',
+    //   'ML': 'bg-[#b0b0b0]',
+    //   'Core': 'bg-[#9d9d9d]',
+    //   'CL': 'bg-[#c3c3c3]',
+    //   'default': 'bg-[#b9b9b9]'
+    // },
+    // all grayscale is same color
     grayscale: {
       'Data Systems': 'bg-[#dadada]',
-      'ML': 'bg-[#b0b0b0]',
-      'Core': 'bg-[#9d9d9d]',
-      'CL': 'bg-[#c3c3c3]',
-      'default': 'bg-[#b9b9b9]'
+      'ML': 'bg-[#dadada]',
+      'Core': 'bg-[#dadada]',
+      'CL': 'bg-[#dadada]',
+      'default': 'bg-[#dadada]'
     }
   };
 
