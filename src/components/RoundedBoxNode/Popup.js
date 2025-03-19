@@ -24,13 +24,25 @@ export default function Popup({ visible, onClose, data }) {
             <strong>Prerequisite:</strong> {data['coursePre']}
           </p>
         )}
-
         {/* Conditionally render instructors */}
         {data.instructor && (
           <p>
             <strong>Instructors:</strong> {data.instructor}
           </p>
         )}
+        {/* Add last offered if available */}
+        {data.lastOffered && (
+          <p>
+            <strong>Last Offered:</strong> {data.lastOffered}
+          </p>
+        )}
+        {/* Add nextOffer if available */}
+        {data.nextOffer && (
+          <p>
+            <strong>Next Offer:</strong> {data.nextOffering}
+          </p>
+        )}
+        <p></p>
         <p>
           <strong>Description:</strong> {data.courseDesc}
         </p>
