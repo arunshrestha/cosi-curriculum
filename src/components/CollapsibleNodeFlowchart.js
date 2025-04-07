@@ -70,6 +70,9 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     }, [filter, rfInstance, offsets, isFirstLoad]);
 
     useEffect(() => {
+
+        if (!courseDataParsed || Object.keys(courseDataParsed).length === 0) return;
+
         try {
             const xSpacing = 200;
             const ySpacing = 200;
@@ -113,7 +116,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         } catch (e) {
             console.error(e);
         }
-    }, [filter]);
+    }, [filter, courseDataParsed]);
 
     const calculateDefaultEdgePositions = (filteredNodes, edges) => {
         const updatedEdges = edges.map((edge) => {
