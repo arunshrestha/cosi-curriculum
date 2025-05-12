@@ -2,7 +2,12 @@ import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import roundInfoButton from '../../assets/round-info-button.png';
 
-function RoundedBoxNode({ data, onMoreInfoClick }) {
+function RoundedBoxNode({ data }) {
+
+  const handleClick = () => {
+    data.setMoreInfoNodeId(data.id);
+  };
+
   const bgCategoryColors = {
     normal: {
       'Data Systems': 'bg-[#fdd985]',
@@ -45,7 +50,7 @@ function RoundedBoxNode({ data, onMoreInfoClick }) {
       </div>
       {/* More Info Button which triggers popup*/}
       <button
-        onClick={() => onMoreInfoClick(data)}
+        onClick={() => handleClick()}
         className="absolute top-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
       >
         <img

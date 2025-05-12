@@ -5,9 +5,24 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated'; // Import nodes and edges data
 import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
 import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
-import Popup from './RoundedBoxNode/Popup';
+//import Popup from './RoundedBoxNode/Popup';
 import Papa from 'papaparse';
 import courseData from './courseData.csv';
+//import usePopup from '../hooks/usePopup';
+import InfoModal from '../components/modals/InfoModal';
+
+const nodeTypes = {
+    custom: (props) => <RoundedBoxNode {...props} />,
+};
+
+// const nodeTypes = {
+//     custom: (props) => <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />,
+// };
+
+const edgeTypes = {
+    custom: (props) => <StraightLineEdge {...props} />,
+};
+
 
 const CollapsibleNodeFlowchart = ({ filter }) => {
     const screenWidth = window.innerWidth;
@@ -23,10 +38,86 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     const [edges, setEdges] = useState(initialEdges);
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
-    const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
-    const [popupData, setPopupData] = useState(null); // State to store the data for the popup
+    //const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
+    //const [popupData, setPopupData] = useState(null); // State to store the data for the popup
     const [courseDataParsed, setCourseDataParsed] = useState({});
     const [rfInstance, setRfInstance] = useState(null);
+
+    //const { PopupVisible, popupData, showPopup, hidePopup } = usePopup();
+
+    // --- Popup modal logic ---
+    const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
+
+    // const nodesWithHandlers = useMemo(() => {
+    //     return initialNodes.map((node) => ({
+    //         ...node,
+    //         data: {
+    //             ...node.data,
+    //             setMoreInfoNodeId,
+    //         },
+    //     }));
+    // }, []);
+
+    const moreInfoNode = nodes.find((node) => node.id === moreInfoNodeId);
+
+    // const handleMoreInfoClick = useCallback((node) => {
+    //     const courseInfo = courseDataParsed[node.id];
+    //     if (courseInfo) {
+    //         showPopup(courseInfo);
+    //     } else {
+    //         console.warn(`Course data for ${node.id} not found.`);
+    //     }
+    // }, [courseDataParsed, showPopup]);
+
+    // --- Data loading ---
+    useEffect(() => {
+        fetch(courseData)
+            .then((response) => response.text())
+            .then((csvText) => {
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: (results) => {
+                        // Build a map of course info by id
+                        const dataMap = results.data.reduce((acc, row) => {
+                            acc[row.id.trim()] = row;
+                            return acc;
+                        }, {});
+                        // Merge course info into each node's data
+                        setNodes((prevNodes) =>
+                            prevNodes.map((node) => ({
+                                ...node,
+                                data: {
+                                    ...node.data,
+                                    ...(dataMap[node.id] || {}), // merge course info if available
+                                },
+                            }))
+                        );
+                        console.log('Parsed Course Data:', nodes);
+                    },
+                });
+            })
+            .catch((error) => console.error(error));
+    }, []);
+    // useEffect(() => {
+    //     fetch(courseData) // Ensure it's in 'public/data/' folder
+    //         .then((response) => response.text())
+    //         .then((csvText) => {
+    //             Papa.parse(csvText, {
+    //                 header: true,
+    //                 skipEmptyLines: true,
+    //                 complete: (results) => {
+    //                     const dataMap = results.data.reduce((acc, row) => {
+    //                         acc[row.id.trim()] = row; // Ensure keys are clean
+    //                         return acc;
+    //                     }, {});
+    //                     console.log('Parsed Course Data:', dataMap);
+    //                     setCourseDataParsed(dataMap);
+    //                 },
+    //             });
+    //         })
+    //         .catch((error) => console.error(error));
+    // }, []);
 
     // Called once when React Flow is ready
     const onInit = useCallback((instance) => {
@@ -34,25 +125,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         instance.fitView({ padding: 0.2 });
     }, []);
 
-    useEffect(() => {
-        fetch(courseData) // Ensure it's in 'public/data/' folder
-            .then((response) => response.text())
-            .then((csvText) => {
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: (results) => {
-                        const dataMap = results.data.reduce((acc, row) => {
-                            acc[row.id.trim()] = row; // Ensure keys are clean
-                            return acc;
-                        }, {});
-                        setCourseDataParsed(dataMap);
-                    },
-                });
-            })
-            .catch((error) => console.error(error));
-    }, []);
-
+    // --- Viewport adjustment ---
     useEffect(() => {
         if (!rfInstance) return;
         if (offsets[filter]) {
@@ -60,14 +133,15 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         }
     }, [filter, rfInstance, offsets]);
 
+    // --- Node positioning and highlighting ---
     useEffect(() => {
-
-        if (!courseDataParsed || Object.keys(courseDataParsed).length === 0) return;
+        if (!nodes || nodes.length === 0) return;
+        // if (!courseDataParsed || Object.keys(courseDataParsed).length === 0) return;
 
         try {
             const xSpacing = 200;
             const ySpacing = 200;
-            const filteredNodes = initialNodes.filter((node) => {
+            const filteredNodes = nodes.filter((node) => {
                 if (filter === 'Both') return true;
                 return (
                     node.data.courseProgram === filter ||
@@ -107,8 +181,9 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         } catch (e) {
             console.error(e);
         }
-    }, [filter, courseDataParsed]);
+    }, [filter, nodes]);
 
+    // --- Edge positioning ---
     const calculateDefaultEdgePositions = (filteredNodes, edges) => {
         const updatedEdges = edges.map((edge) => {
             const parentEdges = edges.filter((e) => e.target === edge.target);
@@ -122,6 +197,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         setEdges(updatedEdges);
     };
 
+    // --- Highlight path on node click ---
     const highlightPath = (nodeId) => {
         const pathNodes = new Set();
         const pathEdges = new Set();
@@ -145,22 +221,12 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         highlightPath(node.id);
     };
 
-    const handleMoreInfoClick = (node) => {
-        const courseInfo = courseDataParsed[node.id];
-        if (courseInfo) {
-            setPopupData(courseInfo);
-            setPopupVisible(true);
-        } else {
-            console.warn(`Course data for ${node.id} not found.`);
-        }
-    };
+    // const handleClosePopup = () => {
+    //     setPopupVisible(false);
+    //     setPopupData(null);
+    // };
 
-    const handleClosePopup = () => {
-        setPopupVisible(false);
-        setPopupData(null);
-    };
-
-    // Function to Zoom In
+    // --- Zoom controls ---
     const zoomIn = () => {
         if (rfInstance && zoomLevel < 1.5) {
             const newZoom = zoomLevel + 0.1;
@@ -232,6 +298,7 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                         ...node.data,
                         id: node.id,
                         isGrayscale: !highlightedNodes.includes(node.id),
+                        setMoreInfoNodeId,
                     },
                 }))}
                 edges={edges.map((edge) => ({
@@ -240,23 +307,21 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                         ...edge.data,
                         isGrayscale: !highlightedEdges.includes(edge.id),
                     },
+                    filter: filter,
                 }))}
                 onNodeClick={handleNodeClick}
-                nodeTypes={{
-                    custom: (props) => (
-                        <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />
-                    ),
-                }}
-                edgeTypes={{
-                    custom: (props) => <StraightLineEdge {...props} filter={filter} />,
-                }}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
             >
                 <MiniMap />
                 <Controls />
                 <Background />
             </ReactFlow>
+            {moreInfoNodeId && moreInfoNode && (
+                <InfoModal onClose={() => setMoreInfoNodeId(null)} data={moreInfoNode.data} />
+            )}
 
-            <Popup visible={PopupVisible} onClose={handleClosePopup} data={popupData} />
+            {/* <Popup visible={PopupVisible} onClose={hidePopup} data={popupData} /> */}
         </div>
     );
 };
