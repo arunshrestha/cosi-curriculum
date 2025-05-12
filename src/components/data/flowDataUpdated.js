@@ -4,7 +4,7 @@ import { MarkerType } from '@xyflow/react';
 export const initialNodes = [
   {
     id: "29",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 29A",
       courseTitle: "Discrete Mathematics",
@@ -22,7 +22,7 @@ export const initialNodes = [
   },
   {
     id: "102",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 102A",
       courseTitle: "Software Entreprenuership",
@@ -40,7 +40,7 @@ export const initialNodes = [
   },
   {
     id: "10",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 10A",
       courseTitle: "Problem Solving in Python",
@@ -59,7 +59,7 @@ export const initialNodes = [
   },
   {
     id: "12",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 12B",
       courseTitle: "Programming in Java",
@@ -79,7 +79,7 @@ export const initialNodes = [
   },
   {
     id: "130",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 130A",
       courseTitle: "Theory of Computation",
@@ -97,7 +97,7 @@ export const initialNodes = [
   },
   {
     id: "21",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 21A",
       courseTitle: "Data Structures and Algorithms",
@@ -115,7 +115,7 @@ export const initialNodes = [
   },
   {
     id: "103",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 103A",
       courseTitle: "Software Engineering",
@@ -133,7 +133,7 @@ export const initialNodes = [
   },
   {
     id: "107",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 107A",
       courseTitle: "Computer Security",
@@ -151,7 +151,7 @@ export const initialNodes = [
   },
   {
     id: "116",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 116A",
       courseTitle: "Information Visualization",
@@ -169,7 +169,7 @@ export const initialNodes = [
   },
   {
     id: "125",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 125A",
       courseTitle: "HCI",
@@ -187,7 +187,7 @@ export const initialNodes = [
   },
   {
     id: "152",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 152A",
       courseTitle: "Web Application",
@@ -205,7 +205,7 @@ export const initialNodes = [
   },
   {
     id: "153",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 153A",
       courseTitle: "Mobile Application in NLP",
@@ -223,7 +223,7 @@ export const initialNodes = [
   },
   {
     id: "104",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 104A",
       courseTitle: "Intro to ML",
@@ -241,7 +241,7 @@ export const initialNodes = [
   },
   {
     id: "114",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 114A",
       courseTitle: "Fundamentals of NLP I",
@@ -259,7 +259,7 @@ export const initialNodes = [
   },
   {
     id: "135",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 135B",
       courseTitle: "Computational Semantics",
@@ -277,7 +277,7 @@ export const initialNodes = [
   },
   {
     id: "121",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 121B",
       courseTitle: "Structures and Interpration",
@@ -295,7 +295,7 @@ export const initialNodes = [
   },
   {
     id: "150",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 150A",
       courseTitle: "Compiler Design",
@@ -313,7 +313,7 @@ export const initialNodes = [
   },
   {
     id: "180",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 180A",
       courseTitle: "Algorithms",
@@ -331,7 +331,7 @@ export const initialNodes = [
   },
   {
     id: "127",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 127B",
       courseTitle: "Database Systems",
@@ -349,7 +349,7 @@ export const initialNodes = [
   },
   {
     id: "128",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 128A",
       courseTitle: "Intro to Computer Networking",
@@ -367,7 +367,7 @@ export const initialNodes = [
   },
   {
     id: "143",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 143B",
       courseTitle: "Data Management for Data Science",
@@ -385,7 +385,7 @@ export const initialNodes = [
   },
   {
     id: "131",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 131A",
       courseTitle: "Computer Systems",
@@ -403,7 +403,7 @@ export const initialNodes = [
   },
   {
     id: "101",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 101A",
       courseTitle: "AI",
@@ -421,7 +421,7 @@ export const initialNodes = [
   },
   {
     id: "123",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 123A",
       courseTitle: "Statistical Machine Learning",
@@ -439,7 +439,7 @@ export const initialNodes = [
   },
   {
     id: "126",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 126A",
       courseTitle: "Unsupervised Learning and Data Mining",
@@ -457,7 +457,7 @@ export const initialNodes = [
   },
   {
     id: "165",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 165B",
       courseTitle: "Deep Learning",
@@ -475,7 +475,7 @@ export const initialNodes = [
   },
   {
     id: "166",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 166B",
       courseTitle: "Capstone Software Engineering",
@@ -493,7 +493,7 @@ export const initialNodes = [
   },
   {
     id: "119",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 119A",
       courseTitle: "Robotics",
@@ -511,7 +511,7 @@ export const initialNodes = [
   },
   {
     id: "190",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 190A",
       courseTitle: "Programming Language Theory",
@@ -529,7 +529,7 @@ export const initialNodes = [
   },
   {
     id: "167",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 167A",
       courseTitle: "Advanced Data Systems",
@@ -547,7 +547,7 @@ export const initialNodes = [
   },
   {
     id: "142",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 142A",
       courseTitle: "Embedded Systems Development",
@@ -565,7 +565,7 @@ export const initialNodes = [
   },
   {
     id: "146",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 146A",
       courseTitle: "Computer System Design",
@@ -583,7 +583,7 @@ export const initialNodes = [
   },
   {
     id: "147",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 147A",
       courseTitle: "Distributed Systems",
@@ -601,7 +601,7 @@ export const initialNodes = [
   },
   {
     id: "149",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 149B",
       courseTitle: "Practical ML w Big Data",
@@ -619,7 +619,7 @@ export const initialNodes = [
   },
   {
     id: "159",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 159A",
       courseTitle: "Computer Vision",
@@ -637,7 +637,7 @@ export const initialNodes = [
   },
   {
     id: "115",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 115B",
       courseTitle: "Fundamentals of NLP II",
@@ -655,7 +655,7 @@ export const initialNodes = [
   },
   {
     id: "132",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 132A",
       courseTitle: "Informataion Retrieval",
@@ -673,7 +673,7 @@ export const initialNodes = [
   },
   {
     id: "136",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 136A",
       courseTitle: "Speech Recognition",
@@ -691,7 +691,7 @@ export const initialNodes = [
   },
   {
     id: "216",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 216A",
       courseTitle: "Topics in NLP",
@@ -708,7 +708,7 @@ export const initialNodes = [
   },
   {
     id: "217",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 217B",
       courseTitle: "NLP Systems",
@@ -725,7 +725,7 @@ export const initialNodes = [
   },
   {
     id: "230",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 230B",
       courseTitle: "NL Annotation for ML",
@@ -742,7 +742,7 @@ export const initialNodes = [
   },
   {
     id: "231",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 231A",
       courseTitle: "Advanced ML for NLP Systems",
@@ -760,7 +760,7 @@ export const initialNodes = [
   },
   {
     id: "232",
-    type: "custom",
+    type: "RoundedBoxNode",
     data: {
       courseNum: "COSI 232B",
       courseTitle: "Information Extraction",
@@ -782,7 +782,7 @@ export const initialNodes = [
 export const initialEdges = [
   {
     id: "e10-12",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "10",
     target: "12",
     markerEnd: {
@@ -800,7 +800,7 @@ export const initialEdges = [
   },
   {
     id: "e12-21",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "21",
     markerEnd: {
@@ -818,7 +818,7 @@ export const initialEdges = [
   },
   {
     id: "e12-103",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "103",
     markerEnd: {
@@ -836,7 +836,7 @@ export const initialEdges = [
   },
   {
     id: "e12-107",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "107",
     markerEnd: {
@@ -854,7 +854,7 @@ export const initialEdges = [
   },
   {
     id: "e12-104",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "104",
     markerEnd: {
@@ -872,7 +872,7 @@ export const initialEdges = [
   },
   {
     id: "e12-116",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "116",
     markerEnd: {
@@ -890,7 +890,7 @@ export const initialEdges = [
   },
   {
     id: "e12-125",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "125",
     markerEnd: {
@@ -908,7 +908,7 @@ export const initialEdges = [
   },
   {
     id: "e12-152",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "152",
     markerEnd: {
@@ -926,7 +926,7 @@ export const initialEdges = [
   },
   {
     id: "e12-153",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "153",
     markerEnd: {
@@ -944,7 +944,7 @@ export const initialEdges = [
   },
   {
     id: "e12-114",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "12",
     target: "114",
     markerEnd: {
@@ -962,7 +962,7 @@ export const initialEdges = [
   },
   {
     id: "e121-135",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "121",
     target: "135",
     markerEnd: {
@@ -980,7 +980,7 @@ export const initialEdges = [
   },
   {
     id: "e29-130",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "29",
     target: "130",
     markerEnd: {
@@ -998,7 +998,7 @@ export const initialEdges = [
   },
   {
     id: "e29-121",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "29",
     target: "121",
     markerEnd: {
@@ -1016,7 +1016,7 @@ export const initialEdges = [
   },
   {
     id: "e29-150",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "29",
     target: "150",
     markerEnd: {
@@ -1034,7 +1034,7 @@ export const initialEdges = [
   },
   {
     id: "e29-127",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "29",
     target: "127",
     markerEnd: {
@@ -1052,7 +1052,7 @@ export const initialEdges = [
   },
   {
     id: "e29-180",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "29",
     target: "180",
     markerEnd: {
@@ -1070,7 +1070,7 @@ export const initialEdges = [
   },
   {
     id: "e21-121",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "121",
     markerEnd: {
@@ -1088,7 +1088,7 @@ export const initialEdges = [
   },
   {
     id: "e21-150",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "150",
     markerEnd: {
@@ -1106,7 +1106,7 @@ export const initialEdges = [
   },
   {
     id: "e21-127",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "127",
     markerEnd: {
@@ -1124,7 +1124,7 @@ export const initialEdges = [
   },
   {
     id: "e21-180",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "180",
     markerEnd: {
@@ -1142,7 +1142,7 @@ export const initialEdges = [
   },
   {
     id: "e21-128",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "128",
     markerEnd: {
@@ -1160,7 +1160,7 @@ export const initialEdges = [
   },
   {
     id: "e21-131",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "131",
     markerEnd: {
@@ -1178,7 +1178,7 @@ export const initialEdges = [
   },
   {
     id: "e21-143",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "143",
     markerEnd: {
@@ -1196,7 +1196,7 @@ export const initialEdges = [
   },
   {
     id: "e21-123",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "123",
     markerEnd: {
@@ -1214,7 +1214,7 @@ export const initialEdges = [
   },
   {
     id: "e21-165",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "165",
     markerEnd: {
@@ -1232,7 +1232,7 @@ export const initialEdges = [
   },
   {
     id: "e21-126",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "126",
     markerEnd: {
@@ -1250,7 +1250,7 @@ export const initialEdges = [
   },
   {
     id: "e21-101",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "101",
     markerEnd: {
@@ -1268,7 +1268,7 @@ export const initialEdges = [
   },
   {
     id: "e21-166",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "166",
     markerEnd: {
@@ -1286,7 +1286,7 @@ export const initialEdges = [
   },
   {
     id: "e21-105",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "105",
     markerEnd: {
@@ -1304,7 +1304,7 @@ export const initialEdges = [
   },
   {
     id: "e21-119",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "119",
     markerEnd: {
@@ -1322,7 +1322,7 @@ export const initialEdges = [
   },
   {
     id: "e21-120",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "21",
     target: "120",
     markerEnd: {
@@ -1340,7 +1340,7 @@ export const initialEdges = [
   },
   {
     id: "e104-123",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "104",
     target: "123",
     markerEnd: {
@@ -1358,7 +1358,7 @@ export const initialEdges = [
   },
   {
     id: "e104-165",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "104",
     target: "165",
     markerEnd: {
@@ -1376,7 +1376,7 @@ export const initialEdges = [
   },
   {
     id: "e104-126",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "104",
     target: "126",
     markerEnd: {
@@ -1394,7 +1394,7 @@ export const initialEdges = [
   },
   {
     id: "e114-115",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "114",
     target: "115",
     markerEnd: {
@@ -1412,7 +1412,7 @@ export const initialEdges = [
   },
   {
     id: "e114-132",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "114",
     target: "132",
     markerEnd: {
@@ -1430,7 +1430,7 @@ export const initialEdges = [
   },
   {
     id: "e114-136",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "114",
     target: "136",
     markerEnd: {
@@ -1448,7 +1448,7 @@ export const initialEdges = [
   },
   {
     id: "e121-190",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "121",
     target: "190",
     markerEnd: {
@@ -1466,7 +1466,7 @@ export const initialEdges = [
   },
   {
     id: "e127-167",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "127",
     target: "167",
     markerEnd: {
@@ -1484,7 +1484,7 @@ export const initialEdges = [
   },
   {
     id: "e131-142",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "131",
     target: "142",
     markerEnd: {
@@ -1502,7 +1502,7 @@ export const initialEdges = [
   },
   {
     id: "e131-146",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "131",
     target: "146",
     markerEnd: {
@@ -1520,7 +1520,7 @@ export const initialEdges = [
   },
   {
     id: "e131-147",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "131",
     target: "147",
     markerEnd: {
@@ -1538,7 +1538,7 @@ export const initialEdges = [
   },
   {
     id: "e165-159",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "165",
     target: "159",
     markerEnd: {
@@ -1556,7 +1556,7 @@ export const initialEdges = [
   },
   {
     id: "e165-149",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "165",
     target: "149",
     markerEnd: {
@@ -1574,7 +1574,7 @@ export const initialEdges = [
   },
   {
     id: "e115-230",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "115",
     target: "230",
     markerEnd: {
@@ -1592,7 +1592,7 @@ export const initialEdges = [
   },
   {
     id: "e115-231",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "115",
     target: "231",
     markerEnd: {
@@ -1610,7 +1610,7 @@ export const initialEdges = [
   },
   {
     id: "e115-216",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "115",
     target: "216",
     markerEnd: {
@@ -1628,7 +1628,7 @@ export const initialEdges = [
   },
   {
     id: "e115-217",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "115",
     target: "217",
     markerEnd: {
@@ -1646,7 +1646,7 @@ export const initialEdges = [
   },
   {
     id: "e231-232",
-    type: "custom",
+    type: "StraightLineEdge",
     source: "231",
     target: "232",
     markerEnd: {

@@ -3,8 +3,8 @@ import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated'; // Import nodes and edges data
-import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
-import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
+import RoundedBoxNode from './nodes/RoundedBoxNode';
+import StraightLineEdge from './edges/StraightLineEdge'; // Import StraightLineEdge component
 
 const NextClassesFlowchart = () => {
     const [nodes, setNodes] = useState(initialNodes);

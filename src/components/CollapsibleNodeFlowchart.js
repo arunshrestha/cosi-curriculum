@@ -3,26 +3,11 @@ import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated'; // Import nodes and edges data
-import RoundedBoxNode from './RoundedBoxNode/RoundedBoxNode';
-import StraightLineEdge from './StraightLineEdge'; // Import StraightLineEdge component
-//import Popup from './RoundedBoxNode/Popup';
+import { nodeTypes } from './nodeTypes';
+import { edgeTypes } from './edgeTypes';
 import Papa from 'papaparse';
-import courseData from './courseData.csv';
-//import usePopup from '../hooks/usePopup';
+import courseData from '../data/courseData.csv';
 import InfoModal from '../components/modals/InfoModal';
-
-const nodeTypes = {
-    custom: (props) => <RoundedBoxNode {...props} />,
-};
-
-// const nodeTypes = {
-//     custom: (props) => <RoundedBoxNode {...props} onMoreInfoClick={handleMoreInfoClick} />,
-// };
-
-const edgeTypes = {
-    custom: (props) => <StraightLineEdge {...props} />,
-};
-
 
 const CollapsibleNodeFlowchart = ({ filter }) => {
     const screenWidth = window.innerWidth;
@@ -34,42 +19,18 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     }), [isSmallScreen]);
 
     const [zoomLevel, setZoomLevel] = useState(0.5);
-    const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
+
+    const [csvData, setCsvData] = useState(null);
+
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
-    //const [PopupVisible, setPopupVisible] = useState(false); // State to manage the visibility of the popup
-    //const [popupData, setPopupData] = useState(null); // State to store the data for the popup
-    const [courseDataParsed, setCourseDataParsed] = useState({});
+
     const [rfInstance, setRfInstance] = useState(null);
 
-    //const { PopupVisible, popupData, showPopup, hidePopup } = usePopup();
-
-    // --- Popup modal logic ---
     const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
 
-    // const nodesWithHandlers = useMemo(() => {
-    //     return initialNodes.map((node) => ({
-    //         ...node,
-    //         data: {
-    //             ...node.data,
-    //             setMoreInfoNodeId,
-    //         },
-    //     }));
-    // }, []);
-
-    const moreInfoNode = nodes.find((node) => node.id === moreInfoNodeId);
-
-    // const handleMoreInfoClick = useCallback((node) => {
-    //     const courseInfo = courseDataParsed[node.id];
-    //     if (courseInfo) {
-    //         showPopup(courseInfo);
-    //     } else {
-    //         console.warn(`Course data for ${node.id} not found.`);
-    //     }
-    // }, [courseDataParsed, showPopup]);
-
     // --- Data loading ---
+    // Load CSV data ONCE
     useEffect(() => {
         fetch(courseData)
             .then((response) => response.text())
@@ -78,46 +39,75 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
                     header: true,
                     skipEmptyLines: true,
                     complete: (results) => {
-                        // Build a map of course info by id
                         const dataMap = results.data.reduce((acc, row) => {
                             acc[row.id.trim()] = row;
                             return acc;
                         }, {});
-                        // Merge course info into each node's data
-                        setNodes((prevNodes) =>
-                            prevNodes.map((node) => ({
-                                ...node,
-                                data: {
-                                    ...node.data,
-                                    ...(dataMap[node.id] || {}), // merge course info if available
-                                },
-                            }))
-                        );
-                        console.log('Parsed Course Data:', nodes);
+                        setCsvData(dataMap);
                     },
                 });
             })
             .catch((error) => console.error(error));
     }, []);
-    // useEffect(() => {
-    //     fetch(courseData) // Ensure it's in 'public/data/' folder
-    //         .then((response) => response.text())
-    //         .then((csvText) => {
-    //             Papa.parse(csvText, {
-    //                 header: true,
-    //                 skipEmptyLines: true,
-    //                 complete: (results) => {
-    //                     const dataMap = results.data.reduce((acc, row) => {
-    //                         acc[row.id.trim()] = row; // Ensure keys are clean
-    //                         return acc;
-    //                     }, {});
-    //                     console.log('Parsed Course Data:', dataMap);
-    //                     setCourseDataParsed(dataMap);
-    //                 },
-    //             });
-    //         })
-    //         .catch((error) => console.error(error));
-    // }, []);
+
+    useEffect(() => {
+        if (!csvData) return;
+        // Highlight all nodes and edges on first render
+        const allNodeIds = initialNodes.map((n) => n.id);
+        const allEdgeIds = initialEdges.map((e) => e.id);
+        setHighlightedNodes(allNodeIds);
+        setHighlightedEdges(allEdgeIds);
+    }, [csvData]);
+
+    // Compute nodes with merged CSV and positioning/filtering
+    const nodes = useMemo(() => {
+        if (!csvData) return initialNodes;
+        // Merge CSV data into nodes
+        let merged = initialNodes.map((node) => ({
+            ...node,
+            data: {
+                ...node.data,
+                ...(csvData[node.id] || {}),
+            },
+        }));
+        // Filter nodes
+        merged = merged.filter((node) => {
+            if (filter === 'Both') return true;
+            return (
+                node.data.courseProgram === filter ||
+                node.data.courseProgram === 'Both'
+            );
+        });
+        // Position nodes
+        const xSpacing = 200;
+        const ySpacing = 200;
+        const nodesByLevel = merged.reduce((acc, node) => {
+            if (!acc[node.level]) acc[node.level] = [];
+            acc[node.level].push(node);
+            return acc;
+        }, {});
+        const maxNodesInLevel = Math.max(
+            ...Object.values(nodesByLevel).map((levelNodes) => levelNodes.length)
+        );
+        return merged.map((node) => {
+            const levelNodes = nodesByLevel[node.level];
+            const index = levelNodes.indexOf(node);
+            const customSpacingNodes = ['12', '232'];
+            const customSpacing = customSpacingNodes.includes(node.id)
+                ? xSpacing * 1.5
+                : xSpacing;
+            const totalWidth = (maxNodesInLevel - 1) * xSpacing;
+            const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
+            return {
+                ...node,
+                position: {
+                    x: index * customSpacing + xOffset,
+                    y: node.level * ySpacing,
+                },
+                positionAbsolute: true,
+            };
+        });
+    }, [csvData, filter]);
 
     // Called once when React Flow is ready
     const onInit = useCallback((instance) => {
@@ -133,69 +123,25 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
         }
     }, [filter, rfInstance, offsets]);
 
-    // --- Node positioning and highlighting ---
-    useEffect(() => {
-        if (!nodes || nodes.length === 0) return;
-        // if (!courseDataParsed || Object.keys(courseDataParsed).length === 0) return;
-
-        try {
-            const xSpacing = 200;
-            const ySpacing = 200;
-            const filteredNodes = nodes.filter((node) => {
-                if (filter === 'Both') return true;
-                return (
-                    node.data.courseProgram === filter ||
-                    node.data.courseProgram === 'Both'
-                );
-            });
-            const nodesByLevel = filteredNodes.reduce((acc, node) => {
-                if (!acc[node.level]) acc[node.level] = [];
-                acc[node.level].push(node);
-                return acc;
-            }, {});
-            const maxNodesInLevel = Math.max(
-                ...Object.values(nodesByLevel).map((levelNodes) => levelNodes.length)
-            );
-            const positionedNodes = filteredNodes.map((node) => {
-                const levelNodes = nodesByLevel[node.level];
-                const index = levelNodes.indexOf(node);
-                const customSpacingNodes = ['12', '232'];
-                const customSpacing = customSpacingNodes.includes(node.id)
-                    ? xSpacing * 1.5
-                    : xSpacing;
-                const totalWidth = (maxNodesInLevel - 1) * xSpacing;
-                const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
-                return {
-                    ...node,
-                    position: {
-                        x: index * customSpacing + xOffset,
-                        y: node.level * ySpacing,
-                    },
-                    positionAbsolute: true,
-                };
-            });
-            setNodes(positionedNodes);
-            calculateDefaultEdgePositions(filteredNodes, initialEdges);
-            setHighlightedNodes(filteredNodes.map((n) => n.id));
-            setHighlightedEdges(initialEdges.map((e) => e.id));
-        } catch (e) {
-            console.error(e);
-        }
-    }, [filter, nodes]);
-
-    // --- Edge positioning ---
-    const calculateDefaultEdgePositions = (filteredNodes, edges) => {
-        const updatedEdges = edges.map((edge) => {
-            const parentEdges = edges.filter((e) => e.target === edge.target);
+    // Compute edges (and highlighting) as needed
+    const edges = useMemo(() => {
+        // You can add logic here to highlight edges, etc.
+        return initialEdges.map((edge) => {
+            // Find all edges with the same target (i.e., parent edges)
+            const parentEdges = initialEdges.filter((e) => e.target === edge.target);
             const index = parentEdges.findIndex((e) => e.id === edge.id);
             const fraction = (index + 1) / (parentEdges.length + 1);
             return {
                 ...edge,
-                data: { ...edge.data, fraction },
+                data: {
+                    ...edge.data,
+                    isGrayscale: !highlightedEdges.includes(edge.id),
+                    fraction,
+                },
+                filter: filter,
             };
         });
-        setEdges(updatedEdges);
-    };
+    }, [highlightedEdges, filter]);
 
     // --- Highlight path on node click ---
     const highlightPath = (nodeId) => {
@@ -220,11 +166,6 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     const handleNodeClick = (event, node) => {
         highlightPath(node.id);
     };
-
-    // const handleClosePopup = () => {
-    //     setPopupVisible(false);
-    //     setPopupData(null);
-    // };
 
     // --- Zoom controls ---
     const zoomIn = () => {
@@ -265,6 +206,9 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     //         rfInstance.setViewport({ x: x - 50, y, zoom });
     //     }
     // };
+
+    // --- Popup modal logic ---
+    const moreInfoNode = nodes.find((node) => node.id === moreInfoNodeId);
 
     return (
         <div className="h-screen relative">
@@ -320,8 +264,6 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
             {moreInfoNodeId && moreInfoNode && (
                 <InfoModal onClose={() => setMoreInfoNodeId(null)} data={moreInfoNode.data} />
             )}
-
-            {/* <Popup visible={PopupVisible} onClose={hidePopup} data={popupData} /> */}
         </div>
     );
 };
