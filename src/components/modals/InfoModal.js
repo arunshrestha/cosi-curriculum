@@ -14,29 +14,29 @@ function InfoModal({ onClose, data }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onClose]);
 
-  const overlayStyle = {
-    position: 'fixed',
-    top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1000,
-  };
+  // const overlayStyle = {
+  //   position: 'fixed',
+  //   top: 0, left: 0, right: 0, bottom: 0,
+  //   backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   zIndex: 1000,
+  // };
 
-  const modalStyle = {
-    background: 'white',
-    borderRadius: '8px',
-    padding: '20px',
-    width: '300px',
-    boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-  };
+  // const modalStyle = {
+  //   background: 'white',
+  //   borderRadius: '8px',
+  //   padding: '20px',
+  //   width: '300px',
+  //   boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+  // };
 
-  const tableStyle = {
-    width: '100%',
-    marginTop: '10px',
-    fontSize: '14px',
-  };
+  // const tableStyle = {
+  //   width: '100%',
+  //   marginTop: '10px',
+  //   fontSize: '14px',
+  // };
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
