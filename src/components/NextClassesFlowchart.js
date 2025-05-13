@@ -53,11 +53,11 @@ const NextClassesFlowchart = () => {
     const nodeStates = useMemo(() => computeNodeStates(taken), [taken]);
 
     // Highlight all nodes and edges (optional, or you can use for visual cues)
-    const [highlightedNodes, setHighlightedNodes] = useState([]);
+    //const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
 
     useEffect(() => {
-        setHighlightedNodes(initialNodes.map(n => n.id));
+        //setHighlightedNodes(initialNodes.map(n => n.id));
         setHighlightedEdges(initialEdges.map(e => e.id));
     }, []);
 
