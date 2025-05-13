@@ -40,9 +40,19 @@ function RoundedBoxNode({ data }) {
   const sourceHandlePosition = data.sourceHandlePosition || Position.Bottom;
   const targetHandlePosition = data.targetHandlePosition || Position.Top;
 
+  // Border logic
+  let borderClass = "border-2 border-stone-400"; // default
+  if (data.state === "canTake") {
+    // canTake:
+    borderClass = "border-4 border-blue-900";
+  } else if (data.state === "taken") {
+    // taken: bold border (you can pick a color, here using green as well)
+    borderClass = "border-4 border-green-900";
+  }
+
   return (
     <div
-      className={`w-48 h-24 p-4 shadow-md rounded-md border-2 border-stone-400 flex flex-col justify-center items-center ${bgColorClass}`}
+      className={`w-48 h-24 p-4 shadow-md rounded-md flex flex-col justify-center items-center ${bgColorClass} ${borderClass}`}
     >
       <div className="text-center">
         <div className="text-lg font-bold">{data.courseNum}</div>

@@ -16,12 +16,12 @@ const customSpacingNodes = ['12', '232'];
 function getNodeStyle(state) {
     switch (state) {
         case "canTake":
-            return { isGrayscale: false, color: "blue" };
+            return { isGrayscale: false, state: "canTake" };
         case "taken":
-            return { isGrayscale: false, color: "green" };
+            return { isGrayscale: false, state: "taken" };
         case "cannotTake":
         default:
-            return { isGrayscale: true, color: "gray" };
+            return { isGrayscale: true, state: "cannotTake" };
     }
 }
 
@@ -176,13 +176,7 @@ const NextClassesFlowchart = () => {
             style={{ height: '100vh', width: '100%', minHeight: 400 }}
         >
             <ReactFlow
-                nodes={nodes.map((node) => ({
-                    ...node,
-                    data: {
-                        ...node.data,
-                        ...getNodeStyle(nodeStates[node.id]),
-                    },
-                }))}
+                nodes={nodes}
                 edges={edges.map((edge) => ({
                     ...edge,
                     data: {
