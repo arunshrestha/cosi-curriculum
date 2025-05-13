@@ -230,40 +230,47 @@ const PreRequisitesFlowchart = ({ filter }) => {
                 </button> */}
             </div>
 
-            <ReactFlow
-                onInit={onInit}
-                zoomOnScroll={false}
-                zoomOnPinch={false}
-                zoomOnDoubleClick={false}
-                panOnScroll={false}
-                panOnDrag={false}
-                minZoom={0.5}
-                maxZoom={1.5}
-                nodes={nodes.map((node) => ({
-                    ...node,
-                    data: {
-                        ...node.data,
-                        id: node.id,
-                        isGrayscale: !highlightedNodes.includes(node.id),
-                        setMoreInfoNodeId,
-                    },
-                }))}
-                edges={edges.map((edge) => ({
-                    ...edge,
-                    data: {
-                        ...edge.data,
-                        isGrayscale: !highlightedEdges.includes(edge.id),
-                    },
-                    filter: filter,
-                }))}
-                onNodeClick={handleNodeClick}
-                nodeTypes={nodeTypes}
-                edgeTypes={edgeTypes}
-            >
-                <MiniMap />
-                <Controls />
-                <Background />
-            </ReactFlow>
+            {csvData && nodes.length > 0 && edges.length > 0 ? (
+                <ReactFlow
+                    key={`${filter}-${nodes.length}-${edges.length}`}
+                    onInit={onInit}
+                    zoomOnScroll={false}
+                    zoomOnPinch={false}
+                    zoomOnDoubleClick={false}
+                    panOnScroll={false}
+                    panOnDrag={false}
+                    minZoom={0.5}
+                    maxZoom={1.5}
+                    nodes={nodes.map((node) => ({
+                        ...node,
+                        data: {
+                            ...node.data,
+                            id: node.id,
+                            isGrayscale: !highlightedNodes.includes(node.id),
+                            setMoreInfoNodeId,
+                        },
+                    }))}
+                    edges={edges.map((edge) => ({
+                        ...edge,
+                        data: {
+                            ...edge.data,
+                            isGrayscale: !highlightedEdges.includes(edge.id),
+                        },
+                        filter: filter,
+                    }))}
+                    onNodeClick={handleNodeClick}
+                    nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
+                >
+                    <MiniMap />
+                    <Controls />
+                    <Background />
+                </ReactFlow>
+            ) : (
+                <div className="flex items-center justify-center h-full w-full">
+                    Loading...
+                </div>
+            )}
             {moreInfoNodeId && moreInfoNode && (
                 <InfoModal onClose={() => setMoreInfoNodeId(null)} data={moreInfoNode.data} />
             )}
