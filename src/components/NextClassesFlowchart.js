@@ -68,16 +68,6 @@ const NextClassesFlowchart = () => {
         }
     }, [nodeStates]);
 
-    //debug stuff stard
-    useEffect(() => {
-        console.log('Node states:', nodeStates);
-    }, [nodeStates]);
-
-    useEffect(() => {
-        console.log('Taken set:', Array.from(taken));
-    }, [taken]);
-    //debug stuff end
-
     // Memoized node positioning and style
     const nodes = useMemo(() => {
         const nodesByLevel = initialNodes.reduce((acc, node) => {
@@ -128,12 +118,11 @@ const NextClassesFlowchart = () => {
         });
     }, [highlightedEdges]);
 
-    useEffect(() => {
-        edges.forEach(e => console.log(e.id, e.markerEnd));
-    }, [edges]);
-
     return (
-        <div className="h-screen relative">
+        <div
+            className="relative"
+            style={{ height: '100vh', width: '100%', minHeight: 400 }}
+        >
             <ReactFlow
                 nodes={nodes.map((node) => ({
                     ...node,

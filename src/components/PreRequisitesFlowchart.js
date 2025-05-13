@@ -211,7 +211,10 @@ const PreRequisitesFlowchart = ({ filter }) => {
     const moreInfoNode = nodes.find((node) => node.id === moreInfoNodeId);
 
     return (
-        <div className="h-screen relative">
+        <div
+            className="relative"
+            style={{ height: '100vh', width: '100%', minHeight: 400 }}
+        >
             <div className="absolute top-4 left-4 z-10 bg-white p-1 shadow-md rounded flex space-x-1">
                 <button onClick={zoomIn} className="bg-blue-500 text-white rounded px-2">
                     +
