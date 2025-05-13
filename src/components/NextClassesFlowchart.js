@@ -5,6 +5,9 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated';
 import { nodeTypes } from './nodeTypes';
 import { edgeTypes } from './edgeTypes';
+import Papa from 'papaparse';
+import courseData from './data/courseData.csv';
+import InfoModal from './modals/InfoModal';
 
 const xSpacing = 200;
 const ySpacing = 200;
@@ -67,16 +70,31 @@ const NextClassesFlowchart = () => {
     // Set of node ids that are "taken"
     const [taken, setTaken] = useState(new Set());
 
+    const [csvData, setCsvData] = useState(null);
+    const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
+
     // Compute node states based on taken set
     const nodeStates = useMemo(() => computeNodeStates(taken), [taken]);
 
-    // Highlight all nodes and edges (optional, or you can use for visual cues)
-    //const [highlightedNodes, setHighlightedNodes] = useState([]);
-    const [highlightedEdges, setHighlightedEdges] = useState([]);
-
+    // --- Data loading ---
+    // Load CSV data ONCE
     useEffect(() => {
-        //setHighlightedNodes(initialNodes.map(n => n.id));
-        setHighlightedEdges(initialEdges.map(e => e.id));
+        fetch(courseData)
+            .then((response) => response.text())
+            .then((csvText) => {
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: (results) => {
+                        const dataMap = results.data.reduce((acc, row) => {
+                            acc[row.id.trim()] = row;
+                            return acc;
+                        }, {});
+                        setCsvData(dataMap);
+                    },
+                });
+            })
+            .catch((error) => console.error(error));
     }, []);
 
     const handleNodeClick = useCallback((event, node) => {
@@ -124,11 +142,14 @@ const NextClassesFlowchart = () => {
                 positionAbsolute: true,
                 data: {
                     ...node.data,
+                    ...(csvData && csvData[node.id] ? csvData[node.id] : {}),
                     ...getNodeStyle(nodeStates[node.id]),
+                    id: node.id,
+                    setMoreInfoNodeId,
                 },
             };
         });
-    }, [nodeStates]);
+    }, [nodeStates, csvData]);
 
     // Memoized edge positioning and highlighting
     const edges = useMemo(() => {
@@ -140,12 +161,14 @@ const NextClassesFlowchart = () => {
                 ...edge,
                 data: {
                     ...edge.data,
-                    isGrayscale: !highlightedEdges.includes(edge.id),
+                    isGrayscale: false, // Keep edges bold always
                     fraction,
                 },
             };
         });
-    }, [highlightedEdges]);
+    }, []);
+
+    const moreInfoNode = nodes.find((node) => node.id === moreInfoNodeId);
 
     return (
         <div
@@ -164,7 +187,7 @@ const NextClassesFlowchart = () => {
                     ...edge,
                     data: {
                         ...edge.data,
-                        isGrayscale: true, // Keep edges grayscale
+                        isGrayscale: false, // Keep edges grayscale
                     },
                 }))}
                 onNodeClick={handleNodeClick}
@@ -175,6 +198,9 @@ const NextClassesFlowchart = () => {
                 <Controls />
                 <Background />
             </ReactFlow>
+            {moreInfoNodeId && moreInfoNode && (
+                <InfoModal onClose={() => setMoreInfoNodeId(null)} data={moreInfoNode.data} />
+            )}
         </div>
     );
 };
