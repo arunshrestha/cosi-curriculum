@@ -1,11 +1,11 @@
 import React from 'react';
-import NextClassesFlowchart from './NextClassesFlowchart';
-//import PreRequisitesFlowchart from './PreRequisitesFlowchart';
+//import NextClassesFlowchart from './NextClassesFlowchart';
+import PreRequisitesFlowchart from './PreRequisitesFlowchart';
 
 const NextClassesView = ({ filter }) => {
   return (
     <div className="p-4">
-      <NextClassesFlowchart filter={filter} />
+      <PreRequisitesFlowchart filter={filter} />
     </div>
   );
 };

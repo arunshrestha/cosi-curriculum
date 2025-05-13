@@ -27,19 +27,37 @@ function getParentIds(nodeId) {
     return initialEdges.filter(e => e.target === nodeId).map(e => e.source);
 }
 
+// Utility: get all child node ids for a node
+function getChildIds(nodeId) {
+    return initialEdges.filter(e => e.source === nodeId).map(e => e.target);
+}
+
+// Utility: recursively get all descendant node ids
+function getAllDescendantIds(nodeId, visited = new Set()) {
+    const children = getChildIds(nodeId);
+    for (const child of children) {
+        if (!visited.has(child)) {
+            visited.add(child);
+            getAllDescendantIds(child, visited);
+        }
+    }
+    return visited;
+}
+
 // Compute node states based on which nodes are "taken"
 function computeNodeStates(takenSet) {
     const states = {};
     for (const node of initialNodes) {
+        const parentIds = getParentIds(node.id);
         if (takenSet.has(node.id)) {
             states[node.id] = "taken";
+        } else if (parentIds.length === 0) {
+            // Only nodes with no parents are canTake initially
+            states[node.id] = "canTake";
+        } else if (parentIds.every(pid => takenSet.has(pid))) {
+            states[node.id] = "canTake";
         } else {
-            const parentIds = getParentIds(node.id);
-            if (parentIds.length === 0 || parentIds.every(pid => takenSet.has(pid))) {
-                states[node.id] = "canTake";
-            } else {
-                states[node.id] = "cannotTake";
-            }
+            states[node.id] = "cannotTake";
         }
     }
     return states;
@@ -61,11 +79,22 @@ const NextClassesFlowchart = () => {
         setHighlightedEdges(initialEdges.map(e => e.id));
     }, []);
 
-    // Handle node click: only allow clicking "canTake" nodes
     const handleNodeClick = useCallback((event, node) => {
-        if (nodeStates[node.id] === "canTake") {
-            setTaken(prev => new Set(prev).add(node.id));
-        }
+        setTaken(prev => {
+            const newSet = new Set(prev);
+
+            if (nodeStates[node.id] === "canTake") {
+                newSet.add(node.id);
+            } else if (nodeStates[node.id] === "taken") {
+                newSet.delete(node.id);
+                // Remove all descendants from taken set (set them to cannotTake)
+                const descendants = getAllDescendantIds(node.id);
+                for (const descId of descendants) {
+                    newSet.delete(descId);
+                }
+            }
+            return newSet;
+        });
     }, [nodeStates]);
 
     // Memoized node positioning and style
