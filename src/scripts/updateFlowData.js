@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 (async () => {
-    const { initialNodes, initialEdges } = await import('./flowData2.js');
+    const { initialNodes, initialEdges } = await import('../components/data/flowData2.js');
 
     const idMap = {
         '4': '29',

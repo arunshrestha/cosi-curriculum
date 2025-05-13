@@ -5,6 +5,9 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated';
 import { nodeTypes } from './nodeTypes';
 import { edgeTypes } from './edgeTypes';
+import Papa from 'papaparse';
+import courseData from './data/courseData.csv';
+import InfoModal from './modals/InfoModal';
 
 const xSpacing = 200;
 const ySpacing = 200;
@@ -13,12 +16,12 @@ const customSpacingNodes = ['12', '232'];
 function getNodeStyle(state) {
     switch (state) {
         case "canTake":
-            return { isGrayscale: false, color: "blue" };
+            return { isGrayscale: false, state: "canTake" };
         case "taken":
-            return { isGrayscale: false, color: "green" };
+            return { isGrayscale: false, state: "taken" };
         case "cannotTake":
         default:
-            return { isGrayscale: true, color: "gray" };
+            return { isGrayscale: true, state: "cannotTake" };
     }
 }
 
@@ -27,19 +30,37 @@ function getParentIds(nodeId) {
     return initialEdges.filter(e => e.target === nodeId).map(e => e.source);
 }
 
+// Utility: get all child node ids for a node
+function getChildIds(nodeId) {
+    return initialEdges.filter(e => e.source === nodeId).map(e => e.target);
+}
+
+// Utility: recursively get all descendant node ids
+function getAllDescendantIds(nodeId, visited = new Set()) {
+    const children = getChildIds(nodeId);
+    for (const child of children) {
+        if (!visited.has(child)) {
+            visited.add(child);
+            getAllDescendantIds(child, visited);
+        }
+    }
+    return visited;
+}
+
 // Compute node states based on which nodes are "taken"
 function computeNodeStates(takenSet) {
     const states = {};
     for (const node of initialNodes) {
+        const parentIds = getParentIds(node.id);
         if (takenSet.has(node.id)) {
             states[node.id] = "taken";
+        } else if (parentIds.length === 0) {
+            // Only nodes with no parents are canTake initially
+            states[node.id] = "canTake";
+        } else if (parentIds.every(pid => takenSet.has(pid))) {
+            states[node.id] = "canTake";
         } else {
-            const parentIds = getParentIds(node.id);
-            if (parentIds.length === 0 || parentIds.every(pid => takenSet.has(pid))) {
-                states[node.id] = "canTake";
-            } else {
-                states[node.id] = "cannotTake";
-            }
+            states[node.id] = "cannotTake";
         }
     }
     return states;
@@ -49,23 +70,49 @@ const NextClassesFlowchart = () => {
     // Set of node ids that are "taken"
     const [taken, setTaken] = useState(new Set());
 
+    const [csvData, setCsvData] = useState(null);
+    const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
+
     // Compute node states based on taken set
     const nodeStates = useMemo(() => computeNodeStates(taken), [taken]);
 
-    // Highlight all nodes and edges (optional, or you can use for visual cues)
-    //const [highlightedNodes, setHighlightedNodes] = useState([]);
-    const [highlightedEdges, setHighlightedEdges] = useState([]);
-
+    // --- Data loading ---
+    // Load CSV data ONCE
     useEffect(() => {
-        //setHighlightedNodes(initialNodes.map(n => n.id));
-        setHighlightedEdges(initialEdges.map(e => e.id));
+        fetch(courseData)
+            .then((response) => response.text())
+            .then((csvText) => {
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: (results) => {
+                        const dataMap = results.data.reduce((acc, row) => {
+                            acc[row.id.trim()] = row;
+                            return acc;
+                        }, {});
+                        setCsvData(dataMap);
+                    },
+                });
+            })
+            .catch((error) => console.error(error));
     }, []);
 
-    // Handle node click: only allow clicking "canTake" nodes
     const handleNodeClick = useCallback((event, node) => {
-        if (nodeStates[node.id] === "canTake") {
-            setTaken(prev => new Set(prev).add(node.id));
-        }
+        setTaken(prev => {
+            const newSet = new Set(prev);
+
+            if (nodeStates[node.id] === "canTake") {
+                newSet.add(node.id);
+            } else if (nodeStates[node.id] === "taken") {
+                newSet.delete(node.id);
+                // Remove all descendants from taken set (set them to cannotTake)
+                const descendants = getAllDescendantIds(node.id);
+                for (const descId of descendants) {
+                    newSet.delete(descId);
+                }
+            }
+            return newSet;
+        });
     }, [nodeStates]);
 
     // Memoized node positioning and style
@@ -95,11 +142,14 @@ const NextClassesFlowchart = () => {
                 positionAbsolute: true,
                 data: {
                     ...node.data,
+                    ...(csvData && csvData[node.id] ? csvData[node.id] : {}),
                     ...getNodeStyle(nodeStates[node.id]),
+                    id: node.id,
+                    setMoreInfoNodeId,
                 },
             };
         });
-    }, [nodeStates]);
+    }, [nodeStates, csvData]);
 
     // Memoized edge positioning and highlighting
     const edges = useMemo(() => {
@@ -111,12 +161,14 @@ const NextClassesFlowchart = () => {
                 ...edge,
                 data: {
                     ...edge.data,
-                    isGrayscale: !highlightedEdges.includes(edge.id),
+                    isGrayscale: false, // Keep edges bold always
                     fraction,
                 },
             };
         });
-    }, [highlightedEdges]);
+    }, []);
+
+    const moreInfoNode = nodes.find((node) => node.id === moreInfoNodeId);
 
     return (
         <div
@@ -124,18 +176,12 @@ const NextClassesFlowchart = () => {
             style={{ height: '100vh', width: '100%', minHeight: 400 }}
         >
             <ReactFlow
-                nodes={nodes.map((node) => ({
-                    ...node,
-                    data: {
-                        ...node.data,
-                        ...getNodeStyle(nodeStates[node.id]),
-                    },
-                }))}
+                nodes={nodes}
                 edges={edges.map((edge) => ({
                     ...edge,
                     data: {
                         ...edge.data,
-                        isGrayscale: true, // Keep edges grayscale
+                        isGrayscale: false, // Keep edges grayscale
                     },
                 }))}
                 onNodeClick={handleNodeClick}
@@ -146,6 +192,9 @@ const NextClassesFlowchart = () => {
                 <Controls />
                 <Background />
             </ReactFlow>
+            {moreInfoNodeId && moreInfoNode && (
+                <InfoModal onClose={() => setMoreInfoNodeId(null)} data={moreInfoNode.data} />
+            )}
         </div>
     );
 };
