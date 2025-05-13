@@ -6,10 +6,10 @@ import { initialNodes, initialEdges } from './data/flowDataUpdated'; // Import n
 import { nodeTypes } from './nodeTypes';
 import { edgeTypes } from './edgeTypes';
 import Papa from 'papaparse';
-import courseData from '../data/courseData.csv';
-import InfoModal from '../components/modals/InfoModal';
+import courseData from './data/courseData.csv';
+import InfoModal from './modals/InfoModal';
 
-const CollapsibleNodeFlowchart = ({ filter }) => {
+const PreRequisitesFlowchart = ({ filter }) => {
     const screenWidth = window.innerWidth;
     const isSmallScreen = screenWidth < 768;
     const offsets = useMemo(() => ({
@@ -268,4 +268,4 @@ const CollapsibleNodeFlowchart = ({ filter }) => {
     );
 };
 
-export default CollapsibleNodeFlowchart;
+export default PreRequisitesFlowchart;

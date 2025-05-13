@@ -14,6 +14,13 @@ const App = () => {
     setView(viewName);
   };
 
+  let content = null;
+  if (view === 'pre-requisites') {
+    content = <PreRequisitesView filter={preReqFilter} />;
+  } else if (view === 'next-classes') {
+    content = <NextClassesView filter={nextClassesFilter} />;
+  }
+
   return (
     <div>
       <Header />
@@ -27,15 +34,7 @@ const App = () => {
         onNextClassesFilterChange={(e) => setNextClassesFilter(e.target.value)}
       />
 
-      <div style={{ display: view === 'pre-requisites' ? 'block' : 'none' }}>
-        {/* Pass the preReqFilter to the flowchart inside PreRequisitesView */}
-        <PreRequisitesView filter={preReqFilter} />
-      </div>
-
-      <div style={{ display: view === 'next-classes' ? 'block' : 'none' }}>
-        {/* Pass the nextClassesFilter to the flowchart inside NextClassesView */}
-        <NextClassesView filter={nextClassesFilter} />
-      </div>
+      {content}
 
       <Footer />
     </div>

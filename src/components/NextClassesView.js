@@ -1,10 +1,11 @@
 import React from 'react';
-import CollapsibleNodeFlowchart from './CollapsibleNodeFlowchart';
+import NextClassesFlowchart from './NextClassesFlowchart';
+//import PreRequisitesFlowchart from './PreRequisitesFlowchart';
 
 const NextClassesView = ({ filter }) => {
   return (
     <div className="p-4">
-      <CollapsibleNodeFlowchart filter={filter} />
+      <NextClassesFlowchart filter={filter} />
     </div>
   );
 };

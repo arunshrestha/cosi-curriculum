@@ -1,97 +1,101 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
-import { initialNodes, initialEdges } from './data/flowDataUpdated'; // Import nodes and edges data
-import RoundedBoxNode from './nodes/RoundedBoxNode';
-import StraightLineEdge from './edges/StraightLineEdge'; // Import StraightLineEdge component
+import { initialNodes, initialEdges } from './data/flowDataUpdated';
+import { nodeTypes } from './nodeTypes';
+import { edgeTypes } from './edgeTypes';
+
+const xSpacing = 200;
+const ySpacing = 200;
+const customSpacingNodes = ['12', '232'];
+
+function getNodeStyle(state) {
+    switch (state) {
+        case "canTake":
+            return { isGrayscale: false, color: "blue" };
+        case "taken":
+            return { isGrayscale: false, color: "green" };
+        case "cannotTake":
+        default:
+            return { isGrayscale: true, color: "gray" };
+    }
+}
+
+// Utility: get all parent node ids for a node
+function getParentIds(nodeId) {
+    return initialEdges.filter(e => e.target === nodeId).map(e => e.source);
+}
+
+// Compute node states based on which nodes are "taken"
+function computeNodeStates(takenSet) {
+    const states = {};
+    for (const node of initialNodes) {
+        if (takenSet.has(node.id)) {
+            states[node.id] = "taken";
+        } else {
+            const parentIds = getParentIds(node.id);
+            if (parentIds.length === 0 || parentIds.every(pid => takenSet.has(pid))) {
+                states[node.id] = "canTake";
+            } else {
+                states[node.id] = "cannotTake";
+            }
+        }
+    }
+    return states;
+}
 
 const NextClassesFlowchart = () => {
-    const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
+    // Set of node ids that are "taken"
+    const [taken, setTaken] = useState(new Set());
 
-    // Node states: "notTaken", "available", "taken"
-    const [nodeStates, setNodeStates] = useState(() =>
-        initialNodes.reduce((acc, node) => {
-            acc[node.id] = "notTaken"; // Default state
-            return acc;
-        }, {})
-    );
+    // Compute node states based on taken set
+    const nodeStates = useMemo(() => computeNodeStates(taken), [taken]);
 
-    // Update node states based on prerequisites
-    const updateNodeStates = useCallback(() => {
-        const newStates = { ...nodeStates };
+    // Highlight all nodes and edges (optional, or you can use for visual cues)
+    const [highlightedNodes, setHighlightedNodes] = useState([]);
+    const [highlightedEdges, setHighlightedEdges] = useState([]);
 
-        nodes.forEach((node) => {
-            if (nodeStates[node.id] === "taken") {
-                // Mark children as "available" if prerequisites are met
-                edges
-                    .filter((edge) => edge.source === node.id)
-                    .forEach((edge) => {
-                        const targetNode = nodes.find((n) => n.id === edge.target);
-                        if (targetNode && newStates[edge.target] === "notTaken") {
-                            newStates[edge.target] = "available";
-                        }
-                    });
-            }
-        });
-
-        setNodeStates(newStates);
-    }, [nodes, edges, nodeStates]);
-
-    // Handle node click to change state
-    const handleNodeClick = (event, node) => {
-        const newStates = { ...nodeStates };
-
-        if (nodeStates[node.id] === "notTaken") {
-            newStates[node.id] = "taken"; // Mark as taken
-        } else if (nodeStates[node.id] === "taken") {
-            newStates[node.id] = "notTaken"; // Reset to not taken
-        }
-
-        setNodeStates(newStates);
-        updateNodeStates(); // Recalculate states
-    };
-
-    // Map node states to styles
-    const getNodeStyle = (state) => {
-        switch (state) {
-            case "notTaken":
-                return { isGrayscale: true, color: "gray" };
-            case "available":
-                return { isGrayscale: false, color: "blue" };
-            case "taken":
-                return { isGrayscale: false, color: "green" };
-            default:
-                return { isGrayscale: true, color: "gray" };
-        }
-    };
-
-    // Position nodes and edges (logic from CollapsibleNodeFlowchart)
     useEffect(() => {
-        const xSpacing = 200;
-        const ySpacing = 200;
+        setHighlightedNodes(initialNodes.map(n => n.id));
+        setHighlightedEdges(initialEdges.map(e => e.id));
+    }, []);
 
-        const nodesByLevel = nodes.reduce((acc, node) => {
+    // Handle node click: only allow clicking "canTake" nodes
+    const handleNodeClick = useCallback((event, node) => {
+        if (nodeStates[node.id] === "canTake") {
+            setTaken(prev => new Set(prev).add(node.id));
+        }
+    }, [nodeStates]);
+
+    //debug stuff stard
+    useEffect(() => {
+        console.log('Node states:', nodeStates);
+    }, [nodeStates]);
+
+    useEffect(() => {
+        console.log('Taken set:', Array.from(taken));
+    }, [taken]);
+    //debug stuff end
+
+    // Memoized node positioning and style
+    const nodes = useMemo(() => {
+        const nodesByLevel = initialNodes.reduce((acc, node) => {
             if (!acc[node.level]) acc[node.level] = [];
             acc[node.level].push(node);
             return acc;
         }, {});
-
         const maxNodesInLevel = Math.max(
-            ...Object.values(nodesByLevel).map((levelNodes) => levelNodes.length)
+            ...Object.values(nodesByLevel).map(levelNodes => levelNodes.length)
         );
-
-        const positionedNodes = nodes.map((node) => {
+        return initialNodes.map(node => {
             const levelNodes = nodesByLevel[node.level];
             const index = levelNodes.indexOf(node);
-            const customSpacingNodes = ['12', '232']; // Example custom spacing
             const customSpacing = customSpacingNodes.includes(node.id)
                 ? xSpacing * 1.5
                 : xSpacing;
             const totalWidth = (maxNodesInLevel - 1) * xSpacing;
             const xOffset = (totalWidth - (levelNodes.length - 1) * xSpacing) / 2;
-
             return {
                 ...node,
                 position: {
@@ -99,25 +103,34 @@ const NextClassesFlowchart = () => {
                     y: node.level * ySpacing,
                 },
                 positionAbsolute: true,
+                data: {
+                    ...node.data,
+                    ...getNodeStyle(nodeStates[node.id]),
+                },
             };
         });
+    }, [nodeStates]);
 
-        setNodes(positionedNodes);
-        calculateDefaultEdgePositions(positionedNodes, edges);
-    }, [nodes, edges]);
-
-    const calculateDefaultEdgePositions = (filteredNodes, edges) => {
-        const updatedEdges = edges.map((edge) => {
-            const parentEdges = edges.filter((e) => e.target === edge.target);
-            const index = parentEdges.findIndex((e) => e.id === edge.id);
+    // Memoized edge positioning and highlighting
+    const edges = useMemo(() => {
+        return initialEdges.map(edge => {
+            const parentEdges = initialEdges.filter(e => e.target === edge.target);
+            const index = parentEdges.findIndex(e => e.id === edge.id);
             const fraction = (index + 1) / (parentEdges.length + 1);
             return {
                 ...edge,
-                data: { ...edge.data, fraction },
+                data: {
+                    ...edge.data,
+                    isGrayscale: !highlightedEdges.includes(edge.id),
+                    fraction,
+                },
             };
         });
-        setEdges(updatedEdges);
-    };
+    }, [highlightedEdges]);
+
+    useEffect(() => {
+        edges.forEach(e => console.log(e.id, e.markerEnd));
+    }, [edges]);
 
     return (
         <div className="h-screen relative">
@@ -137,12 +150,8 @@ const NextClassesFlowchart = () => {
                     },
                 }))}
                 onNodeClick={handleNodeClick}
-                nodeTypes={{
-                    custom: (props) => <RoundedBoxNode {...props} />,
-                }}
-                edgeTypes={{
-                    custom: (props) => <StraightLineEdge {...props} />,
-                }}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
             >
                 <MiniMap />
                 <Controls />
