@@ -66,7 +66,7 @@ function computeNodeStates(takenSet) {
     return states;
 }
 
-const NextClassesFlowchart = () => {
+const NextClassesFlowchart = ({ filter }) => {
     // Set of node ids that are "taken"
     const [taken, setTaken] = useState(new Set());
 
@@ -117,7 +117,25 @@ const NextClassesFlowchart = () => {
 
     // Memoized node positioning and style
     const nodes = useMemo(() => {
-        const nodesByLevel = initialNodes.reduce((acc, node) => {
+        if (!csvData) return [];
+        // Merge CSV data into nodes
+        let merged = initialNodes.map((node) => ({
+            ...node,
+            data: {
+                ...node.data,
+                ...(csvData[node.id] || {}),
+            },
+        }));
+        // Filter nodes BEFORE positioning
+        merged = merged.filter((node) => {
+            if (filter === 'Both') return true;
+            return (
+                node.data.courseProgram === filter ||
+                node.data.courseProgram === 'Both'
+            );
+        });
+        // Position nodes
+        const nodesByLevel = merged.reduce((acc, node) => {
             if (!acc[node.level]) acc[node.level] = [];
             acc[node.level].push(node);
             return acc;
@@ -125,7 +143,7 @@ const NextClassesFlowchart = () => {
         const maxNodesInLevel = Math.max(
             ...Object.values(nodesByLevel).map(levelNodes => levelNodes.length)
         );
-        return initialNodes.map(node => {
+        return merged.map(node => {
             const levelNodes = nodesByLevel[node.level];
             const index = levelNodes.indexOf(node);
             const customSpacing = customSpacingNodes.includes(node.id)
@@ -142,14 +160,13 @@ const NextClassesFlowchart = () => {
                 positionAbsolute: true,
                 data: {
                     ...node.data,
-                    ...(csvData && csvData[node.id] ? csvData[node.id] : {}),
                     ...getNodeStyle(nodeStates[node.id]),
                     id: node.id,
                     setMoreInfoNodeId,
                 },
             };
         });
-    }, [nodeStates, csvData]);
+    }, [filter, csvData, nodeStates]);
 
     // Memoized edge positioning and highlighting
     const edges = useMemo(() => {
