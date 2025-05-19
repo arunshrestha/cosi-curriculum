@@ -228,6 +228,21 @@ const NextClassesFlowchart = ({ filter, csvData }) => {
                     -
                 </button>
             </div>
+            {/* Legend */}
+            <div className="absolute top-4 right-4 z-10 bg-white p-3 shadow-md rounded text-sm space-y-2">
+                <div className="flex items-center space-x-2">
+                    <span className="inline-block w-6 h-4 border-4 border-[#ffe600] rounded"></span>
+                    <span>Can Take</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <span className="inline-block w-6 h-4 border-4 border-black rounded"></span>
+                    <span>Taken</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <span className="inline-block w-6 h-4 bg-[#dadada] rounded"></span>
+                    <span>Cannot Take</span>
+                </div>
+            </div>
             <ReactFlow
                 nodes={nodes}
                 edges={edges.map((edge) => ({
