@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
@@ -64,14 +64,60 @@ function computeNodeStates(takenSet) {
     return states;
 }
 
+function getDefaultOffsets(isSmallScreen) {
+    return {
+        Both: isSmallScreen ? { x: -400, y: 30, zoom: 0.45 } : { x: 30, y: -40, zoom: 0.5 },
+        COSI: isSmallScreen ? { x: -400, y: 30, zoom: 0.45 } : { x: 40, y: -20, zoom: 0.5 },
+        CL: isSmallScreen ? { x: 20, y: 20, zoom: 0.45 } : { x: 400, y: -30, zoom: 0.5 },
+    };
+}
+
+function zoomIn(rfInstance, zoomLevel, setZoomLevel) {
+    if (rfInstance && zoomLevel < 1.5) {
+        const newZoom = zoomLevel + 0.1;
+        setZoomLevel(newZoom);
+        rfInstance.setViewport({ x: 0, y: 0, zoom: newZoom });
+    }
+}
+
+function zoomOut(rfInstance, zoomLevel, setZoomLevel, offsets, filter) {
+    if (rfInstance && zoomLevel > 0.5) {
+        let newZoom = zoomLevel - 0.1;
+        if (newZoom <= 0.5) {
+            const defaultOffset = offsets[filter];
+            setZoomLevel(defaultOffset.zoom);
+            rfInstance.setViewport(defaultOffset);
+        } else {
+            setZoomLevel(newZoom);
+            rfInstance.setViewport({ x: 0, y: 0, zoom: newZoom });
+        }
+    }
+}
+
 const NextClassesFlowchart = ({ filter, csvData }) => {
     // Set of node ids that are "taken"
     const [taken, setTaken] = useState(new Set());
+
+    const screenWidth = window.innerWidth;
+    const isSmallScreen = screenWidth < 768;
+    const offsets = useMemo(() => getDefaultOffsets(isSmallScreen), [isSmallScreen]);
+    const [zoomLevel, setZoomLevel] = useState(0.5);
+    const [rfInstance, setRfInstance] = useState(null);
 
     const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
 
     // Compute node states based on taken set
     const nodeStates = useMemo(() => computeNodeStates(taken), [taken]);
+
+    const onInit = useCallback((instance) => {
+        setRfInstance(instance);
+        instance.fitView({ padding: 0.2 });
+    }, []);
+
+    useEffect(() => {
+        if (!rfInstance || !offsets[filter]) return;
+        rfInstance.setViewport(offsets[filter]);
+    }, [filter, rfInstance, offsets]);
 
     const handleNodeClick = useCallback((event, node) => {
         setTaken(prev => {
@@ -168,6 +214,20 @@ const NextClassesFlowchart = ({ filter, csvData }) => {
             className="relative"
             style={{ height: '100vh', width: '100%', minHeight: 400 }}
         >
+            <div className="absolute top-4 left-4 z-10 bg-white p-1 shadow-md rounded flex space-x-1">
+                <button
+                    onClick={() => zoomIn(rfInstance, zoomLevel, setZoomLevel)}
+                    className="bg-blue-500 text-white rounded px-2"
+                >
+                    +
+                </button>
+                <button
+                    onClick={() => zoomOut(rfInstance, zoomLevel, setZoomLevel, offsets, filter)}
+                    className="bg-blue-500 text-white rounded px-2"
+                >
+                    -
+                </button>
+            </div>
             <ReactFlow
                 nodes={nodes}
                 edges={edges.map((edge) => ({
@@ -180,6 +240,14 @@ const NextClassesFlowchart = ({ filter, csvData }) => {
                 onNodeClick={handleNodeClick}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
+                onInit={onInit}
+                minZoom={0.5}
+                maxZoom={1.5}
+                zoomOnScroll={false}
+                zoomOnPinch={false}
+                zoomOnDoubleClick={false}
+                panOnScroll={false}
+                panOnDrag={true}
             >
                 <MiniMap />
                 <Controls />
