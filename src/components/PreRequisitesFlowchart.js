@@ -184,10 +184,10 @@ const PreRequisitesFlowchart = ({ filter }) => {
         rfInstance.setViewport(offsets[filter]);
     }, [filter, rfInstance, offsets]);
 
-    const handleNodeClick = (event, node) => {
+    const handleNodeClick = useCallback((event, node) => {
         highlightPath(node.id, nodes, edges, setHighlightedNodes, setHighlightedEdges);
         //setMoreInfoNodeId(node.id); // keep modal logic
-    };
+    }, [nodes, edges]);
 
     // // Function to Move Left
     // const moveLeft = () => {
