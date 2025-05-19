@@ -44,10 +44,10 @@ function RoundedBoxNode({ data }) {
   let borderClass = "border-2 border-stone-400"; // default
   if (data.state === "canTake") {
     // canTake:
-    borderClass = "border-4 border-blue-900";
+    borderClass = "border-4 border-[#ffe600]";
   } else if (data.state === "taken") {
     // taken: bold border (you can pick a color, here using green as well)
-    borderClass = "border-4 border-green-900";
+    borderClass = "border-4 border-black";
   }
 
   return (
