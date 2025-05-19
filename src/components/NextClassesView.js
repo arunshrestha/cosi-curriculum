@@ -2,10 +2,10 @@ import React from 'react';
 import NextClassesFlowchart from './NextClassesFlowchart';
 //import PreRequisitesFlowchart from './PreRequisitesFlowchart';
 
-const NextClassesView = ({ filter }) => {
+const NextClassesView = ({ filter, csvData }) => {
   return (
     <div className="p-4">
-      <NextClassesFlowchart filter={filter} />
+      <NextClassesFlowchart filter={filter} csvData={csvData} />
     </div>
   );
 };
