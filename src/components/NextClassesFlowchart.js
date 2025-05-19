@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { ReactFlow, MiniMap, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated';
 import { nodeTypes } from './nodeTypes';
 import { edgeTypes } from './edgeTypes';
-import Papa from 'papaparse';
-import courseData from './data/courseData.csv';
 import InfoModal from './modals/InfoModal';
 
 const xSpacing = 200;
@@ -66,36 +64,14 @@ function computeNodeStates(takenSet) {
     return states;
 }
 
-const NextClassesFlowchart = ({ filter }) => {
+const NextClassesFlowchart = ({ filter, csvData }) => {
     // Set of node ids that are "taken"
     const [taken, setTaken] = useState(new Set());
 
-    const [csvData, setCsvData] = useState(null);
     const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
 
     // Compute node states based on taken set
     const nodeStates = useMemo(() => computeNodeStates(taken), [taken]);
-
-    // --- Data loading ---
-    // Load CSV data ONCE
-    useEffect(() => {
-        fetch(courseData)
-            .then((response) => response.text())
-            .then((csvText) => {
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: (results) => {
-                        const dataMap = results.data.reduce((acc, row) => {
-                            acc[row.id.trim()] = row;
-                            return acc;
-                        }, {});
-                        setCsvData(dataMap);
-                    },
-                });
-            })
-            .catch((error) => console.error(error));
-    }, []);
 
     const handleNodeClick = useCallback((event, node) => {
         setTaken(prev => {

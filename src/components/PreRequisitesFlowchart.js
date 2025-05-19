@@ -5,8 +5,6 @@ import '@xyflow/react/dist/base.css';
 import { initialNodes, initialEdges } from './data/flowDataUpdated';
 import { nodeTypes } from './nodeTypes';
 import { edgeTypes } from './edgeTypes';
-import Papa from 'papaparse';
-import courseData from './data/courseData.csv';
 import InfoModal from './modals/InfoModal';
 
 // === Utility Functions ===
@@ -128,37 +126,18 @@ function zoomOut(rfInstance, zoomLevel, setZoomLevel, offsets, filter) {
 }
 
 // === Component ===
-const PreRequisitesFlowchart = ({ filter }) => {
+const PreRequisitesFlowchart = ({ filter, csvData }) => {
     const screenWidth = window.innerWidth;
     const isSmallScreen = screenWidth < 768;
     const offsets = useMemo(() => getDefaultOffsets(isSmallScreen), [isSmallScreen]);
 
     const [zoomLevel, setZoomLevel] = useState(0.5);
-    const [csvData, setCsvData] = useState(null);
+
     const [highlightedNodes, setHighlightedNodes] = useState([]);
     const [highlightedEdges, setHighlightedEdges] = useState([]);
     const [rfInstance, setRfInstance] = useState(null);
     const [moreInfoNodeId, setMoreInfoNodeId] = useState(null);
 
-    // Load CSV data ONCE
-    useEffect(() => {
-        fetch(courseData)
-            .then((response) => response.text())
-            .then((csvText) => {
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: (results) => {
-                        const dataMap = results.data.reduce((acc, row) => {
-                            acc[row.id.trim()] = row;
-                            return acc;
-                        }, {});
-                        setCsvData(dataMap);
-                    },
-                });
-            })
-            .catch(console.error);
-    }, []);
 
     useEffect(() => {
         if (!csvData) return;
@@ -184,10 +163,10 @@ const PreRequisitesFlowchart = ({ filter }) => {
         rfInstance.setViewport(offsets[filter]);
     }, [filter, rfInstance, offsets]);
 
-    const handleNodeClick = (event, node) => {
+    const handleNodeClick = useCallback((event, node) => {
         highlightPath(node.id, nodes, edges, setHighlightedNodes, setHighlightedEdges);
         //setMoreInfoNodeId(node.id); // keep modal logic
-    };
+    }, [nodes, edges]);
 
     // // Function to Move Left
     // const moveLeft = () => {
