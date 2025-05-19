@@ -18,6 +18,14 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (view === 'pre-requisites') {
+      document.title = "Pre-Requisites | COSI Curriculum";
+    } else if (view === 'next-classes') {
+      document.title = "Next Classes | COSI Curriculum";
+    }
+  }, [view]);
+
+  useEffect(() => {
     fetch(courseData)
       .then((response) => response.text())
       .then((csvText) => {
