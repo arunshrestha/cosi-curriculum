@@ -3,18 +3,19 @@ import logo from '../assets/Brandeis_logo_seal_white_digital.png';
 
 const Header = () => {
     return (
-        <header className="relative bg-[#003478] text-white p-4">
-            <div className="container mx-auto flex flex-wrap items-center justify-center sm:justify-between text-center">
-                {/* Logo on the left */}
-                <div className="flex items-center space-x-3">
-                    <img src={logo} alt="Logo" className="h-12 w-36 rounded-full" />
-                </div>
-
-                {/* Title in the center */}
-                <h1 className="w-full flex-grow text-center sm:w-auto text-lg sm:text-2xl font-bold mt-2 sm:mt-0">
+        <header className="bg-[#003478] text-white p-4 flex items-center relative">
+            {/* Logo absolutely left */}
+            <div className="flex-shrink-0">
+                <img src={logo} alt="Logo" className="h-12 w-36 rounded-full" />
+            </div>
+            {/* Title centered in available space */}
+            <div className="flex-grow flex justify-center">
+                <h1 className="text-lg sm:text-2xl font-bold text-center">
                     Brandeis Computer Science Curriculum
                 </h1>
             </div>
+            {/* Spacer to balance the logo width */}
+            <div className="flex-shrink-0 w-36 h-12" />
         </header>
     );
 };
