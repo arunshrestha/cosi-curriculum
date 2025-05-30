@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import roundInfoButton from '../../assets/round-info-button.png';
+//import starIcon from '../../assets/star-icon.png';
 
 function RoundedBoxNode({ data }) {
 
@@ -52,11 +53,22 @@ function RoundedBoxNode({ data }) {
 
   return (
     <div
-      className={`w-48 h-24 p-4 shadow-md rounded-md flex flex-col justify-center items-center ${bgColorClass} ${borderClass}`}
+      className={`relative w-48 h-24 p-4 shadow-md rounded-md flex flex-col justify-center items-center ${bgColorClass} ${borderClass}`}
     >
-      <div className="text-center">
-        <div className="text-lg font-bold">{data.courseNum}</div>
-        <div className="text-black break-words">{data.courseTitle}</div>
+      <div className="text-center w-full h-full flex flex-col justify-center items-center overflow-hidden">
+        <div className="text-lg font-bold truncate w-full">{data.courseNum}</div>
+        <div className="text-black break-words overflow-hidden text-ellipsis w-full max-h-10 leading-tight text-sm">
+          {data.courseTitle}
+        </div>
+        {/* Star icon for Core classes */}
+        {data.courseCategory === "Core" && (
+          <span className="absolute top-1 left-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6">
+              <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+            </svg>
+
+          </span>
+        )}
       </div>
       {/* More Info Button which triggers popup*/}
       <button
@@ -64,21 +76,21 @@ function RoundedBoxNode({ data }) {
         className="absolute top-1 right-1 p-1 rounded-full bg-transparent border-none cursor-pointer"
       >
         <img
-          src={roundInfoButton} // Use the imported image
+          src={roundInfoButton}
           alt="More Info"
-          className="w-6 h-6" // Adjust size as needed (8 x 8 = 2rem x 2rem)
+          className="w-6 h-6"
         />
       </button>
 
       <Handle
         type="target"
         position={targetHandlePosition}
-        className="opacity-0" // Hide the handle
+        className="opacity-0"
       />
       <Handle
         type="source"
         position={sourceHandlePosition}
-        className="opacity-0" // Hide the handle
+        className="opacity-0"
       />
     </div>
   );
