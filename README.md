@@ -1,4 +1,20 @@
-# Getting Started with Create React App
+# COSI Curriculum Visualizer
+
+An interactive React-based web app designed to help students explore the Brandeis Computer Science (COSI) curriculum. This tool enables students to visualize course prerequisites and plan their academic paths through a dynamic graph interface.
+
+## Features
+
+- 🔍 Visualize the entire COSI curriculum as a graph
+- 📚 Explore course prerequisites and dependencies interactively
+- 🎓 Plan academic paths semester-by-semester
+- ⚛️ Built with [React Flow](https://reactflow.dev/) for intuitive graph-based interfaces
+
+## Technologies Used
+
+- [React](https://reactjs.org/)
+- [React Flow](https://reactflow.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- JavaScript / JSX
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -68,4 +84,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# COSI-curriculum
