@@ -53,7 +53,7 @@ function RoundedBoxNode({ data }) {
 
   return (
     <div
-      className={`w-48 h-24 p-4 shadow-md rounded-md flex flex-col justify-center items-center ${bgColorClass} ${borderClass}`}
+      className={`w-48 h-28 p-4 shadow-md rounded-md flex flex-col justify-center items-center ${bgColorClass} ${borderClass}`}
     >
       {/* Star icon for Core classes */}
       {data.courseCategory === "Core" && (
