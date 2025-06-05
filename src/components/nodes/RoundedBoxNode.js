@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import roundInfoButton from '../../assets/round-info-button.png';
-//import starIcon from '../../assets/star-icon.png';
 
 function RoundedBoxNode({ data }) {
 
